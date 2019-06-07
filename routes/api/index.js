@@ -1,7 +1,10 @@
 const router = require('express').Router();
-const fetchRoutes = require('./fetch');
+const randomRoutes = require('./random');
+const singleRoutes = require('./single')
 
 //Database routes
-router.use('/fetch', fetchRoutes)
+router.use('/single', singleRoutes)
+router.use('/random', randomRoutes)
+
 
 module.exports = router;

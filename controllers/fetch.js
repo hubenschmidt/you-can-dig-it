@@ -3,34 +3,17 @@ const axios = require('axios');
 const Discogs = require('disconnect').Client;
 var db = new Discogs().database();
 var random = Math.floor((Math.random() * 9999999) + 1);
+var id = ""
+// var fetch = require('../scripts/fetchdatabase')
 
-// const fetch = require('../scripts/fetchdatabase')
 
-//define controller Methods
+//controller Methods==========================================
 module.exports = {
     fetchDatabase: function (req, res) {
-        //hit discogs Database API
-        db.getRelease(6547829, function (err, data) {
-            releases = []
-
-            var releasesToAdd = {
-                artist: data.artists_sort,
-                title: data.title,
-                labels: data.labels,
-                year: data.year,
-                country: data.country,
-                genres: data.genres,
-                styles: data.styles,
-                tracklist: data.tracklist,
-                uri: data.uri,
-                lowest_price: data.lowest_price,
-            };
-            releases.push(releasesToAdd)
-            return releases
-            
-        })
+        // hit discogs Database API
+        return getOneRelease(id)
             .then(function (data) {
-                console.log(data)
+                // console.log(data)
                 //then insert results into db 
                 return model.Database.create(data);
             })
@@ -53,11 +36,57 @@ module.exports = {
                     message: 'Database fetch complete.'
                 });
             });
+    },
+    getOneRelease: function (id) {
+        db.getRelease(id, function (err, data) {
+            console.log(formatResponse(data))
+        })
+    },
+
+    getRandomRelease: function (id_random) {
+        db.getRelease(id_random, function (err, data) {
+            if (err) {
+                console.log(err + " unexpected error, reloading random release")
+                return getOneRelease
+            } else {
+                formatResponse(data)
+            }
+        })
+    },
+
+    searchReleases: function (query, param) {
+        db.search(query, param, function (err, data) {
+            if (err) {
+                //AuthError: You must authenticate to access search
+                console.log(err + "search error")
+            } else {
+                formatResponse(data)
+            }
+        })
+    },
+
+    formatResponse: function (data) {
+        releases = []
+
+        var releasesToAdd = {
+            artist: data.artists_sort,
+            title: data.title,
+            labels: data.labels,
+            year: data.year,
+            country: data.country,
+            genres: data.genres,
+            styles: data.styles,
+            tracklist: data.tracklist,
+            uri: data.uri,
+            lowest_price: data.lowest_price,
+        };
+        releases.push(releasesToAdd)
+        return releases
     }
+
     // ,
-    //fetchUser: function (req, res)
+    // fetchUser: function (req, res)
 }
 
-console.log(module.exports.fetchDatabase())
 
 
