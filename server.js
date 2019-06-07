@@ -1,29 +1,25 @@
 const express = require('express');
 const app = express();
-const bodyParers = require('body-parser');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const PORT = 3000;
+const routes = require('./routes')
 
+// app.use(express.static('public'));
 
-app.use(cors());
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(routes)
 
-app.listen(PORT, function(){
-    console.log("Server is runnign on Port: " + PORT);
+const MONGDODB_URI = process.env.MONGDODB_URI || 'mongodb://localhost/diggin'
+
+mongoose.Promise = Promise;
+mongoose.connect(MONGDODB_URI, {
+    useNewUrlParser: true 
 });
 
-mongoose.connect('mongodb://127.0.0.1:27017/diggin', {
-    useNewUrlParser: true });
-    const connection = mongoose.connection;
-})
-
-connection.once('open', function(){
-    console.log("MongDB database connection success! -- diggin")
-})
-
-todoRoutes.route('/').get(function(req,res){
-    Database.
-})
+app.use(cors());
 
 app.listen(PORT, function(){
     console.log("Server is running on Port: " + PORT)

@@ -4,43 +4,59 @@ const Schema = mongoose.Schema;
 let Database = new Schema({
     artist: {
         type: String,
-        required: true
+        required: true,
     },
     title: {
         type: String,
         required: true,
-    }
-    label: {
-        type: String,
-        required: true,
-    }
-    tracklist: {
+    },
+    labels: {
         type: Array,
+        required: false,
+    },
+    year: {
+        type: Number,
         required: true,
     },
-    url: {
+    country: {
         type: String,
-        required: true,
+        required: false,
     },
-    releaseDate: {
-        type: String,
-        required: true,
-    },
-    genre: {
-        type: String,
+    genres: {
+        type: Array,
         required: true,
     },
     styles: {
         type: Array,
         required: true,
     },
+    tracklist: {
+        type: Array,
+        required: true,
+    },
+    uri: {
+        type: String,
+        required: true,
+    },
+    videos: {
+        type: Array,
+        required: false,
+    },
+    images: {
+        type: Array,
+        required: false,
+    },
+    lowest_price: {
+        type: Number,
+        required: false,
+    },
     wantlist: {
         type: Boolean,
-        required: false
+        required: false,
     },
     hide: {
         type: Boolean,
-        required: false
+        required: false,
     }
 });
 

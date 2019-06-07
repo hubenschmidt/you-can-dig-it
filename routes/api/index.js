@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const databaseRoutes = require('./database');
+const fetchRoutes = require('./fetch');
 
 //Database routes
-router.use('/database', databaseRoutes)
+router.use('/fetch', fetchRoutes)
 
 module.exports = router;
