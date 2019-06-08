@@ -14,8 +14,8 @@ var db = new Discogs().database();
 //     // formatResponse: formatResponse
 // }
 
-//controller Methods powered by disconnect
-module.exports = 
+
+// module.exports = 
 function getOneRelease(id) {
     db.getRelease(id, function (err, data) {
         return data

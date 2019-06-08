@@ -1,10 +1,9 @@
 const router = require('express').Router();
-const randomRoutes = require('./random');
-const singleRoutes = require('./single')
+const random = require('./random');
+const search = require('./search');
+const single = require('./single');
 
-//Database routes
-router.use('/single', singleRoutes)
-router.use('/random', randomRoutes)
+//Export an object containing all API routes
+console.log(random)
 
-
-module.exports = router;
+module.exports = router

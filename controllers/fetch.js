@@ -6,14 +6,12 @@ var random = Math.floor((Math.random() * 9999999) + 1);
 var id = ""
 // var fetch = require('../scripts/fetchdatabase')
 
-
 //controller Methods==========================================
 module.exports = {
     fetchDatabase: function (req, res) {
         // hit discogs Database API
         return getOneRelease(id)
             .then(function (data) {
-                // console.log(data)
                 //then insert results into db 
                 return model.Database.create(data);
             })
@@ -87,6 +85,3 @@ module.exports = {
     // ,
     // fetchUser: function (req, res)
 }
-
-
-
