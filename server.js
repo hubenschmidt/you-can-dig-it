@@ -11,12 +11,13 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const routes = require('./routes')
 
+
 // Express
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 //connect to MongoDB
-const MONGDODB_URI = process.env.MONGDODB_URI || 'mongodb://localhost/diggin'
+const MONGDODB_URI = process.env.MONGDODB_URI || 'mongodb://localhost/YouCanDigIt'
 mongoose.connect(MONGDODB_URI, {
     useNewUrlParser: true 
 });
@@ -51,5 +52,4 @@ app.listen(PORT, function(){
     console.log("Server is running on Port: " + PORT)
 });
 
-
-console.log(module.exports)
+// module.exports = server

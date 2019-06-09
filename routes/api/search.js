@@ -1,7 +1,7 @@
-const router = require('express').Router();
-const fetch = require('../../controllers/fetch');
+// const router = require('express').Router();
+// const fetch = require('../../controllers/discogsDatabase');
 
-router.get('/', fetch.searchReleases)
-console.log(fetch)
+// router.get('/', fetch.searchReleases)
+// console.log(fetch)
 
-module.exports = router;
+// module.exports = router;

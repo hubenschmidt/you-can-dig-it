@@ -1,7 +1,20 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let Database = new Schema({
+const databaseSchema = new Schema({
+    id_discogs: {
+        type: Number,
+        required: true,
+        validate: {
+            isAsync: true,
+            validator: function(v, cb){
+                Database.find({id_discogs: v}, function(err,docs){
+                    cb(docs.length == 0);
+                });
+            },
+            message: 'Release already exists!'
+        }
+    },
     artist: {
         type: String,
         required: true,
@@ -59,5 +72,7 @@ let Database = new Schema({
         required: false,
     }
 });
+
+const Database = mongoose.model("Database", databaseSchema)
 
 module.exports = Database;
