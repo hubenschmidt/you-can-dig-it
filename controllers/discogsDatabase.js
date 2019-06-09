@@ -32,7 +32,6 @@ module.exports = {
     randomRelease: randomRelease,
 }
 
-
 // exports.findAll = function(req, res)
 function findAll(req,res){
     //check mongoDB for all Releases
@@ -79,11 +78,12 @@ function findById(req, res){
 
 //Call Discogs API for random release
 function randomRelease(db) {
-    id_random = Math.floor((Math.random() * 9999999) + 1);
+    id_random = Math.floor((Math.random() * 999999999) + 1);
             db.getRelease(id_random, function (err, release) {
                 if (err) {
-                    console.log(err + " unexpected error, reloading random release")
-                    return randomRelease()
+                    console.log(err + " unexpected error, reloading random release");
+                    //fix this so it reloads
+                    randomRelease()
                 } else {
                     // let formatId_random = toString(id_random)
                     let format = formatResponse(release)
