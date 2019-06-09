@@ -5,21 +5,33 @@ const mongoose = require('mongoose')
 //check to see if the disconnect dependencies are required elsewhere with create and findById methods
 const Discogs = require('disconnect').Client;
 const db = new Discogs().database();
-var random = Math.floor((Math.random() * 9999999) + 1);
-var id = "22219"
+var id_random = ''
+console.log(id_random + "ID RANDOM")
+// var id
+
+var id = "1211"
 
 //testing
-// const server = require('../server.js')
+const server = require('../server.js')
 // console.log(
 //     findById(db, id)
 // )
+// console.log(
+//     create(db, id)
+// )
+
+console.log(
+    randomRelease(db)
+)
 
 //Define methods for API calls to Discogs Database
 module.exports = {
     findAll: findAll,
     create: create,
     findById: findById,
+    randomRelease: randomRelease,
 }
+
 
 // exports.findAll = function(req, res)
 function findAll(req,res){
@@ -65,10 +77,50 @@ function findById(req, res){
         .catch(err => res.status(422).json(err));
 };
 
+//Call Discogs API for random release
+function randomRelease(db) {
+    id_random = Math.floor((Math.random() * 9999999) + 1);
+            db.getRelease(id_random, function (err, release) {
+                if (err) {
+                    console.log(err + " unexpected error, reloading random release")
+                    return randomRelease()
+                } else {
+                    // let formatId_random = toString(id_random)
+                    let format = formatResponse(release)
+                    m.Database.create(format)
+                        .then(function(newRandom){
+                            console.log('new random Release created in database!', newRandom)
+                            res.json(newRandom)
+            })
+        };
+    })
+}
+    
+function searchReleases (query, param) {
+            db.search(query, param, function (err, release) {
+                if (err) {
+                    //AuthError: You must authenticate to access search
+                    console.log(err + "search error")
+                } else {
+                    let format = formatResponse(release)
+                    m.Database.create(format)
+                        .then(function(newRandom){
+                            console.log('new random Release created in database!', newRandom)
+                            res.json(newRandom)
+                        }).catch(function(err){
+                            console.log(err)
+                })
+        };
+    })
+};
+
+
+//util
 function formatResponse (data) {
+    console.log(data.id)
             releases = []
             var releasesToAdd = {
-                id_discogs: parseInt(id),
+                id_discogs: parseInt(data.id),
                 artist: data.artists_sort,
                 title: data.title,
                 labels: data.labels,
@@ -83,8 +135,6 @@ function formatResponse (data) {
             releases.push(releasesToAdd)
             return releases
         }
-
-
 
 
 // module.exports = {
