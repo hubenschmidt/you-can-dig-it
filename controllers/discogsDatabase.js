@@ -14,35 +14,33 @@ const server = require('../server.js')
 //     findAll: findAll
 // }
 
-
-
-// exports.findAll = function(req, res){
-//     //check mongoDB for all Releases
-//     m.Database
-//     // .find()
-//     .find(req.query)
-//     .sort({ year: -1 })
-//     .then(function(dbModel){
-//         res.json(dbModel)
-//         console.log(dbModel)  
-//     }) 
-//     .catch(err => 
-//         res.status(422).json(err))
-//     }
-
-function findAll(req, res){
+exports.findAll = function(req, res){
     //check mongoDB for all Releases
     m.Database
-        .find()
-        // .find(req.query)
-        // .sort({ year: -1 })
-        .then(function(dbModel){
-            console.log(dbModel)
-            // res.json(dbModel)  
-        }) 
-        .catch(err => 
-            console.log(err) || res.status(422).json(err))
-}
+    // .find()
+    .find(req.query)
+    .sort({ year: -1 })
+    .then(function(dbModel){
+        res.json(dbModel)
+        console.log(dbModel)  
+    }) 
+    .catch(err => 
+        res.status(422).json(err))
+    }
+
+// function findAll(req, res){
+//     //check mongoDB for all Releases
+//     m.Database
+//         .find()
+//         // .find(req.query)
+//         .sort({ year: -1 })
+//         .then(function(dbModel){
+//             console.log(dbModel)
+//             // res.json(dbModel)  
+//         }) 
+//         .catch(err => 
+//             console.log(err) || res.status(422).json(err))
+// }
 
 //find and create Release by Id
 // function findById(db, id, req, res){
@@ -92,7 +90,7 @@ function formatResponse (data) {
 //     findById(db, id)
 // )
 
-console.log(findAll())
+// console.log(findAll())
 // console.log(server)
 // module.exports = {
     

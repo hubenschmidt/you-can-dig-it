@@ -1,16 +1,11 @@
 const router = require('express').Router();
 const discogsDatabase = require('../../controllers/discogsDatabase');
 
-
-
 //Matches with "/api/database"
     router
-      
-        // .get('/', discogsDatabase.findAll)
+        .route('/')
+        .get(discogsDatabase.findAll)
     
-
-
-
 //Matches with "/api/database/:id"
 router
     // .route('/:id')
