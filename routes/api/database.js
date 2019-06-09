@@ -5,11 +5,12 @@ const discogsDatabase = require('../../controllers/discogsDatabase');
     router
         .route('/')
         .get(discogsDatabase.findAll)
+        .post(discogsDatabase.create)
     
 //Matches with "/api/database/:id"
 router
-    // .route('/:id')
-    // .get(discogsDatabase.findById)
+    .route('/:id')
+    .get(discogsDatabase.findById)
     // .delete(discogsDatbase.hide)
 
 module.exports = router;
