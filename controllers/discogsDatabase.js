@@ -4,52 +4,68 @@ const mongoose = require('mongoose')
 const Discogs = require('disconnect').Client;
 const db = new Discogs().database();
 var random = Math.floor((Math.random() * 9999999) + 1);
-var id = "919"
+// var id = "919"
 
-// const server = require('../server.js')
-
+const server = require('../server.js')
 
 //Define methods for API calls to Discogs Database
-module.exports = {
-    findById: findById,
-    findAll: findAll
-}
+// module.exports = {
+//     findById: findById,
+//     findAll: findAll
+// }
+
+
+
+// exports.findAll = function(req, res){
+//     //check mongoDB for all Releases
+//     m.Database
+//     // .find()
+//     .find(req.query)
+//     .sort({ year: -1 })
+//     .then(function(dbModel){
+//         res.json(dbModel)
+//         console.log(dbModel)  
+//     }) 
+//     .catch(err => 
+//         res.status(422).json(err))
+//     }
 
 function findAll(req, res){
     //check mongoDB for all Releases
     m.Database
-        // .find()
-        .find(req.query)
-        .sort({ year: -1 })
+        .find()
+        // .find(req.query)
+        // .sort({ year: -1 })
         .then(function(dbModel){
-            res.json(dbModel)  
+            console.log(dbModel)
+            // res.json(dbModel)  
         }) 
         .catch(err => 
             console.log(err) || res.status(422).json(err))
 }
 
 //find and create Release by Id
-function findById(db, id, req, res){
-    //check mongoDB first
-    m.Database.countDocuments({id_discogs: id || req.params.id}, function(err, count){
-        if(count>0){
-            console.log('Release exists in MongoDB; no API call was made to Discogs Database')
-        } else {
-            // hit discogs Database API
-            db.getRelease(id || req.params.id)
-                .then(function(release){
-                    let format = formatResponse(release)
-                    m.Database.create(format)
-                        .then(function(newRelease){
-                            console.log('new Release created in Database!', newRelease)
-                            res.json(newRelease)
-                    }) 
-                }).catch(function(err){
-                    console.log(err)
-                })
-        }
-    }) 
-}
+// function findById(db, id, req, res){
+//     //check mongoDB first
+//     m.Database.countDocuments({id_discogs: id || req.params.id}, function(err, count){
+//         if(count>0){
+//             console.log('Release exists in MongoDB; no API call was made to Discogs Database')
+//         } else {
+//             // hit discogs Database API
+//             db.getRelease(id || req.params.id)
+//                 .then(function(release){
+//                     let format = formatResponse(release)
+//                     m.Database.create(format)
+//                         .then(function(newRelease){
+//                             console.log('new Release created in Database!', newRelease)
+//                             res.json(newRelease)
+//                     }) 
+//                 }).catch(function(err){
+//                     console.log(err)
+//                 })
+//         }
+//     }) 
+// }
 
 function formatResponse (data) {
             releases = []
@@ -76,7 +92,7 @@ function formatResponse (data) {
 //     findById(db, id)
 // )
 
-console.log(findAll(db, id))
+console.log(findAll())
 // console.log(server)
 // module.exports = {
     
