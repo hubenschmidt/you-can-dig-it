@@ -8,25 +8,24 @@ var sinon = require('sinon')
 const Discogs = require('disconnect').Client;
 const db = new Discogs().database();
 // var id_random = ''
-// var id = ''
-
-const mockRequest = (options = {}) => ({
-    body: {},
-    cookies: {},
-    query: {},
-    params: {},
-    headers: {},
-    // get: stub(),
-    ...options
-  })
 
 
-// var id = "42"
+//unit testing
+var _id = 21213332122
+var id_release = ''
+var req = {}
 
-//testing
+const mockRequest = {
+    req: {
+        params: {
+                _id: _id, 
+                id_release: id_release
+            }
+        }
+    }
+console.log(mockRequest.req.params._id)
 
-const req = mockRequest()
-console.log(req)
+// console.log(req.params)
 // const server = require('../server.js')
 // console.log(
 //     findById(db, id)
