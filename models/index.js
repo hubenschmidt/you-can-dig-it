@@ -1,7 +1,7 @@
 //export object containing all models
 
 module.exports = {
-    Database: require('./Database')
+    Release: require('./Release')
     //User
     //Marketplace
 }

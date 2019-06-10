@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const databaseSchema = new Schema({
-    id_discogs: {
+const releaseSchema = new Schema({
+    id_release: {
         type: Number,
         required: true,
         validate: {
             isAsync: true,
             validator: function(v, cb){
-                Database.find({id_discogs: v}, function(err,docs){
+                Release.find({id_discogs: v}, function(err,docs){
                     cb(docs.length == 0);
                 });
             },
@@ -73,6 +73,6 @@ const databaseSchema = new Schema({
     }
 });
 
-const Database = mongoose.model("Database", databaseSchema)
+const Release = mongoose.model("Release", releaseSchema)
 
-module.exports = Database;
+module.exports = Release;

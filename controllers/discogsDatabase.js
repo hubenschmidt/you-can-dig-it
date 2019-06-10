@@ -1,18 +1,33 @@
 const m = require('../models');
 const axios = require('axios');
 const mongoose = require('mongoose')
+var sinon = require('sinon')
+
 
 //check to see if the disconnect dependencies are required elsewhere with create and findById methods
 const Discogs = require('disconnect').Client;
 const db = new Discogs().database();
-var id_random = ''
-console.log(id_random + "ID RANDOM")
-// var id
+// var id_random = ''
+// var id = ''
 
-var id = "1211"
+const mockRequest = (options = {}) => ({
+    body: {},
+    cookies: {},
+    query: {},
+    params: {},
+    headers: {},
+    // get: stub(),
+    ...options
+  })
+
+
+// var id = "42"
 
 //testing
-const server = require('../server.js')
+
+const req = mockRequest()
+console.log(req)
+// const server = require('../server.js')
 // console.log(
 //     findById(db, id)
 // )
@@ -24,18 +39,19 @@ console.log(
     randomRelease(db)
 )
 
-//Define methods for API calls to Discogs Database
+//Export methods
 module.exports = {
     findAll: findAll,
-    create: create,
     findById: findById,
+    create: create,
     randomRelease: randomRelease,
 }
 
-// exports.findAll = function(req, res)
-function findAll(req,res){
+//Define methods for API calls to Discogs Database===================================================
+
+function findAll(req, res){
     //check mongoDB for all Releases
-    m.Database
+    m.Release
     // .find()
     .find(req.query)
     .sort({ year: -1 })
@@ -45,20 +61,31 @@ function findAll(req,res){
     .catch(err => res.status(422).json(err))
     }
 
+//find by Release Id
+function findById(req, res){
+    m.Release
+        .findById(req.params._id)
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
+};
+
 //create Release by Id
-function create(db, id, req, res){
+function create(req, res){
     //check mongoDB first
-    m.Database.countDocuments({id_discogs: id || req.params.id}, function(err, count){
+    m.Release.countDocuments(req.params.id_release, function(err, count){
         if(count>0){
             console.log('Release exists in MongoDB; no API call was made to Discogs Database')
         } else {
             // hit discogs Database API
-            db.getRelease(id || req.params.id)
+            db.getRelease(req.params.id_release)
                 .then(function(release){
+                    console.log(release)
                     let format = formatResponse(release)
-                    m.Database.create(format)
+                    //then create in mongoDB
+                    m.Release.create(format)
                         .then(function(newRelease){
-                            console.log('new Release created in Database!', newRelease)
+                            console.log('new Release created in mongoDB!', newRelease)
+                            //then display JSON
                             res.json(newRelease)
                     }) 
                 }).catch(function(err){
@@ -68,26 +95,21 @@ function create(db, id, req, res){
     }) 
 };
 
-//find by Release Id
-function findById(req, res){
-    m.Database
-        .findById(req.params.id)
-        .then(dbModel => res.json(dbModel))
-        .catch(err => res.status(422).json(err));
-};
+
 
 //Call Discogs API for random release
-function randomRelease(db) {
-    id_random = Math.floor((Math.random() * 999999999) + 1);
-            db.getRelease(id_random, function (err, release) {
+function randomRelease(db, req, res) {
+    id_random = Math.floor((Math.random() * 9999999) + 1);
+            db.getRelease(id_random || req.params.id_release)
+                .then(function (err, release) {
                 if (err) {
                     console.log(err + " unexpected error, reloading random release");
-                    //fix this so it reloads
+                    //fix this so it reloads==================================================
                     randomRelease()
                 } else {
                     // let formatId_random = toString(id_random)
                     let format = formatResponse(release)
-                    m.Database.create(format)
+                    m.Release.create(format)
                         .then(function(newRandom){
                             console.log('new random Release created in database!', newRandom)
                             res.json(newRandom)
@@ -95,7 +117,7 @@ function randomRelease(db) {
         };
     })
 }
-    
+
 function searchReleases (query, param) {
             db.search(query, param, function (err, release) {
                 if (err) {
@@ -103,7 +125,7 @@ function searchReleases (query, param) {
                     console.log(err + "search error")
                 } else {
                     let format = formatResponse(release)
-                    m.Database.create(format)
+                    m.Release.create(format)
                         .then(function(newRandom){
                             console.log('new random Release created in database!', newRandom)
                             res.json(newRandom)
@@ -120,7 +142,7 @@ function formatResponse (data) {
     console.log(data.id)
             releases = []
             var releasesToAdd = {
-                id_discogs: parseInt(data.id),
+                id_release: parseInt(data.id),
                 artist: data.artists_sort,
                 title: data.title,
                 labels: data.labels,
@@ -130,7 +152,11 @@ function formatResponse (data) {
                 styles: data.styles,
                 tracklist: data.tracklist,
                 uri: data.uri,
+                videos: data.videos,
+                images: data.images,
                 lowest_price: data.lowest_price,
+                wantlist: false,
+                hide: false,
             };
             releases.push(releasesToAdd)
             return releases

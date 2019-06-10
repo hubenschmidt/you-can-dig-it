@@ -2,9 +2,9 @@ const router = require('express').Router();
 const discogsDatabase = require('../../controllers/discogsDatabase');
 
 
-//Matches with "/api/random/:id"
+//Matches with "/api/create/:id_release"
 router
-    .route('/:id')
-    .get(discogsDatabase.randomRelease)
+    .route('/:id_release')
+    .post(discogsDatabase.create)   
 
 module.exports = router;

@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const routes = require('./routes')
+const logger = require('morgan')
 
 
 // Express
@@ -43,6 +44,9 @@ app.use(bodyParser.json());
 
 //API Routing
 app.use(routes)
+
+//Log HTTP requests
+app.use(logger('dev'))
 
 //Handle CORS
 app.use(cors());
