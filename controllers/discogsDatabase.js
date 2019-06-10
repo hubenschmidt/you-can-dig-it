@@ -58,9 +58,8 @@ function findAll(req, res){
     // .find()
     .find(req.query)
     .sort({ year: -1 })
-    .then(function(dbModel){
-        res.json(dbModel)
-    }) 
+    .then(dbModel => res.json(dbModel))
+    .then(dbModel => console.log(dbModel))
     .catch(err => res.status(422).json(err))
     }
 
@@ -68,37 +67,31 @@ function findAll(req, res){
 function findById(req, res){
     m.Release
         .findById(req.params._id)
-        .then(dbModel => res.json(dbModel, console.log(dbModel)))
+        .then(dbModel => res.json(dbModel))
+        .then(dbModel => console.log(dbModel))
         .catch(err => res.status(422).json(err));
 };
 
 //create Release by Id
 function create(req, res){
 
-    //check mongoDB first
+    // check mongoDB first
     // m.Release.countDocuments(req.params.id_release, function(err, count){
     //     if(count>0){
     //         console.log('Release exists in MongoDB; no API call was made to Discogs Database')
     //     } else {
-          
             // hit discogs Database API
             db.getRelease(req.params.id_release)
                 .then(function(release){
-                    console.log(release)
                     let format = formatResponse(release)
                     //then create in mongoDB
                     m.Release.create(format)
-                        .then(function(newRelease){
-                            console.log('new Release created in mongoDB!', newRelease)
-                            //then display JSON
-                            console.log(newRelease)
-                            res.json(newRelease)
-                    }) 
-                }).catch(function(err){
-                    console.log(err)
+                        .then(dbModel => res.json(dbModel))
+                        .then(dbModel => console.log(dbModel))
+                        .catch(err => res.status(422).json(err));
                 })
-    //     }
-    // }) 
+        //     }
+        // })
 };
 
 //Call Discogs API for random release
