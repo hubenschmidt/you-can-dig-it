@@ -4,39 +4,43 @@ const mongoose = require('mongoose')
 var sinon = require('sinon')
 
 
+
 //check to see if the disconnect dependencies are required elsewhere with create and findById methods
 const Discogs = require('disconnect').Client;
 const db = new Discogs().database();
 // var id_random = ''
-
+// var id = 22
 
 //unit testing
-var _id = 21213332122
-var id_release = ''
-var req = {}
+// const server = require('../server.js')
+// function mockRequest(){
+//     var _id = 1233225
+//     var id_release = 9039
+    
+//     var req = {
+//         params: {
+//             _id: _id,
+//             id_release: id_release
+//             }
+//                 }
+//     return req
+// }
 
-const mockRequest = {
-    req: {
-        params: {
-                _id: _id, 
-                id_release: id_release
-            }
-        }
-    }
-console.log(mockRequest.req.params._id)
+// console.log(
+//     create(mockRequest())
+//     )
+
+//     console.log(
+//     findById(mockRequest())
+//     )
 
 // console.log(req.params)
-// const server = require('../server.js')
 // console.log(
-//     findById(db, id)
+//     findById(id)
 // )
 // console.log(
 //     create(db, id)
 // )
-
-console.log(
-    randomRelease(db)
-)
 
 //Export methods
 module.exports = {
@@ -64,17 +68,19 @@ function findAll(req, res){
 function findById(req, res){
     m.Release
         .findById(req.params._id)
-        .then(dbModel => res.json(dbModel))
+        .then(dbModel => res.json(dbModel, console.log(dbModel)))
         .catch(err => res.status(422).json(err));
 };
 
 //create Release by Id
 function create(req, res){
+
     //check mongoDB first
-    m.Release.countDocuments(req.params.id_release, function(err, count){
-        if(count>0){
-            console.log('Release exists in MongoDB; no API call was made to Discogs Database')
-        } else {
+    // m.Release.countDocuments(req.params.id_release, function(err, count){
+    //     if(count>0){
+    //         console.log('Release exists in MongoDB; no API call was made to Discogs Database')
+    //     } else {
+          
             // hit discogs Database API
             db.getRelease(req.params.id_release)
                 .then(function(release){
@@ -85,20 +91,20 @@ function create(req, res){
                         .then(function(newRelease){
                             console.log('new Release created in mongoDB!', newRelease)
                             //then display JSON
+                            console.log(newRelease)
                             res.json(newRelease)
                     }) 
                 }).catch(function(err){
                     console.log(err)
                 })
-        }
-    }) 
+    //     }
+    // }) 
 };
-
-
 
 //Call Discogs API for random release
 function randomRelease(db, req, res) {
     id_random = Math.floor((Math.random() * 9999999) + 1);
+    
             db.getRelease(id_random || req.params.id_release)
                 .then(function (err, release) {
                 if (err) {
