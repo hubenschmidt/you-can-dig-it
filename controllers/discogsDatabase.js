@@ -95,7 +95,7 @@ function create(req, res){
 
 
 function randomRelease(req, res){
-    id_random = Math.floor((Math.random() * 99999999999) + 1);
+    id_random = Math.floor((Math.random() * 9999999) + 1);
         db.getRelease(id_random, function(err,response){
             if (err){
                 if(err.statusCode === 404){
@@ -106,8 +106,13 @@ function randomRelease(req, res){
                     //if status code '429: too many requests', wait 60 seconds
                     setTimeout(function() {randomRelease(req,res)}, 60000)
                 }
+            } else {
+                let format = formatResponse(response)
+                m.Release.create(format)
+                    .then(dbModel => res.json(dbModel))
+                    .then(dbModel => console.log(dbModel))
+                    .catch(err => res.status(422).json(err));
             }
-
 
             // if (err.statusCode === 404){
             //     // res.json(err)
@@ -121,7 +126,7 @@ function randomRelease(req, res){
             //     setTimeout(function() {randomRelease(req,res)}, 60000)
             // } 
             // else {
-                console.log(response.id)
+                // console.log(response.id)
                 // let format = formatResponse(response)
                 // console.log(format)
                 // m.Release.create(format)
