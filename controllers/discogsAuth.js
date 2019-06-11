@@ -1,4 +1,4 @@
-const app = require('express')
+const router = require('express').Router();
 const Discogs = require('disconnect').Client;
 const colors = require('colors')
 
@@ -12,24 +12,16 @@ module.exports = {
     authorize: authorize
 };
 
-function authorize(res, req){
+function authorize(req, res){
     var oAuth = new Discogs().oauth();
     oAuth.getRequestToken(
         'ucyQbMxfuVNEigpgyQrp', // 'YOUR_CONSUMER_KEY',
         'hJkdzVOPODpOErIWzhkKgUeBJDQlqAEt', // 'YOUR_CONSUMER_SECRET',
-        'http://your-script-url/callback',
+        'http://localhost:3000/auth/callback', //callback URL ... will this hard coded URL work upon deployment??
         function(err, requestData){
             //persist 'requestData' here so that the callback handler
             //can access it later after returning from the authorize url
-            // res.redirect(requestData.authorizeUrl);
-            // res.json(requestData)
-            console.log(requestData)
-            // console.log(requestData.authorizeUrl)
-            // res.redirect('callbackhell.com')
-            // // res.redirect("'"+requestData.authorizeUrl+"'")
-            // console.log('auth callback on GET /authorize success!'.cyan)
-            // return requestData.authorizeUrl
-            // res.json(requestData)
+            res.redirect(requestData.authorizeUrl);
         }
     );
 };
