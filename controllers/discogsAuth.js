@@ -1,4 +1,6 @@
+const app = require('express')
 const Discogs = require('disconnect').Client;
+const colors = require('colors')
 
 // var dis = new Discogs({userToken: 'YOUR_USER_TOKEN'})
 var dis = new Discogs({
@@ -21,9 +23,13 @@ function authorize(res, req){
             //can access it later after returning from the authorize url
             // res.redirect(requestData.authorizeUrl);
             // res.json(requestData)
-            // console.log(requestData)
-            console.log('auth function working')
-            console.log(oAuth)
+            console.log(requestData)
+            // console.log(requestData.authorizeUrl)
+            // res.redirect('callbackhell.com')
+            // // res.redirect("'"+requestData.authorizeUrl+"'")
+            // console.log('auth callback on GET /authorize success!'.cyan)
+            // return requestData.authorizeUrl
+            // res.json(requestData)
         }
     );
 };
