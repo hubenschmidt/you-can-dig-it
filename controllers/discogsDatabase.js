@@ -93,15 +93,107 @@ function create(req, res){
    })
 };
 
+
 function randomRelease(req, res){
-    id_random = Math.floor((Math.random() * 999999) + 1);
-        db.getRelease(id_random)
-            .then(function(release){
-                let format = formatResponse(release)
-                m.Release.create(format)
-                    .then(dbModel => res.json(dbModel))
-                    .then(dbModel => console.log(dbModel))
-                    .catch(err => res.status(422).json(err));
+    id_random = Math.floor((Math.random() * 99999999999) + 1);
+        db.getRelease(id_random, function(err,response){
+            if (err){
+                if(err.statusCode === 404){
+                    console.log(err.statusCode)
+                    return randomRelease(req, res)
+                } else if (err.statusCode === 429){
+                    console.log(err.statusCode)
+                    //if status code '429: too many requests', wait 60 seconds
+                    setTimeout(function() {randomRelease(req,res)}, 60000)
+                }
+            }
+
+
+            // if (err.statusCode === 404){
+            //     // res.json(err)
+            //     console.log(err.statusCode)
+            //     return randomRelease(req, res)
+            // } 
+            // else if (err.statusCode === 429){
+            //     // res.json(err)
+            //     console.log(err.statusCode)
+            //     //if status code '429: too many requests', wait 60 seconds
+            //     setTimeout(function() {randomRelease(req,res)}, 60000)
+            // } 
+            // else {
+                console.log(response.id)
+                // let format = formatResponse(response)
+                // console.log(format)
+                // m.Release.create(format)
+                //     .then(dbModel => res.json(dbModel))
+                //     .then(dbModel => console.log(dbModel))
+                //     .catch(err => res.status(422).json(err));
+            // }
+        })
+
+    //         .then(function(release){
+    //             let format = formatResponse(release)
+    //             m.Release.create(format)
+    //                 .then(dbModel => res.json(dbModel))
+    //                 .then(dbModel => console.log(dbModel))
+    //                 .catch(err => res.status(422).json(err));
+    // })
+}
+
+
+
+// function rand(){
+//     id_random = Math.floor((Math.random() * 99999999) + 1);
+//         db.getRelease(id_random)
+//             .then(function(release){
+//                 let format = formatResponse(release)
+//                 m.Release.create(format)
+//                     .then(dbModel => res.json(dbModel))
+//                     .then(dbModel => console.log(dbModel))
+//                     .catch(err => res.status(422).json(err));
+//     })
+// }
+
+// function randomRelease(){
+//     try {
+//         rand()
+//     } catch (err)
+//         {
+//             console.log(err)
+//             rand()
+//         }
+// }
+
+
+    // id_random = Math.floor((Math.random() * 999999) + 1);
+    // db.getRelease(id_random, function(err,data){
+    //     if(err){
+    //         console.log('no release in discogs, try again')
+    //         randomRelease(req, res)
+    //     }
+    //     console.log(data.id)
+    // })
+    //     .then(function(release){
+    //         let format = formatResponse(release)
+    //         m.Release.create(format)
+    //             .then(dbModel => res.json(dbModel))
+    //             // .then(dbModel => console.log(dbModel))
+    //             .catch(err => res.status(422).json(err));
+
+
+
+
+//working code without err handling
+    // id_random = Math.floor((Math.random() * 999999) + 1);
+    //     db.getRelease(id_random)
+    //         .then(function(release){
+    //             let format = formatResponse(release)
+    //             m.Release.create(format)
+    //                 .then(dbModel => res.json(dbModel))
+    //                 .then(dbModel => console.log(dbModel))
+    //                 .catch(err => res.status(422).json(err));
+
+
                 // if (err){
                 //     console.log('no release in discogs, reloading randomRelease')
                 //     randomRelease(req, res)
@@ -114,8 +206,8 @@ function randomRelease(req, res){
                     //         res.json(newRandom)
                     //     })
                 // }
-            })
-}
+//             })
+// }
 
 //Call Discogs API for random release
 // function randomRelease(db, req, res) {
