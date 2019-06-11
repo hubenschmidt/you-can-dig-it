@@ -9,7 +9,6 @@ router.use('/create', create)
 router.use('/database', database)
 router.use('/random', random)
 
-
 //Export an object containing all API routes
 
 module.exports = router

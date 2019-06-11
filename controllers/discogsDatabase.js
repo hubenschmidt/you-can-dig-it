@@ -52,15 +52,14 @@ module.exports = {
 
 //Define methods for API calls to Discogs Database===================================================
 
+//check mongoDB for all Releases
 function findAll(req, res){
-    //check mongoDB for all Releases
     m.Release
-    // .find()
-    .find(req.query)
-    .sort({ year: -1 })
-    .then(dbModel => res.json(dbModel))
-    .then(dbModel => console.log(dbModel))
-    .catch(err => res.status(422).json(err))
+        .find(req.query)
+        .sort({ year: -1 })
+        .then(dbModel => res.json(dbModel))
+        .then(dbModel => console.log(dbModel))
+        .catch(err => res.status(422).json(err))
     }
 
 //find by Release Id
@@ -74,47 +73,71 @@ function findById(req, res){
 
 //create Release by Id
 function create(req, res){
-
-    // check mongoDB first
-    // m.Release.countDocuments(req.params.id_release, function(err, count){
-    //     if(count>0){
-    //         console.log('Release exists in MongoDB; no API call was made to Discogs Database')
-    //     } else {
-            // hit discogs Database API
-            db.getRelease(req.params.id_release)
-                .then(function(release){
-                    let format = formatResponse(release)
-                    //then create in mongoDB
-                    m.Release.create(format)
-                        .then(dbModel => res.json(dbModel))
-                        .then(dbModel => console.log(dbModel))
-                        .catch(err => res.status(422).json(err));
-                })
-        //     }
-        // })
+    // check mongoDB for existing doc
+   m.Release.countDocuments({id_release: req.params.id_release}, function(err, count){
+       if(count>0){
+           console.log('doc exists')
+       } else if (!count){
+           console.log('doc does not exist')
+           // hit discogs Database API
+           db.getRelease(req.params.id_release)
+            .then(function(release){
+                let format = formatResponse(release)
+                //create in mongoDb
+                m.Release.create(format)
+                    .then(dbModel => res.json(dbModel))
+                    .then(dbModel => console.log(dbModel))
+                    .catch(err => res.status(422).json(err));
+            })
+       }
+   })
 };
 
-//Call Discogs API for random release
-function randomRelease(db, req, res) {
-    id_random = Math.floor((Math.random() * 9999999) + 1);
-    
-            db.getRelease(id_random || req.params.id_release)
-                .then(function (err, release) {
-                if (err) {
-                    console.log(err + " unexpected error, reloading random release");
-                    //fix this so it reloads==================================================
-                    randomRelease()
-                } else {
-                    // let formatId_random = toString(id_random)
-                    let format = formatResponse(release)
-                    m.Release.create(format)
-                        .then(function(newRandom){
-                            console.log('new random Release created in database!', newRandom)
-                            res.json(newRandom)
+function randomRelease(req, res){
+    id_random = Math.floor((Math.random() * 999999) + 1);
+        db.getRelease(id_random)
+            .then(function(release){
+                let format = formatResponse(release)
+                m.Release.create(format)
+                    .then(dbModel => res.json(dbModel))
+                    .then(dbModel => console.log(dbModel))
+                    .catch(err => res.status(422).json(err));
+                // if (err){
+                //     console.log('no release in discogs, reloading randomRelease')
+                //     randomRelease(req, res)
+                // } else 
+                // {
+                    // let format = formatResponse(release)
+                    // m.Release.create(format)
+                    //     .then(function(newRandom){
+                    //         console.log('new random release created in mongoDB')
+                    //         res.json(newRandom)
+                    //     })
+                // }
             })
-        };
-    })
 }
+
+//Call Discogs API for random release
+// function randomRelease(db, req, res) {
+//     id_random = Math.floor((Math.random() * 9999999) + 1);
+    
+//             db.getRelease(id_random || req.params.id_release)
+//                 .then(function (err, release) {
+//                 if (err) {
+//                     console.log(err + " unexpected error, reloading random release");
+//                     //fix this so it reloads==================================================
+//                     randomRelease()
+//                 } else {
+//                     // let formatId_random = toString(id_random)
+//                     let format = formatResponse(release)
+//                     m.Release.create(format)
+//                         .then(function(newRandom){
+//                             console.log('new random Release created in database!', newRandom)
+//                             res.json(newRandom)
+//             })
+//         };
+//     })
+// }
 
 function searchReleases (query, param) {
             db.search(query, param, function (err, release) {
