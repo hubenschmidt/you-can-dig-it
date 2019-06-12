@@ -6,8 +6,6 @@ const random = require('./random');
 const search = require('./search')
 const users = require('./users')
 
-// const random = require('./random');
-// const search = require('./search');
 // router.use('/authorize', authorize)
 router.use('/create', create)
 router.use('/database', database)
