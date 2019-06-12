@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const router = require('express').Router();
-const localAuth = require('../controllers/localAuth');
+
 
 const apiRoutes = require('./api')
 const authRoutes = require('./auth');
