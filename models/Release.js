@@ -73,6 +73,6 @@ const releaseSchema = new Schema({
     }
 });
 
-const Release = mongoose.model("Release", releaseSchema)
+const Release = mongoose.model("releases", releaseSchema)
 
 module.exports = Release;

@@ -4,7 +4,12 @@
 // import './App.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
-// // import logo from './logo.png'
+import React from 'react';
+import Form from './components/Form';
+
+const App = () => <Form />;
+
+// import logo from './logo.png'
 
 // class App extends Component {
 //   render() {
@@ -20,4 +25,4 @@
 //   }
 // }
 
-// export default App;
+export default App;
