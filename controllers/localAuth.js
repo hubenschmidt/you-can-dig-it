@@ -43,12 +43,15 @@ function register(req, res){
                     newUser.password = hash;
                     newUser
                         .save()
-                        .then(user => res.json(user))
+                        // .then(user => res.json(user))
                         .catch(err => console.log(err));
-                });
-            });
+                })
+            })
+            return res
+                .redirect('/api/landing')
         }
-    });
+        
+    })
 }
 
 function login(req, res){
@@ -103,5 +106,7 @@ function login(req, res){
                     });
             }
         });
+        return res
+            .redirect('/api/landing')
     });
 }
