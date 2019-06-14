@@ -10,15 +10,10 @@ const validateLoginInput = require('../validation/login');
 //Export methods
 module.exports = {
     register: register,
-    login: login,
-    isLoggedIn: isLoggedIn,
+    login: login
 };
 
-//protect routes with authentication 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return res.redirect('/signin');
-}
+
 
 function register(req, res){
      // Form validation
