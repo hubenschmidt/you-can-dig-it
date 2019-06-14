@@ -29,6 +29,7 @@
     "passport-local-mongoose": "^5.0.1",
     "passport-oauth": "^1.0.0",
     "react": "^16.8.6",
+    "react-coverflow": "^0.2.20",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
