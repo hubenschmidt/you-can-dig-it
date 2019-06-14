@@ -1,17 +1,24 @@
 const User = require('../models/User');
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const keys = require("../config/keys");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const keys = require('../config/keys');
 
 // Load input validation
-const validateRegisterInput = require("../validation/register");
-const validateLoginInput = require("../validation/login");
+const validateRegisterInput = require('../validation/register');
+const validateLoginInput = require('../validation/login');
 
 //Export methods
 module.exports = {
     register: register,
-    login: login
+    login: login,
+    isLoggedIn: isLoggedIn,
 };
+
+//protect routes with authentication 
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return res.redirect('/signin');
+}
 
 function register(req, res){
      // Form validation

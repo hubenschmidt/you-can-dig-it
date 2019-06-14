@@ -16,7 +16,7 @@ function authorize(req, res){
         // 'YOUR_CONSUMER_KEY',
         'hJkdzVOPODpOErIWzhkKgUeBJDQlqAEt', 
         // 'YOUR_CONSUMER_SECRET',
-        'http://localhost:3000/auth/callback', //callback URL ... will this hard coded URL work upon deployment??
+        'http://localhost:5000/auth/callback', //callback URL ... will this hard coded URL work upon deployment??
         function(err, requestData){
             //persist 'requestData' here so that the callback handler.... store in mongoDB
             //can access it later after returning from the authorizeUrl
@@ -38,8 +38,6 @@ function authorize(req, res){
 //     tokenSecret: 'BaThKoKXyMLMCTHWgAyoWzbTLHfQsZSVNFCPkWOJ',
 //     authorizeUrl: 'https://www.discogs.com/oauth/authorize?oauth_token=GDIdrtYhPgMkdLOAynyrjoCneMmUwQzAjjiewPxk'
 // }
-
-
 
 function callback(req, res){
     var oAuth = new Discogs().oauth(); //
