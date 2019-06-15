@@ -6,15 +6,10 @@ const random = require('./random');
 const search = require('./search');
 const users = require('./users');
 
-   //protect API endpoints with authentication function 
-   function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
-    res.redirect('/signin');
-}
+
 
 router.use('/create', create);
-router.use('/database', isLoggedIn, database);
+router.use('/database', database);
 router.use('/landing', landing);
 router.use('/random', random);
 router.use('/search', search);

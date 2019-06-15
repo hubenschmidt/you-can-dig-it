@@ -18,11 +18,13 @@ function authorize(req, res){
         // 'YOUR_CONSUMER_SECRET',
         'http://localhost:5000/auth/callback', //callback URL ... will this hard coded URL work upon deployment??
         function(err, requestData){
+            res.redirect(requestData.authorizeUrl);
             //persist 'requestData' here so that the callback handler.... store in mongoDB
             //can access it later after returning from the authorizeUrl
             console.log(requestData)
+            
             // res.json(requestData)
-            res.redirect(requestData.authorizeUrl);
+            
             // return requestData
         }    
     );
