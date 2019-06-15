@@ -43,7 +43,7 @@ class Register extends Component {
                             </h4>
                             <p className='grey-text text-darken-1'> Already have an account?
                                 <Link 
-                                    to='/login'>Login
+                                    to='/login'> Login
                                 </Link>
                             </p>
                         </div>
@@ -81,12 +81,12 @@ class Register extends Component {
                             <div className='input-field col s12'>
                                 <input 
                                     onChange={this.onChange}
-                                    value={this.state.password}
-                                    error={errors.password}
+                                    value={this.state.password2}
+                                    error={errors.password2}
                                     id='password2'
                                     type='password'
                                 />
-                                <label htmlForm='password'>Confirm Password</label>
+                                <label htmlForm='password2'>Confirm Password</label>
                             </div>
                             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                                 <button

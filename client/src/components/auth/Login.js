@@ -27,7 +27,7 @@ class Login extends Component {
         const { errors } = this.state;
             return (
                 <div className='container'>
-                    <div style={{ marginTop: '4em'}} className='row'>
+                    <div style={{ marginTop: '6em'}} className='row'>
                         <div className='col s8 offset-s2'>
                             <Link to='/' className='btn-flat waves-effect'>
                                 <i className='material-icons left'> keyboard_backspace
@@ -39,7 +39,7 @@ class Login extends Component {
                             </h4>
                             <p className='grey-text text-darken-1'> Don't have an account?
                                 <Link 
-                                    to='/login'>Register
+                                    to='/register'> Sign up
                                 </Link>
                             </p>
                         </div>
