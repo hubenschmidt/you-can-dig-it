@@ -66,7 +66,7 @@ class Register extends Component {
                                     id='email'
                                     type='email'
                                 />
-                                <label htmlForm='email'>Email</label>
+                                <label htmlFor='email'>Email</label>
                             </div>
                             <div className='input-field col s12'>
                                 <input 
@@ -76,7 +76,7 @@ class Register extends Component {
                                     id='password'
                                     type='password'
                                 />
-                                <label htmlForm='password'>Password</label>
+                                <label htmlFor='password'>Password</label>
                             </div>
                             <div className='input-field col s12'>
                                 <input 
@@ -86,7 +86,7 @@ class Register extends Component {
                                     id='password2'
                                     type='password'
                                 />
-                                <label htmlForm='password2'>Confirm Password</label>
+                                <label htmlFor='password2'>Confirm Password</label>
                             </div>
                             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                                 <button
