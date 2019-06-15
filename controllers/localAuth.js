@@ -13,9 +13,8 @@ module.exports = {
     login: login
 };
 
-
-
 function register(req, res){
+    console.log('register route', req.body)
      // Form validation
      const {
         errors,
@@ -49,8 +48,8 @@ function register(req, res){
                         .catch(err => console.log(err));
                 })
             })
-            return res
-                .redirect('/api/landing')
+            // return res
+            //     .redirect('/api/landing')
         }
         
     })
@@ -108,7 +107,7 @@ function login(req, res){
                     });
             }
         });
-        return res
-            .redirect('/api/landing')
+        // return res
+        //     .redirect('/api/landing')
     });
 }

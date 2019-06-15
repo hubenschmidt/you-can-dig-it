@@ -45,13 +45,13 @@ CFLAGS_OBJC_Debug :=
 CFLAGS_OBJCC_Debug :=
 
 INCS_Debug := \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/include/node \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/src \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/deps/openssl/config \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/deps/openssl/openssl/include \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/deps/uv/include \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/deps/zlib \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/deps/v8/include \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/include/node \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/src \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/deps/openssl/config \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/deps/openssl/openssl/include \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/deps/uv/include \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/deps/zlib \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan
 
 DEFS_Release := \
@@ -94,13 +94,13 @@ CFLAGS_OBJC_Release :=
 CFLAGS_OBJCC_Release :=
 
 INCS_Release := \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/include/node \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/src \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/deps/openssl/config \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/deps/openssl/openssl/include \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/deps/uv/include \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/deps/zlib \
-	-I/Users/WilliamRoy 1/.node-gyp/10.16.0/deps/v8/include \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/include/node \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/src \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/deps/openssl/config \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/deps/openssl/openssl/include \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/deps/uv/include \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/deps/zlib \
+	-I/Users/williamroymbp/.node-gyp/11.5.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan
 
 OBJS := \

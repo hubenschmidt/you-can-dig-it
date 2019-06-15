@@ -100,7 +100,6 @@ function searchReleases (req, res, param) {
     })
 };
 
-
 //util
 function formatResponse (data) {
     console.log(data.id)
