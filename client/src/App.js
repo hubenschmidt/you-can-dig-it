@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+// import React, { Component } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -35,9 +36,11 @@ if (localStorage.jwtToken) {
     window.location.href = "./login";
   }
 }
-class App extends Component {
-  render() {
-    return (
+// class App extends Component {
+//   render() {
+//     return (
+
+const App = () =>
       <Provider store={store}>
         <Router>
           <div className="App">
@@ -51,7 +54,7 @@ class App extends Component {
           </div>
         </Router>
       </Provider>
-    );
-  }
-}
+//     );
+//   }
+// }
 export default App;
