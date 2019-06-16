@@ -45,33 +45,19 @@ const App = () =>
         <Router>
           <div className="App">
             <Nav /> 
-//             <Navbar /> //Will's note: I know there are two Nav- components now. Leaving both until we discuss
+            <Navbar />
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/" component={Home}/>
-              <Route exact path="/library" component={Library}/>
-              <Route component={NoMatch}/>
+                <PrivateRoute path="/library" component={Library} />
+                <Route exact path="/" component={Home}/>
+                <Route component={NoMatch}/>
             </Switch>
           </div>
         </Router>
       </Provider>
 
-// function App() {
-//   return (
-//     <Router>
-//       <div>
-//         <Nav />
-//         <Switch>
-//           <Route exact path="/" component={Home}/>
-//           <Route exact path="/library" component={Library}/>
-//           <Route component={NoMatch}/>
-//         </Switch>
-//       </div>
-//     </Router>
-//   )
-// }
 
 export default App;

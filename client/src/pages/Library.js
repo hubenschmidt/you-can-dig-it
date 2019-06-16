@@ -1,13 +1,13 @@
-import React from "react";
+// import React from "react";
 import ReactDOM from 'react-dom';
 import Coverflow from "react-coverflow";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
 
 function Library() {
     return (
-
-
-
-
         <Coverflow
             // width={960}
             // height={480}
