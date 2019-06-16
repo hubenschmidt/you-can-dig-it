@@ -1,6 +1,6 @@
 const m = require('../models');
-const axios = require('axios');
-const mongoose = require('mongoose')
+// const axios = require('axios');
+// const mongoose = require('mongoose')
 
 //check to see if the disconnect dependencies are required elsewhere with create and findById methods
 const Discogs = require('disconnect').Client;

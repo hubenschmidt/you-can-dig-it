@@ -1,77 +1,48 @@
-// *****************************************************************************
-// Server.js - This file is the starting point for the Node/Express server.
-//
-// ******************************************************************************
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const logger = require("morgan");
+const passport = require("passport");
 
-// Dependencies
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const logger = require('morgan');
-const passport = require('passport');
-// const LocalStrategy = require('passport-local').Strategy
-
-
-// Express
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-//DB config
-const db = require('./config/keys').mongoURI;
-
-//connect to MongoDB
-const MONGDODB_URI = process.env.MONGDODB_URI || 'mongodb://localhost/YouCanDigIt'
-mongoose.connect(MONGDODB_URI, {
-        useNewUrlParser: true
-    })
-    .then(() => console.log('Mongoose connection successful'))
-    .catch((err) => console.error(err));
-mongoose.Promise = global.Promise
-
-//Static directory
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('public'));
-}
+// const users = require("./routes/api/users");
 
 //routes
-const routes = require('./routes');
+const routes = require('./routes')
 
-//Passport
-require('./config/passport')(passport)
-app.use(require('express-session')({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(passport.initialize());
-// app.use(passport.session());
+const app = express();
 
-//Passport configuration .. break out into ./config/passport/passport.js
-var User = require('./models/User');
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
-
-
-//BodyParser
-app.use(bodyParser.urlencoded({
+// Bodyparser middleware
+app.use(
+  bodyParser.urlencoded({
     extended: false
-}));
+  })
+);
 app.use(bodyParser.json());
 
-//API Routing
-app.use(routes)
+// DB Config
+const db = require("./config/keys").mongoURI;
+
+// Connect to MongoDB
+mongoose
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log("MongoDB successfully connected"))
+  .catch(err => console.log(err));
+
+// Passport middleware
+app.use(passport.initialize());
+
+// Passport config
+require("./config/passport")(passport);
+
+//Express use API Routing
+app.use(routes);
 
 //Log HTTP requests
-app.use(logger('dev'))
+app.use(logger('dev'));
 
-//Handle CORS
-app.use(cors());
+const port = process.env.PORT || 5000;
 
-//Start server
-app.listen(PORT, function () {
-    console.log("Server is running on Port: " + PORT)
-});
-
-// module.exports = server
+app.listen(port, () => console.log(`Server is running on Port: ${port} !`));
