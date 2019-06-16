@@ -1,51 +1,77 @@
 import React from "react";
-import {BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import setAuthToken from "./utils/setAuthToken";
+
+import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { Provider } from "react-redux";
+import store from "./store";
+
+import Navbar from "./components/layout/Navbar";
+import Landing from "./components/layout/Landing";
+import Register from "./components/auth/Register";
+import Login from "./components/auth/Login";
+import PrivateRoute from "./components/private-route/PrivateRoute";
+import Dashboard from "./components/dashboard/Dashboard";
 import Home from "./pages/Home";
 import Library from "./pages/Library";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav"
 
-function App() {
-  return (
-    <Router>
-      <div>
-        <Nav />
-        <Switch>
-          <Route exact path="/" component={Home}/>
-          <Route exact path="/library" component={Library}/>
-          <Route component={NoMatch}/>
-        </Switch>
-      </div>
-    </Router>
-  )
+import "./App.css";
+
+// Check for token to keep user logged in
+if (localStorage.jwtToken) {
+  // Set auth token header auth
+  const token = localStorage.jwtToken;
+  setAuthToken(token);
+  // Decode token and get user info and exp
+  const decoded = jwt_decode(token);
+  // Set user and isAuthenticated
+  store.dispatch(setCurrentUser(decoded));
+  // Check for expired token
+  const currentTime = Date.now() / 1000; // to get in milliseconds
+  if (decoded.exp < currentTime) {
+    // Logout user
+    store.dispatch(logoutUser());
+
+    // Redirect to login
+    window.location.href = "./login";
+  }
 }
 
-export default App;
+const App = () =>
+      <Provider store={store}>
+        <Router>
+          <div className="App">
+            <Nav /> 
+//             <Navbar /> //Will's note: I know there are two Nav- components now. Leaving both until we discuss
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/login" component={Login} />
+            <Switch>
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/" component={Home}/>
+              <Route exact path="/library" component={Library}/>
+              <Route component={NoMatch}/>
+            </Switch>
+          </div>
+        </Router>
+      </Provider>
 
-
-
-// import React, {Component} from 'react';
-// import './App.css';
-
-
-
-// class App extends Component {
-//   render(){
-//     return (
-//       <div className="App">
-//         <h1>you-can-dig-it</h1>
-//         <h2>this is a front end made with React</h2>
-//         <h3>npm run dev</h3>
-//         <h4>Client on [http://localhost:3000](http://localhost:3000)</h4>
-//         <h4>Server on [http://localhost:5000](http://localhost:5000)</h4>
-
-
-
-
-
-
+// function App() {
+//   return (
+//     <Router>
+//       <div>
+//         <Nav />
+//         <Switch>
+//           <Route exact path="/" component={Home}/>
+//           <Route exact path="/library" component={Library}/>
+//           <Route component={NoMatch}/>
+//         </Switch>
 //       </div>
-//     );
-//   }
+//     </Router>
+//   )
 // }
-// export default App;
+
+export default App;

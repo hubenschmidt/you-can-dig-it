@@ -5,15 +5,15 @@ const releaseSchema = new Schema({
     id_release: {
         type: Number,
         required: true,
-        validate: {
-            isAsync: true,
-            validator: function(v, cb){
-                Release.find({id_discogs: v}, function(err,docs){
-                    cb(docs.length == 0);
-                });
-            },
-            message: 'Release already exists!'
-        }
+        // validate: {
+        //     isAsync: true,
+        //     validator: function(v, cb){
+        //         Release.find({id_discogs: v}, function(err,docs){
+        //             cb(docs.length == 0);
+        //         });
+        //     },
+        //     message: 'Release already exists!'
+        // }
     },
     artist: {
         type: String,

@@ -3,5 +3,4 @@
 module.exports = {
     Release: require('./Release'),
     User: require('./User')
-    //Marketplace
-}
+};
