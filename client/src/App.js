@@ -1,4 +1,3 @@
-// import React, { Component } from "react";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
@@ -14,6 +13,10 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
+import Home from "./pages/Home";
+import Library from "./pages/Library";
+import NoMatch from "./pages/NoMatch";
+import Nav from "./components/Nav"
 
 import "./App.css";
 
@@ -36,25 +39,39 @@ if (localStorage.jwtToken) {
     window.location.href = "./login";
   }
 }
-// class App extends Component {
-//   render() {
-//     return (
 
 const App = () =>
       <Provider store={store}>
         <Router>
           <div className="App">
-            <Navbar />
+            <Nav /> 
+//             <Navbar /> //Will's note: I know there are two Nav- components now. Leaving both until we discuss
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/" component={Home}/>
+              <Route exact path="/library" component={Library}/>
+              <Route component={NoMatch}/>
             </Switch>
           </div>
         </Router>
       </Provider>
-//     );
-//   }
+
+// function App() {
+//   return (
+//     <Router>
+//       <div>
+//         <Nav />
+//         <Switch>
+//           <Route exact path="/" component={Home}/>
+//           <Route exact path="/library" component={Library}/>
+//           <Route component={NoMatch}/>
+//         </Switch>
+//       </div>
+//     </Router>
+//   )
 // }
+
 export default App;
