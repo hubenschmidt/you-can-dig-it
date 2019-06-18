@@ -2,7 +2,7 @@ import React from "react";
 import axios from 'axios';
 
 function Home() {
-    axios.get('/api/random').then(res => console.log(res.data))
+    // axios.get('/api/random').then(res => console.log(res.data))
     return (
 
         <div className="App" >
