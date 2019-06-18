@@ -1,6 +1,4 @@
 const Discogs = require('disconnect').Client;
-const colors = require('colors')
-
 
 module.exports = {
     authorize: authorize,
@@ -8,8 +6,8 @@ module.exports = {
     identity: identity
 };
 
-const isDev = process.env.NODE_ENV !== 'production';
-const url = isDev ? '/' : 'http://localhost:5000';
+let isDev = process.env.NODE_ENV !== 'production';
+let url = isDev ? '/' : 'http://localhost:5000';
 
 // console.log(authorize())
 function authorize(req, res){
