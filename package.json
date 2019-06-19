@@ -24,6 +24,7 @@
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "react-coverflow": "^0.2.20",
     "validator": "^10.9.0"
   }
 }
