@@ -5,29 +5,21 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import API from "../utils/API";
 import { Img } from "../components/Image";
+import AlbumDetails from "../components/AlbumDetails"
+
+import Row from "../components/Row"
+import Track from "../components/Track"
 
 class Library extends Component {
 
   state = {
-    records: []
+    records: [],
+    activeRecord: ""
   }
 
-  // {
-  //   src: "",
-  //   title: 'pussy1'
-  // },
-  // {
-  //   src: "http://www.petmd.com/sites/default/files/what-does-it-mean-when-cat-wags-tail.jpg",
-  //   title: 'pussy2'
-  // },
-  // {
-  //   src: "http://www.petmd.com/sites/default/files/what-does-it-mean-when-cat-wags-tail.jpg",
-  //   title: "pussy3"
-  // }
-
-  componentDidMount() { 
+  componentDidMount() {
     this.loadLibrary();
-   }
+  }
 
   loadLibrary = () => {
     API.getLibrary()
@@ -35,38 +27,53 @@ class Library extends Component {
       .catch(err => console.log(err))
   }
 
-  testFunc = (x) => {
-    alert(x);
+  getAlbumDetails = (id) => {
+    API.findById(id)
+      .then(res => this.setState({ activeRecord: res.data }))
+      .catch(err => console.log(err))
   }
+
+
 
   render() {
     return (
-      <Coverflow
-        // width={100%}
-        // height={480}
-        displayQuantityOfSide={2}
-        navigation={false}
-        clickable={true}
-        enableHeading={true}
-        media={{
-          '@media (max-width: 960px)': {
-            // width: '600px',
-            height: '300px'
-          },
-          '@media (min-width: 900px)': {
-            // width: '960px',
-            height: '360px'
-          }
-        }}
-      >
-            {/* <img src="http://www.petmd.com/sites/default/files/what-does-it-mean-when-cat-wags-tail.jpg" class="coverflow__cover__25-7e" alt="Title"/>
- */}
+      <div>
 
-    {Img({albums: this.state.records, func: this.testFunc})} 
 
-      </Coverflow>
+        <Coverflow
+          // width={100%}
+          // height={480}
+          displayQuantityOfSide={2}
+          navigation={false}
+          clickable={true}
+          enableHeading={true}
+          media={{
+            '@media (max-width: 960px)': {
+              // width: '600px',
+              height: '300px'
+            },
+            '@media (min-width: 900px)': {
+              // width: '960px',
+              height: '360px'
+            }
+          }}
+        >
+          {Img({ albums: this.state.records, func: this.getAlbumDetails })}
+        </Coverflow>
 
-    )
+        <AlbumDetails activeRecord={this.state.activeRecord} />
+        <Row>
+          {this.state.activeRecord && this.state.activeRecord.tracklist && this.state.activeRecord.tracklist.length > 0 ? 
+          (
+          <Track tracks={this.state.activeRecord.tracklist} />
+          ) : (
+            <h1>Tracks are not available for this album.</h1>
+            )}
+        </Row>
+
+
+      </div>
+    );
   }
 }
 

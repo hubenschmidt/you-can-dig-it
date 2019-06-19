@@ -6,6 +6,7 @@ router
     .route('/')
     .get(discogsDatabase.findAll)
 
+    //Matches with "/api/database/library"
 router
     .route('/library')
     .get(discogsDatabase.getLibrary)
