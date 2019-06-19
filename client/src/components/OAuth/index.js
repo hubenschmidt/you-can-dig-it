@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types'
 import FontAwesome from 'react-fontawesome'
-import { API_URL } from "./config";
+import { API_URL } from "../../config";
 
 export default class OAuth extends Component {
   
