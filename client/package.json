@@ -31,5 +31,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "extension": "^0.2.0",
+    "redux-devtools": "^3.5.0"
+  }
 }
