@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "proxy": "http://localhost:5000/",
   "dependencies": {
     "axios": "^0.18.0",
@@ -21,7 +21,7 @@
     "socket.io-client": "^2.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

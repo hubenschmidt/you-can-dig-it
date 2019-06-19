@@ -2,11 +2,12 @@ require('dotenv').config();
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-// const https = require("https");
+var http = require("http");
+const https = require("https");
 const session = require("express-session")
 const socketio = require("socket.io");
 // const authRouter = require("./lib/auth.router")
-// const passportInit = require("./lib/auth.router")
+const passportInit = require("./config/passport")
 const { SESSION_SECRET, CLIENT_ORIGIN } = require("./config/oauth.js")
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -15,14 +16,18 @@ const passport = require("passport");
 const cors = require('cors');
 const app = express();
 
-//for setting up https server if OAuth client needed https
-// const certOptions = {
-//   key: fs.readFileSync(path.resolve("certs/server.key")),
-//   cert: fs.readFileSynch(path.resolve("certs/server.crt"))
-// }
+let server;
 
-// const server = https.createServer(certOptions, app)
-const server = 'http://localhost:5000'
+if (process.env.NODE_ENV = 'production'){
+  server = http.createServer(app)
+} else {
+// for setting up https server if OAuth client needed https
+const certOptions = {
+  key: fs.readFileSync(path.resolve("./key.pem")),
+  cert: fs.readFileSync(path.resolve("./certificate.pem")),
+}
+  server = https.createServer(certOptions, app);
+}
 
 //accept requests from the client
 app.use(cors({
@@ -32,7 +37,7 @@ app.use(cors({
 //saveUninitialized: true allows us to attach the socket id to the session
 //before we have authenticated the user
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: 'entropy evolution',
   resave: true,
   saveUninitialized: true
 }));
@@ -42,14 +47,8 @@ app.use(session({
 const io = socketio(server)
 app.set('io', io)
 
-//Direct all requests to the auth router
-// app.use('/', authRouter)
-
-
 //routes
 const routes = require('./routes')
-
-
 
 // Bodyparser middleware
 app.use(
@@ -86,4 +85,4 @@ app.use(logger('dev'));
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server is running on Port: ${port} !`));
+server.listen(port, () => console.log(`Server is running on Port: ${port} !`));
