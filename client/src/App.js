@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
+import io from "socket.io-client";
+import OAuth from "./components/OAuth";
+import { API_URL } from "./config";
+
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { Provider } from "react-redux";
 import store from "./store";
@@ -12,13 +16,16 @@ import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
-import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Library from "./pages/Library";
+import Dashboard from "./pages/Dashboard";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav"
 
 import "./App.css";
+
+const socket = io(API_URL);
+const providers = ['discogs'];
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -50,10 +57,11 @@ const App = () =>
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Switch>
+              <OAuth provider={provider} key={provider} socket={socket} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                <PrivateRoute path="/library" component={Library} />
-                <Route exact path="/" component={Home}/>
-                <Route component={NoMatch}/>
+              <PrivateRoute path="/library" component={Library} />
+              <Route exact path="/" component={Home} />
+              <Route component={NoMatch} />
             </Switch>
           </div>
         </Router>
