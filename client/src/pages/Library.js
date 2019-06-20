@@ -1,20 +1,31 @@
-import ReactDOM from 'react-dom';
-import Coverflow from "react-coverflow";
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+
+//Needed for Carousel 
+import Coverflow from "react-coverflow";
+// import StyleRoot from "radium"
+
+//Page components
+import { Container, Row, Col } from "../components/Grid";
 import API from "../utils/API";
 import { Img } from "../components/Image";
 import AlbumDetails from "../components/AlbumDetails"
-
-import Row from "../components/Row"
+import Search from "../components/Search"
 import Track from "../components/Track"
+
+import YouTube from 'react-youtube';
 
 class Library extends Component {
 
   state = {
     records: [],
-    activeRecord: ""
+    activeRecord: "",
+    opts: {
+      height: '390',
+      width: '640',
+      playerVars: { // https://developers.google.com/youtube/player_parameters
+        autoplay: 0
+      }
+    }
   }
 
   componentDidMount() {
@@ -33,45 +44,56 @@ class Library extends Component {
       .catch(err => console.log(err))
   }
 
+  
 
 
   render() {
     return (
       <div>
-
-
+        <Search />
         <Coverflow
           // width={100%}
-          // height={480}
+          height={400}
           displayQuantityOfSide={2}
           navigation={false}
           clickable={true}
           enableHeading={true}
-          media={{
-            '@media (max-width: 960px)': {
-              // width: '600px',
-              height: '300px'
-            },
-            '@media (min-width: 900px)': {
-              // width: '960px',
-              height: '360px'
-            }
-          }}
+          currentFigureScale={1.1}
+          otherFigureScale={0.8}
+
         >
           {Img({ albums: this.state.records, func: this.getAlbumDetails })}
         </Coverflow>
-
-        <AlbumDetails activeRecord={this.state.activeRecord} />
+        {/* <Container> */}
         <Row>
-          {this.state.activeRecord && this.state.activeRecord.tracklist && this.state.activeRecord.tracklist.length > 0 ? 
-          (
-          <Track tracks={this.state.activeRecord.tracklist} />
-          ) : (
-            <h1>Tracks are not available for this album.</h1>
-            )}
+          <Col size="md-3 sm-12">
+            {this.state.activeRecord ?
+              (<AlbumDetails activeRecord={this.state.activeRecord} />
+              ) : (
+
+                <h1 className="text-center">Choose an album from your library to view details.</h1>)}
+
+          </Col>
+          <Col size="md-4 sm-12">
+            {this.state.activeRecord && this.state.activeRecord.tracklist && this.state.activeRecord.tracklist.length > 0 ?
+              (
+                <Track tracks={this.state.activeRecord.tracklist} />
+              ) : (
+                <h1>...</h1>
+              )}
+          </Col>
+          <Col size="md-4 sm-12 youtube">
+            <YouTube
+              videoId="2g811Eo7K8U"
+              opts={this.state.opts}
+              onReady={this._onReady}
+            />
+          </Col>
+
+
+
         </Row>
-
-
+        {/* </Container> */}
       </div>
     );
   }
