@@ -16,6 +16,7 @@ providers.forEach(provider => {
   exports[provider] = (req, res) => {
     const io = req.app.get('io')
     const authToken = createAuthToken(req.user)
+    console.log('discogsAuth token', authToken)
     io.in(req.session.socketId).emit(provider, authToken)
     res.end()
   }

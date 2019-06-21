@@ -5,7 +5,7 @@ exports.providers = ['discogs']
 const callbacks = this.providers.map(provider => {
   return process.env.NODE_ENV === 'production'
     ? `/${provider}/callback`
-    : `https://localhost:8080/${provider}/callback`
+    : `https://localhost:5000/${provider}/callback`
 })
 
 const [discogsURL] = callbacks

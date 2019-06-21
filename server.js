@@ -33,7 +33,6 @@ else {
     key: fs.readFileSync(path.resolve('./certs/key.pem')),
     cert: fs.readFileSync(path.resolve('./certs/certificate.pem'))
   }
-  console.log(certOptions)
 
   server = https.createServer(certOptions, app)
 }
@@ -80,7 +79,7 @@ app.use((req, res, next) => {
 const io = socketio(server)
 app.set('io', io)
 
-// Catch a start up request so that a sleepy Heroku instance can  
+// Catch a start up request so that a sleepy Discogs instance can  
 // be responsive as soon as possible
 app.get('/wake-up', (req, res) => {
   console.log('/wake-up', req.session)
