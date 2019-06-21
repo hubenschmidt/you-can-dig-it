@@ -1,3 +1,4 @@
+
 import axios from 'axios'
 import { API_URL } from './config'
 
@@ -57,5 +58,14 @@ export default {
       credentials: 'include'
     })
       .then(res => res.ok)
+  },
+  
+  getLibrary: function() {
+    return axios.get("/api/database/library");
+  },
+
+  findById: function(id){
+    return axios.get(`/api/database/${id}`)
   }
 } 
+
