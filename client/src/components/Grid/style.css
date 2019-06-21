@@ -1,0 +1,10 @@
+.container {
+background-color: #363636;
+height: 100%;
+}
+
+.row{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+

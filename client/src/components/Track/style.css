@@ -1,0 +1,17 @@
+.tb-format{
+    color: #79dfd5;
+}
+th, tr{
+    color: #79dfd5;
+
+}
+
+.play-icon{
+    font-size:35px;
+    color:red
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #01554d;
+    color: whitesmoke;
+  }

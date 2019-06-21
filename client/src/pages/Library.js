@@ -1,48 +1,102 @@
-// import React from "react";
-import ReactDOM from 'react-dom';
-import Coverflow from "react-coverflow";
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+
+//Needed for Carousel 
+import Coverflow from "react-coverflow";
+// import StyleRoot from "radium"
+
+//Page components
+import { Container, Row, Col } from "../components/Grid";
+import API from "../utils/API";
+import { Img } from "../components/Image";
+import AlbumDetails from "../components/AlbumDetails"
+import Search from "../components/Search"
+import Track from "../components/Track"
+
+import YouTube from 'react-youtube';
+
+class Library extends Component {
+
+  state = {
+    records: [],
+    activeRecord: "",
+    opts: {
+      height: '390',
+      width: '640',
+      playerVars: { // https://developers.google.com/youtube/player_parameters
+        autoplay: 0
+      }
+    }
+  }
+
+  componentDidMount() {
+    this.loadLibrary();
+  }
+
+  loadLibrary = () => {
+    API.getLibrary()
+      .then(res => this.setState({ records: res.data }))
+      .catch(err => console.log(err))
+  }
+
+  getAlbumDetails = (id) => {
+    API.findById(id)
+      .then(res => this.setState({ activeRecord: res.data }))
+      .catch(err => console.log(err))
+  }
+
+  
 
 
-function Library() {
+  render() {
     return (
+      <div>
+        <Search />
         <Coverflow
-            // width={960}
-            // height={480}
-            displayQuantityOfSide={3}
-            navigation
-            infiniteScroll
-            enableHeading={false}
-            clickable={true}
-            enableHeading={true}
-            media={{
-                '@media (max-width: 960px)': {
-                  width: '600px',
-                  height: '300px'
-                },
-                '@media (min-width: 900px)': {
-                  width: '960px',
-                  height: '360px'
-                }
-              }}
+          // width={100%}
+          height={400}
+          displayQuantityOfSide={2}
+          navigation={false}
+          clickable={true}
+          enableHeading={true}
+          currentFigureScale={1.1}
+          otherFigureScale={0.8}
+
         >
-            <img src="http://www.petmd.com/sites/default/files/what-does-it-mean-when-cat-wags-tail.jpg"></img>
-            <img src='https://cnet2.cbsistatic.com/img/tcQaSg5LL_0-HBuWFPxpguK71TM=/1092x0/2019/06/06/b11ccfac-685e-4cb2-a239-b09af07b1baf/toriflynn2.jpg' alt='title or description' data-action="http://andyyou.github.io/react-coverflow/" />
-            <img src='https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80' alt='title or description' data-action="http://andyyou.github.io/react-coverflow/" />
-            <img src="http://www.petmd.com/sites/default/files/what-does-it-mean-when-cat-wags-tail.jpg"></img>
-            <img src='https://cnet2.cbsistatic.com/img/tcQaSg5LL_0-HBuWFPxpguK71TM=/1092x0/2019/06/06/b11ccfac-685e-4cb2-a239-b09af07b1baf/toriflynn2.jpg' alt='title or description' data-action="http://andyyou.github.io/react-coverflow/" />
-            <img src='https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80' alt='title or description' data-action="http://andyyou.github.io/react-coverflow/" />
-            <img src="http://www.petmd.com/sites/default/files/what-does-it-mean-when-cat-wags-tail.jpg"></img>
-            <img src='https://cnet2.cbsistatic.com/img/tcQaSg5LL_0-HBuWFPxpguK71TM=/1092x0/2019/06/06/b11ccfac-685e-4cb2-a239-b09af07b1baf/toriflynn2.jpg' alt='title or description' data-action="http://andyyou.github.io/react-coverflow/" />
-            <img src='https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80' alt='title or description' data-action="http://andyyou.github.io/react-coverflow/" />
-            <img src="http://www.petmd.com/sites/default/files/what-does-it-mean-when-cat-wags-tail.jpg"></img>
-            <img src='https://cnet2.cbsistatic.com/img/tcQaSg5LL_0-HBuWFPxpguK71TM=/1092x0/2019/06/06/b11ccfac-685e-4cb2-a239-b09af07b1baf/toriflynn2.jpg' alt='title or description' data-action="http://andyyou.github.io/react-coverflow/" />
-            <img src='https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80' alt='title or description' data-action="http://andyyou.github.io/react-coverflow/" />
+          {Img({ albums: this.state.records, func: this.getAlbumDetails })}
         </Coverflow>
-        
-    )
+        {/* <Container> */}
+        <Row>
+          <Col size="md-3 sm-12">
+            {this.state.activeRecord ?
+              (<AlbumDetails activeRecord={this.state.activeRecord} />
+              ) : (
+
+                <h1 className="text-center">Choose an album from your library to view details.</h1>)}
+
+          </Col>
+          <Col size="md-4 sm-12">
+            {this.state.activeRecord && this.state.activeRecord.tracklist && this.state.activeRecord.tracklist.length > 0 ?
+              (
+                <Track tracks={this.state.activeRecord.tracklist} />
+              ) : (
+                <h1>...</h1>
+              )}
+          </Col>
+          <Col size="md-4 sm-12 youtube">
+            <YouTube
+              videoId="2g811Eo7K8U"
+              opts={this.state.opts}
+              onReady={this._onReady}
+            />
+          </Col>
+
+
+
+        </Row>
+        {/* </Container> */}
+      </div>
+    );
+  }
 }
 
 export default Library;
