@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
-const authController = require('../../controllers/discogsAuth')
+const authController = require('../../controllers/authController')
 
 
 //setting up passport middleware for the OAuth provider (more than one can be used)

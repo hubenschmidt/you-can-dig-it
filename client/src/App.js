@@ -161,16 +161,6 @@ export default class App extends Component {
                   <div className="App">
                     <Nav /> 
                     <Navbar />
-                    <Route exact path="/" component={Landing} />
-                    <Route exact path="/register" component={Register} />
-                    <Route exact path="/login" component={Login} />
-                    <Switch>
-                      <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                        <PrivateRoute path="/library" component={Library} />
-                        <Route exact path="/" component={Home}/>
-                        <Route component={NoMatch}/>
-                    </Switch>
-
                     <Header 
                     email={this.state.authData.email} 
                     logout={this.logout}
@@ -183,6 +173,17 @@ export default class App extends Component {
                         : buttons(providers, socket)
                       }
                     </div>
+                    <Route exact path="/" component={Landing} />
+                    <Route exact path="/register" component={Register} />
+                    <Route exact path="/login" component={Login} />
+                    <Switch>
+                      <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                        <PrivateRoute path="/library" component={Library} />
+                        <Route exact path="/" component={Home}/>
+                        <Route component={NoMatch}/>
+                    </Switch>
+
+               
                   </div>
                 </Router>
               </Provider>

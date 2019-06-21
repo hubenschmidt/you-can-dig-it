@@ -22,13 +22,13 @@ let server
 const app = express();
 
 // If we are in production we are already running in https
-// if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   
-//   server = http.createServer(app)
-// }
+  server = http.createServer(app)
+}
 // We are not in production so load up our certificates to be able to 
-// // run the server in https mode locally
-// else {
+// run the server in https mode locally
+else {
   const certOptions = {
     key: fs.readFileSync(path.resolve('./certs/key.pem')),
     cert: fs.readFileSync(path.resolve('./certs/certificate.pem'))
@@ -36,7 +36,7 @@ const app = express();
   console.log(certOptions)
 
   server = https.createServer(certOptions, app)
-// }
+}
   // app.get('/', (req, res) => {
   //   res.status(200).send('Secure server works!')
   // });
@@ -73,6 +73,7 @@ app.use((req, res, next) => {
   req.session.socketId = req.query.socketId
   next();
 })
+
 
 // Connecting sockets to the server and adding them to the request 
 // so that we can access them later in the controller
