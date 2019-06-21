@@ -4,12 +4,42 @@ const mongoose = require("mongoose");
 const logger = require("morgan");
 const passport = require("passport");
 
-// const users = require("./routes/api/users");
-
-//routes
-const routes = require('./routes')
+//oauth-sockets-passport server additions:
+require('dotenv').config()
+const path = require('path')
+const fs = require('fs')
+const https = require('https')
+// const http = require('http')
+const session = require('express-session')
+const cors = require('cors')
+const socketio = require('socket.io')
+const uuid = require('uuid/v4')
+const FileStore = require('session-file-store')(session)
+const passportInit = require('./config/passport')
+const { CLIENT_ORIGIN } = require('./config/oauth.providers')
+let server
 
 const app = express();
+
+// If we are in production we are already running in https
+// if (process.env.NODE_ENV === 'production') {
+  
+//   server = http.createServer(app)
+// }
+// We are not in production so load up our certificates to be able to 
+// // run the server in https mode locally
+// else {
+  const certOptions = {
+    key: fs.readFileSync(path.resolve('./certs/key.pem')),
+    cert: fs.readFileSync(path.resolve('./certs/certificate.pem'))
+  }
+  console.log(certOptions)
+
+  server = https.createServer(certOptions, app)
+// }
+  // app.get('/', (req, res) => {
+  //   res.status(200).send('Secure server works!')
+  // });
 
 // Bodyparser middleware
 app.use(
@@ -17,7 +47,45 @@ app.use(
     extended: false
   })
 );
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true
+}
+
+// Accept requests from our client
+app.use(cors(corsOptions));
+
+// saveUninitialized: true allows us to attach the socket id to the session
+// before we have athenticated the user
+app.use(session({
+  genid: req => uuid(),
+  store: new FileStore(),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true
+}))
+
+//the custom middleware allows us to attach the socket id to the session
+//with that socket id we can send back the right user info to the right socket
+app.use((req, res, next) => {
+  req.session.socketId = req.query.socketId
+  next();
+})
+
+// Connecting sockets to the server and adding them to the request 
+// so that we can access them later in the controller
+const io = socketio(server)
+app.set('io', io)
+
+// Catch a start up request so that a sleepy Heroku instance can  
+// be responsive as soon as possible
+app.get('/wake-up', (req, res) => {
+  console.log('/wake-up', req.session)
+  res.send('👍')
+})
+
 
 // DB Config
 const db = require("./config/keys").mongoURI;
@@ -31,12 +99,16 @@ mongoose
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
 
-// Passport middleware
-app.use(passport.initialize());
+// Setup for passport and to accept JSON objects
+app.use(express.json())
+app.use(passport.initialize())
+passportInit()
 
 // Passport config
 require("./config/passport")(passport);
 
+//routes
+const routes = require('./routes')
 //Express use API Routing
 app.use(routes);
 
@@ -45,4 +117,4 @@ app.use(logger('dev'));
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server is running on Port: ${port} !`));
+server.listen(port, () => console.log(`Server is running on Port: ${port} !`));
