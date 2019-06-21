@@ -1,5 +1,4 @@
 const router = require('express').Router();
-// const authorize = require('./authorize');
 const create = require('./create');
 const database = require('./database');
 const random = require('./random');

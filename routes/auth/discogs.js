@@ -2,23 +2,21 @@ const router = require('express').Router();
 const authController = require('../../controllers/authController');
 const passport = require('passport')
 const discogsAuth = passport.authenticate('discogs')
+var Discogs = require('disconnect').Client;
 
+//route triggered on the client to begin OAuth
+//Matches with "/auth/discogs"
 
-//routes that are triggered by the callbacks from each OAuth provider once
+router
+    .get('/', discogsAuth)
+
+//route triggered by the callback from OAuth provider once
 //the user has authenticated successfully
 
 //Matches with "/auth/discogs/callback"
 
 router
-    .route('/callback')
-    .get(discogsAuth, authController.discogs)
-
-//routes that are triggered on the client
-//Matches with "/auth/discogs"
-
-router
-    .route('/')
-    .get(discogsAuth)
+    .get('/callback', discogsAuth, authController.discogs)
 
 
 module.exports = router;

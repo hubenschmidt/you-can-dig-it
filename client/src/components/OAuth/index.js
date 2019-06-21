@@ -5,6 +5,7 @@ import { notify } from 'react-notify-toast'
 import { launchPopup } from '../../utils/utils'
 import { API_URL } from '../../utils/config'
 
+
 export default class OAuth extends Component {
   
   state = {
@@ -79,7 +80,7 @@ export default class OAuth extends Component {
               <button 
                 onClick={this.startAuth} 
                 className={`${provider} ${disabled} button`}
-              >
+              > authorize discogs
                 <FontAwesome
                   name={provider}
                 />

@@ -9,7 +9,7 @@ require('dotenv').config()
 const path = require('path')
 const fs = require('fs')
 const https = require('https')
-// const http = require('http')
+const http = require('http')
 const session = require('express-session')
 const cors = require('cors')
 const socketio = require('socket.io')
@@ -36,9 +36,6 @@ else {
 
   server = https.createServer(certOptions, app)
 }
-  // app.get('/', (req, res) => {
-  //   res.status(200).send('Secure server works!')
-  // });
 
 // Bodyparser middleware
 app.use(
@@ -57,7 +54,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // saveUninitialized: true allows us to attach the socket id to the session
-// before we have athenticated the user
+// before we have authenticated the user
 app.use(session({
   genid: req => uuid(),
   store: new FileStore(),
@@ -73,7 +70,6 @@ app.use((req, res, next) => {
   next();
 })
 
-
 // Connecting sockets to the server and adding them to the request 
 // so that we can access them later in the controller
 const io = socketio(server)
@@ -85,7 +81,6 @@ app.get('/wake-up', (req, res) => {
   console.log('/wake-up', req.session)
   res.send('👍')
 })
-
 
 // DB Config
 const db = require("./config/keys").mongoURI;
