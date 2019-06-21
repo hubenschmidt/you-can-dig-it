@@ -1,10 +1,6 @@
-// const router = require('express').Router();
-// const authorize = require('./authorize');
-// const callback = require('./callback');
-// const identity = require('./identity');
+const router = require('express').Router();
+const discogs = require('./discogs');
 
-// router.use('/authorize', authorize);
-// router.use('/callback', callback);
-// router.use('/identity', identity);
+router.use('/discogs', discogs);
 
-// module.exports = router
+module.exports = router

@@ -1,4 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
+import io from 'socket.io-client'
+import jwtDecode from 'jwt-decode'
+import { notify } from 'react-notify-toast'
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -7,6 +11,13 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { Provider } from "react-redux";
 import store from "./store";
 
+import api from './utils/API'
+import { API_URL } from './utils/config'
+import { setToken, getToken, removeToken } from './utils/utils'
+
+import OAuth from './components/OAuth'
+import Header from './components/Header'
+import Loading from './components/Loading'
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
@@ -19,6 +30,9 @@ import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav"
 
 import "./App.css";
+
+const socket = io(API_URL)
+const providers = ['discogs']
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -40,24 +54,144 @@ if (localStorage.jwtToken) {
   }
 }
 
-const App = () =>
-      <Provider store={store}>
-        <Router>
-          <div className="App">
-            <Nav /> 
-            {/* <Navbar /> */}
-            <Route exact path="/" component={Landing} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
-            <Switch>
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                <PrivateRoute path="/library" component={Library} />
-                <Route exact path="/" component={Home}/>
-                <Route component={NoMatch}/>
-            </Switch>
-          </div>
-        </Router>
-      </Provider>
+export default class App extends Component {
+  
+  state = {
+    loading: true,
+    authData: {}
+  }
+  
+  refreshToken = () => {
+    api.refresh()
+      .then(authToken => {
+        setToken(authToken)
+        const authData = jwtDecode(authToken).user
+        this.setState({ authData })
+      })
+      .catch(err => {
+        console.log(err)
+        // pop up to say something is wrong
+        removeToken()
+      })
+    }
+
+  componentDidMount() {
+    socket.on('connect', () => {
+      api.wakeUp(socket.id)
+        .then(() => {
+          this.setState({ loading: false })  
+          const authToken = getToken()
+          
+          if (authToken) {
+            this.refreshToken(authToken)
+          }
+        })
+    })
+  }
+
+  addAllAuthData = authToken => {
+    localStorage.setItem('authToken', authToken)
+    const authData = jwtDecode(authToken).user
+    this.setState({ authData })
+  }
+
+  addProviderData = (provider, providerData, email) => {
+    this.setState({
+      authData: {
+        ...this.state.authData,
+        [provider]: providerData,
+        email
+      }
+    })
+  }
+
+  closeCard = provider => {
+    api.unlink(provider)
+      .then(() => {
+        this.setState({
+          authData: {
+            ...this.state.authData,
+            [provider]: {}
+          }
+        })
+      })
+  }
+
+  removeAuthData = msg => {
+    removeToken()
+    this.setState({ authData: {} })
+    notify.show(msg)
+  }
+
+  logout = () => {
+    api.logout()
+      .then(() => {
+        this.removeAuthData('You have been logged out')
+      })
+  }
+
+  deleteAccount = () => {
+    api.deleteAccount()
+      .then(() => {
+        this.removeAuthData('Your account has been deleted')
+      })
+  }
+
+  render = () => {
+    const buttons = (providers, socket) => 
+      providers.map(provider => 
+        <OAuth 
+          provider={provider}
+          key={provider}
+          socket={socket}
+          authData={this.state.authData[provider]}
+          addProviderData={this.addProviderData}
+          closeCard={this.closeCard}
+        />
+      )
+      
+    return (
 
 
-export default App;
+      
+      <div className='wrapper'>
+
+        <Provider store={store}>
+                <Router>
+                  <div className="App">
+                    <Nav /> 
+                    <Navbar />
+                    <Header 
+                    email={this.state.authData.email} 
+                    logout={this.logout}
+                    deleteAccount={this.deleteAccount}
+                    showLogout={Object.keys(this.state.authData).length} 
+                  />
+                    <div className='container'>
+                      {this.state.loading
+                        ? <Loading />
+                        : buttons(providers, socket)
+                      }
+                    </div>
+                    <Route exact path="/" component={Landing} />
+                    <Route exact path="/register" component={Register} />
+                    <Route exact path="/login" component={Login} />
+                    <Switch>
+                      <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                        <PrivateRoute path="/library" component={Library} />
+                        <Route exact path="/" component={Home}/>
+                        <Route component={NoMatch}/>
+                    </Switch>
+
+               
+                  </div>
+                </Router>
+              </Provider>
+
+
+ 
+      </div>
+    )
+  }
+}
+
