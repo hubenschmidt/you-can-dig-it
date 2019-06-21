@@ -9,14 +9,16 @@ const authController = require('../../controllers/authController')
 const discogsAuth = passport.authenticate('discogs')
 const jwtAuth = passport.authenticate('jwt', {session: false})
 
-//routes that are triggered by the callbacks from each OAuth provider once
-//the user has authenticated successfully
-//router.get('/twitter/callback',twitterAuth, authcontroller.twitter)
-router.get('/discogs/callback', discogsAuth, authController.discogs)
+// //routes that are triggered by the callbacks from each OAuth provider once
+// //the user has authenticated successfully
+// //router.get('/twitter/callback',twitterAuth, authcontroller.twitter)
+// router.get('/discogs/callback', discogsAuth, authController.discogs)
 
-//routes that are triggered on the client
-//router.get('/twitter', twitterAuth)
-router.get('/discogs', discogsAuth)
+// //routes that are triggered on the client
+// //route '/auth/discogs'
+// router.get('/discogs', discogsAuth, function(req, res){
+//     res.send('200')
+// })
 
 //refresh and hydrate our discogs user on page load
 router.get('/refresh', jwtAuth, authController.refresh)

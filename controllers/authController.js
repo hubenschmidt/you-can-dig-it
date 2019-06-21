@@ -2,6 +2,9 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const { providers, JWT_EXPIRY, JWT_SECRET } = require('../config/oauth.providers')
 
+
+console.log(require('../config/oauth.providers'))
+
 const createAuthToken = user =>
   jwt.sign({user}, JWT_SECRET, {
     subject: user.email,

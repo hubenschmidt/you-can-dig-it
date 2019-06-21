@@ -37,7 +37,7 @@ export default class OAuth extends Component {
 
   openPopup = () => {
     const { provider, socket } = this.props
-    const url = `${API_URL}/${provider}?socketId=${socket.id}`
+    const url = `${API_URL}/auth/${provider}?socketId=${socket.id}`
 
     return launchPopup(url, 600, 600)
   }

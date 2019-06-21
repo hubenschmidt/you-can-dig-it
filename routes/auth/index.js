@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const auth = require('./auth');
+const discogs = require('./discogs');
 
-router.use('/authorize', auth);
+router.use('/discogs', discogs);
 
 module.exports = router

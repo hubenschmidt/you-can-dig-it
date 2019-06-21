@@ -1,8 +1,8 @@
 const { ExtractJwt } = require('passport-jwt')
 
-const providers = ['discogs']
+exports.providers = ['discogs']
 
-const callbacks = providers.map(provider => {
+const callbacks = this.providers.map(provider => {
   return process.env.NODE_ENV === 'production'
     ? `/${provider}/callback`
     : `https://localhost:8080/${provider}/callback`
@@ -23,6 +23,7 @@ exports.DISCOGS_CONFIG = {
 }
 
 const JWT_SECRET = process.env.JWT_SECRET
+exports.JWT_SECRET = process.env.JWT_SECRET
 
 exports.JWT_CONFIG = {
   secretOrKey: JWT_SECRET,
@@ -30,10 +31,10 @@ exports.JWT_CONFIG = {
   algorithms: ['HS256']
 }
 
-// exports.DB_URL = process.env.NODE_ENV === 'production'
-//   ? process.env.PRODUCTION_DB_URL
-//   : 'mongodb://localhost/react-social-auth'
+exports.DB_URL = process.env.NODE_ENV === 'production'
+  ? process.env.PRODUCTION_DB_URL
+  : 'mongodb://localhost/YouCanDigIt'
 
-// exports.PORT = process.env.PORT || 5000
+exports.PORT = process.env.PORT || 5000
 
-// exports.JWT_EXPIRY = process.env.JWT_EXPIRY
+exports.JWT_EXPIRY = process.env.JWT_EXPIRY
