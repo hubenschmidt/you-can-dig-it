@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import Modal from "../Modal/Modal";
+//import Array from "../Modal/Array";
 
 class Dashboard extends Component {
   onLogoutClick = e => {
@@ -23,6 +25,7 @@ class Dashboard extends Component {
                 <span style={{ fontFamily: "monospace" }}>you-can-dig-it</span> app 👏
               </p>
             </h4>
+            <Modal />
             <button
               style={{
                 width: "150px",
