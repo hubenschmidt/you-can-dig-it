@@ -37,10 +37,12 @@ passport.use(
  // The callback that is invoked when an OAuth provider sends back user 
   // information. Save the user to the database in this callback
 
-  const callback = (token, tokenSecret, params, profile, done) => done(null, profile)
+  // const callback = (token, tokenSecret, params, profile, done) => done(null, profile)
+  
+  const verify = (token, tokenSecret, profile, done) => User.create(token, tokenSecret, profile)
 
   // Adding Discogs OAuth provider datato passport
-  passport.use(new DiscogsStrategy(DISCOGS_CONFIG, callback))
+  passport.use(new DiscogsStrategy(DISCOGS_CONFIG, verify))
 
 
 };
