@@ -8,6 +8,7 @@ const passport = require('passport')
 const { Strategy: DiscogsStrategy } = require('passport-discogs')
 const Discogs = require('disconnect').Client;
 const colors = require('colors')
+const axios = require('axios')
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
@@ -19,6 +20,7 @@ module.exports = () => {
 
 passport.use(
   new JwtStrategy(opts, (jwt_payload, done) => {
+    console.log(jwt_payload)
     User.findById(jwt_payload.id)
       .then(user => {
         if (user) {
@@ -39,11 +41,34 @@ passport.use(
   // information. Save the user to the database in this callback
 
   function callback(params, token, tokenSecret, user, done){
-    console.log('token'.cyan, token)
-    console.log('tokenSecret'.cyan, tokenSecret)
-    console.log('user', user)
+
+    let discogsUserData = user._json
+
+    let discogsAccessData = {
+      method: 'oauth',
+      level: 0,
+      consumerKey: process.env.DISCOGS_KEY,
+      consumerSecret: process.env.DISCOGS_SECRET,
+      token: token,
+      tokenSecret: tokenSecret,
+      authorizeUrl: `https://www.discogs.com/oauth/authorize?oauth_token=${token}`
+    }
+    
+    User.create(discogsUserData)
+
     done(null, user)
   }
+
+const currentUser = async () => {
+  try {
+    return await axios.get('/api/users/login')
+    
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+
   
   // Adding Discogs OAuth provider datato passport
   passport.use(new DiscogsStrategy(DISCOGS_CONFIG, callback))

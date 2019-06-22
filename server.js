@@ -78,7 +78,7 @@ app.set('io', io)
 // Catch a start up request so that a sleepy Discogs instance can  
 // be responsive as soon as possible
 app.get('/wake-up', (req, res) => {
-  console.log('/wake-up', req.session)
+  // console.log('/wake-up', req.session)
   res.send('👍')
 })
 

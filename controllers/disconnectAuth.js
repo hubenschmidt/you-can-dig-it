@@ -46,7 +46,7 @@ function callback(req, res){
     oAuth.getAccessToken(
         req.query.oauth_verifier, //verification code sent back by Discogs
         function(err, accessData){
-            console.log('accessdata'.rainbow, accessData)
+            // console.log('accessdata'.rainbow, accessData)
             // console.log('log access data'.cyan)
             // console.log(accessData)
             //Persist 'accessData' here for following OAuth calls... store in mongoDB 

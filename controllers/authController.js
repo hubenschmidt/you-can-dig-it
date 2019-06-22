@@ -3,7 +3,6 @@ const User = require('../models/User')
 const { providers } = require('../config/oauth.providers')
 const colors = require('colors')
 
-console.log(require('../config/oauth.providers'))
 
 exports.discogs = (req, res) => {
 

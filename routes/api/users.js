@@ -53,6 +53,12 @@ router.post("/register", (req, res) => {
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
+router.get("/login", (req, res) => {
+  console.log('router.get', req.user)
+  res.json(req.body)
+  
+})
+
 router.post("/login", (req, res) => {
   // Form validation
 
@@ -69,6 +75,7 @@ router.post("/login", (req, res) => {
   // Find user by email
   User.findOne({ email }).then(user => {
     // Check if user exists
+    console.log(user)
     if (!user) {
       return res.status(404).json({ emailnotfound: "Email not found" });
     }
@@ -91,9 +98,12 @@ router.post("/login", (req, res) => {
             expiresIn: 31556926 // 1 year in seconds
           },
           (err, token) => {
+            console.log('this is the user', payload)
+            //module exports the whole function and then save to a variable in roder to check database and then add user
             res.json({
               success: true,
-              token: "Bearer " + token
+              token: "Bearer " + token,
+              user: payload
             });
           }
         );

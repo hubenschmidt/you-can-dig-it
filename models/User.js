@@ -3,7 +3,13 @@ const Schema = mongoose.Schema;
 
 
 const UserSchema = new Schema({
-  // oauthFields here,
+  discogsUserData: {
+    type: Object,
+  },
+  discogsAccessData: {
+    type: Object,
+    // required: false
+  },
   name: {
     type: String,
     required: true

@@ -108,7 +108,7 @@ var accessDataObj = {
 function userCollection(username){
     var col = new Discogs(accessDataObj).user().collection();
 col.getReleases(username, 0, {page:1, per_page:1}, function(err,data){
-    console.log(data)
+    // console.log(data)
 })
 
 }
