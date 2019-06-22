@@ -7,6 +7,7 @@ const { DISCOGS_CONFIG } = require('./oauth.providers')
 const passport = require('passport')
 const { Strategy: DiscogsStrategy } = require('passport-discogs')
 const Discogs = require('disconnect').Client;
+const colors = require('colors')
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
@@ -37,12 +38,15 @@ passport.use(
  // The callback that is invoked when an OAuth provider sends back user 
   // information. Save the user to the database in this callback
 
-  // const callback = (token, tokenSecret, params, profile, done) => done(null, profile)
+  function callback(params, token, tokenSecret, user, done){
+    console.log('token'.cyan, token)
+    console.log('tokenSecret'.cyan, tokenSecret)
+    console.log('user', user)
+    done(null, user)
+  }
   
-  const verify = (token, tokenSecret, profile, done) => User.create(token, tokenSecret, profile)
-
   // Adding Discogs OAuth provider datato passport
-  passport.use(new DiscogsStrategy(DISCOGS_CONFIG, verify))
+  passport.use(new DiscogsStrategy(DISCOGS_CONFIG, callback))
 
 
 };

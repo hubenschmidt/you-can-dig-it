@@ -15,3 +15,5 @@ exports.discogs = (req, res) => {
     io.in(req.session.socketId).emit('discogs', user)
     res.end()  
 }
+
+

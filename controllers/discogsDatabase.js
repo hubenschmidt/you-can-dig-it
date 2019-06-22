@@ -93,6 +93,28 @@ function randomRelease(req, res) {
     })
 }
 
+//hard coded accessData for dev use in identity()..store this in mongoDB
+var accessDataObj = {
+    method: 'oauth',
+    level: 0,
+    consumerKey: 'ucyQbMxfuVNEigpgyQrp',
+    consumerSecret: 'hJkdzVOPODpOErIWzhkKgUeBJDQlqAEt',
+    token: 'HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI',
+    tokenSecret: 'ZEnTKLhXQlLIYFeRVnPkdkiFAqpxfqybUzXYsBrI',
+    authorizeUrl: 'https://www.discogs.com/oauth/authorize?oauth_token=HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI'
+  }
+
+
+function userCollection(username){
+    var col = new Discogs(accessDataObj).user().collection();
+col.getReleases(username, 0, {page:1, per_page:1}, function(err,data){
+    console.log(data)
+})
+
+}
+console.log('logging userCollection', userCollection('YouCanDigIt'))
+
+
 //search query (must authenticate)
 function searchReleases(req, res, param) {
     db.search(req.query, param, function (err, release) {
