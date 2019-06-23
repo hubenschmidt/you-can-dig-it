@@ -1,0 +1,20 @@
+
+.brand-card {
+    height: 370px;
+    margin-top: 20%;
+    max-width: 960px;
+    background-color: #282828de !important;
+    text-align: center;
+
+    }
+
+.brand-content{
+margin-top: 40px;
+padding: 40px;
+
+}
+
+.brand-text{
+    color: #79dfd5;
+    text-shadow: 2px 2px #01554d;
+}
