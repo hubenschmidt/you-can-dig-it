@@ -5,6 +5,13 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 // const passport = require("passport");
 
+const { DISCOGS_CONFIG } = require('../../config/oauth.providers')
+const passport = require('passport')
+const { Strategy: DiscogsStrategy } = require('passport-discogs')
+const Discogs = require('disconnect').Client;
+const colors = require('colors')
+const axios = require('axios')
+
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -53,12 +60,6 @@ router.post("/register", (req, res) => {
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-router.get("/login", (req, res) => {
-  console.log('router.get', req.user)
-  res.json(req.body)
-  
-})
-
 router.post("/login", (req, res) => {
   // Form validation
 
@@ -97,13 +98,40 @@ router.post("/login", (req, res) => {
             expiresIn: 31556926 // 1 year in seconds
           },
           (err, token) => {
-            console.log('this is the user', payload)
-            //module exports the whole function and then save to a variable in roder to check database and then add user
+            // console.log('this is the user', payload)
             res.json({
               success: true,
               token: "Bearer " + token,
               user: payload
             });
+
+//discogs OAuth=========================================================================================
+function callback(params, token, tokenSecret, user, done){
+
+  let discogsUserData = user._json
+
+  let discogsAccessData = {
+    method: 'oauth',
+    level: 0,
+    consumerKey: process.env.DISCOGS_KEY,
+    consumerSecret: process.env.DISCOGS_SECRET,
+    token: token,
+    tokenSecret: tokenSecret,
+    authorizeUrl: `https://www.discogs.com/oauth/authorize?oauth_token=${token}`
+  }
+  
+  console.log("this is the local user".cyan,payload)
+  console.log("this is the discogs user here".magenta, discogsUserData)
+
+  //use userInfo here
+  // User.create(discogsUserData)
+
+  done(null, user)
+}
+
+  // Adding Discogs OAuth provider datato passport
+passport.use(new DiscogsStrategy(DISCOGS_CONFIG, callback))
+
           }
         );
       } else {

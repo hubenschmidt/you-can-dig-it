@@ -99,7 +99,7 @@ mongoose
 // Setup for passport and to accept JSON objects
 app.use(express.json())
 app.use(passport.initialize())
-// app.use(passport.session());
+app.use(passport.session());
 
 //passport init is a problem!!!!!!!!!
 // passportInit()
