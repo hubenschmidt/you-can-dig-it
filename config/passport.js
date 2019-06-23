@@ -14,23 +14,23 @@ const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = keys.secretOrKey;
 
-module.exports = () => {
-
+module.exports = passport => {
 //for local user authentication ========================
 
-passport.use(
-  new JwtStrategy(opts, (jwt_payload, done) => {
-    console.log(jwt_payload)
-    User.findById(jwt_payload.id)
-      .then(user => {
-        if (user) {
-          return done(null, user);
-        }
-        return done(null, false);
-      })
-      .catch(err => console.log(err));
-  })
-);
+  passport.use(
+    new JwtStrategy(opts, (jwt_payload, done) => {
+      console.log('jwt_payload',jwt_payload.id)
+      User.findById(jwt_payload.id)
+        .then(user => {
+          userInfo = user;
+          if (user) {
+            return done(null, user);
+          }
+          return done(null, false);
+        })
+        .catch(err => console.log(err));
+    })
+  );
 
 //for OAuth authentication ========================
    // Allowing passport to serialize and deserialize users into sessions
@@ -54,7 +54,9 @@ passport.use(
       authorizeUrl: `https://www.discogs.com/oauth/authorize?oauth_token=${token}`
     }
     
-    User.create(discogsUserData)
+    console.log(discogsAccessData)
+    //use userInfo here
+    // User.create(discogsUserData)
 
     done(null, user)
   }

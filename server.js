@@ -17,6 +17,8 @@ const uuid = require('uuid/v4')
 const FileStore = require('session-file-store')(session)
 const passportInit = require('./config/passport')
 const { CLIENT_ORIGIN } = require('./config/oauth.providers')
+//routes
+const routes = require('./routes')
 let server
 
 const app = express();
@@ -97,13 +99,15 @@ mongoose
 // Setup for passport and to accept JSON objects
 app.use(express.json())
 app.use(passport.initialize())
-passportInit()
+// app.use(passport.session());
+
+//passport init is a problem!!!!!!!!!
+// passportInit()
 
 // Passport config
 require("./config/passport")(passport);
 
-//routes
-const routes = require('./routes')
+
 //Express use API Routing
 app.use(routes);
 
