@@ -105,32 +105,37 @@ router.post("/login", (req, res) => {
               user: payload
             });
 
-//discogs OAuth=========================================================================================
-function callback(params, token, tokenSecret, user, done){
+          //discogs OAuth=========================================================================================
+            function callback(params, token, tokenSecret, user, done){
 
-  let discogsUserData = user._json
+              let discogsUserData = user._json
 
-  let discogsAccessData = {
-    method: 'oauth',
-    level: 0,
-    consumerKey: process.env.DISCOGS_KEY,
-    consumerSecret: process.env.DISCOGS_SECRET,
-    token: token,
-    tokenSecret: tokenSecret,
-    authorizeUrl: `https://www.discogs.com/oauth/authorize?oauth_token=${token}`
-  }
-  
-  console.log("this is the local user".cyan,payload)
-  console.log("this is the discogs user here".magenta, discogsUserData)
+              let discogsAccessData = {
+                method: 'oauth',
+                level: 0,
+                consumerKey: process.env.DISCOGS_KEY,
+                consumerSecret: process.env.DISCOGS_SECRET,
+                token: token,
+                tokenSecret: tokenSecret,
+                authorizeUrl: `https://www.discogs.com/oauth/authorize?oauth_token=${token}`
+              }
+              
+              // console.log("this is the local user".cyan,payload)
+              // console.log('this is the discogs user data'.green, discogsUserData)
+              // console.log("this is the discogs access data".magenta, discogsAccessData)
 
-  //use userInfo here
-  // User.create(discogsUserData)
+                if(discogsUserData){
+                  console.log('begin upsert------>')
+                  User
+                    .findByIdAndUpdate(payload.id, {discogsUserData: discogsUserData, discogsAccessData: discogsAccessData}, {upsert:true}) 
+                    .then(dbModel => console.log(dbModel, '<-----upserted data success'))
+                    .catch(err => console.log(500, err)
+                    )};
+                  done(null, user)
+              }
 
-  done(null, user)
-}
-
-  // Adding Discogs OAuth provider datato passport
-passport.use(new DiscogsStrategy(DISCOGS_CONFIG, callback))
+            // Adding Discogs OAuth provider datato passport
+            passport.use(new DiscogsStrategy(DISCOGS_CONFIG, callback))
 
           }
         );

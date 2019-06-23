@@ -107,6 +107,10 @@ app.use(passport.session());
 // Passport config
 require("./config/passport")(passport);
 
+//suppress mongoose DeprecationWarnings 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 //Express use API Routing
 app.use(routes);
