@@ -4,9 +4,10 @@ import FontAwesome from 'react-fontawesome'
 import { notify } from 'react-notify-toast'
 import { launchPopup } from '../../utils/utils'
 import { API_URL } from '../../utils/config'
+import { connect } from "react-redux";
+import { logoutUser } from "../../actions/authActions";
 
-
-export default class OAuth extends Component {
+class OAuth extends Component {
   
   state = {
     disabled: ''
@@ -44,21 +45,35 @@ export default class OAuth extends Component {
   }
 
   startAuth = () => {
+    
     if (!this.state.disabled) {
+      const userId = this.props.auth.user.id;
+
       this.popup = this.openPopup()  
+
+      console.log("popup info", this.popup);
       this.checkPopup()
       this.setState({disabled: 'disabled'})
+    
     }
   }
 
+  closeCard = () => {
+    this.setState({user: {}})
+  }
+  
   render = () => {
+    console.log(this.state)
     let name, photo
     const { authData } = this.props
-
+    console.log('this props from startAuth',this.props)
     if (authData) {
       name = this.props.authData.name
       photo = this.props.authData.photo
     }
+
+    console.log("suth Data", authData);
+    console.log("this props", this.props)
     
     const { provider } = this.props
     const { disabled } = this.state
@@ -70,7 +85,7 @@ export default class OAuth extends Component {
           ? <div className='card'> 
               <img src={photo} alt={name} />
               <FontAwesome
-                name='unlink'
+                name='times-circle'
                 className='close'
                 onClick={() => this.props.closeCard(provider)}
               />
@@ -96,3 +111,12 @@ OAuth.propTypes = {
   provider: PropTypes.string.isRequired,
   socket: PropTypes.object.isRequired
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(OAuth);

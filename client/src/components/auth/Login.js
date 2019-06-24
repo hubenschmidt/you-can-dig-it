@@ -20,6 +20,7 @@ class Login extends Component {
     document.body.style.backgroundImage = `url(https://www.reviewgeek.com/thumbcache/0/0/47da2cd69c05931dfe3daef2df660586/p/uploads/2018/09/a927a281.jpg)`;
 
     // If logged in and user navigates to Login page, should redirect them to dashboard
+    
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }

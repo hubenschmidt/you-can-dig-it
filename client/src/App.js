@@ -75,6 +75,7 @@ export default class App extends Component {
     sideDrawerOpen: false
   }
 
+
   drawerToggleClickHandler = () => {
     this.setState((prevState) => {
       return { sideDrawerOpen: !prevState.sideDrawerOpen };
@@ -99,6 +100,7 @@ export default class App extends Component {
       })
   }
 
+
   componentDidMount() {
     socket.on('connect', () => {
       api.wakeUp(socket.id)
@@ -111,54 +113,6 @@ export default class App extends Component {
           }
         })
     })
-  }
-
-  addAllAuthData = authToken => {
-    localStorage.setItem('authToken', authToken)
-    const authData = jwtDecode(authToken).user
-    this.setState({ authData })
-  }
-
-  addProviderData = (provider, providerData, email) => {
-    this.setState({
-      authData: {
-        ...this.state.authData,
-        [provider]: providerData,
-        email
-      }
-    })
-  }
-
-  closeCard = provider => {
-    api.unlink(provider)
-      .then(() => {
-        this.setState({
-          authData: {
-            ...this.state.authData,
-            [provider]: {}
-          }
-        })
-      })
-  }
-
-  removeAuthData = msg => {
-    removeToken()
-    this.setState({ authData: {} })
-    notify.show(msg)
-  }
-
-  logout = () => {
-    api.logout()
-      .then(() => {
-        this.removeAuthData('You have been logged out')
-      })
-  }
-
-  deleteAccount = () => {
-    api.deleteAccount()
-      .then(() => {
-        this.removeAuthData('Your account has been deleted')
-      })
   }
 
   render = () => {

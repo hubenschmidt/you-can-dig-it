@@ -11,29 +11,6 @@ export default {
       .then(res => res.ok)
   },
 
-  refresh: () => {
-    const authToken = localStorage.getItem('authToken')
-
-    return fetch(`${API_URL}/refresh`, {
-      headers: {
-        Authorization: `Bearer ${authToken}`
-      },
-      credentials: 'include'
-    })
-    .then(res => res.json())
-  },
-
-  unlink: provider => {
-    const authToken = localStorage.getItem('authToken')
-
-    return fetch(`${API_URL}/unlink/${provider}`, {
-      method: 'delete',
-      headers: {
-        Authorization: `Bearer ${authToken}`
-      },
-      credentials: 'include'
-    })
-  },
 
   logout: () => {
     const authToken = localStorage.getItem('authToken')
@@ -47,18 +24,6 @@ export default {
       .then(res => res.ok)
   },
 
-  deleteAccount: () => {
-    const authToken = localStorage.getItem('authToken')
-
-    return fetch(`${API_URL}/delete-account`, {
-      method: 'delete',
-      headers: {
-        Authorization: `Bearer ${authToken}`
-      },
-      credentials: 'include'
-    })
-      .then(res => res.ok)
-  },
   
   getLibrary: function() {
     return axios.get("/api/database/library");
