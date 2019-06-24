@@ -35,7 +35,7 @@ else {
     key: fs.readFileSync(path.resolve('./certs/key.pem')),
     cert: fs.readFileSync(path.resolve('./certs/certificate.pem'))
   }
-
+  
   server = https.createServer(certOptions, app)
 }
 
