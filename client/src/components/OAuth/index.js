@@ -57,6 +57,10 @@ class OAuth extends Component {
     
     }
   }
+
+  closeCard = () => {
+    this.setState({user: {}})
+  }
   
   render = () => {
     console.log(this.state)
@@ -81,7 +85,7 @@ class OAuth extends Component {
           ? <div className='card'> 
               <img src={photo} alt={name} />
               <FontAwesome
-                name='unlink'
+                name='times-circle'
                 className='close'
                 onClick={() => this.props.closeCard(provider)}
               />

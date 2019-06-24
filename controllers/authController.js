@@ -1,7 +1,13 @@
-const jwt = require('jsonwebtoken')
-const User = require('../models/User')
-const { providers } = require('../config/oauth.providers')
-const colors = require('colors')
+const apiUsers = require('../routes/api/users')
+
+let ok = apiUsers.currentUserId
+console.log('ok',ok)
+
+exports.logout = function(req, res){
+  req.session.destroy(function (err){
+    res.redirect('/')
+  })
+}
 
 
 exports.discogs = (req, res) => {
