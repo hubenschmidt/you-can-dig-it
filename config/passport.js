@@ -1,8 +1,9 @@
-// const JwtStrategy = require("passport-jwt").Strategy;
-// const ExtractJwt = require("passport-jwt").ExtractJwt;
-// const mongoose = require("mongoose");
-// const User = require('../models/User');
-// const keys = require("../config/keys");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+const mongoose = require("mongoose");
+const User = require('../models/User');
+const keys = require("../config/keys");
+const LocalStrategy = require('passport-local')
 // const { DISCOGS_CONFIG } = require('./oauth.providers')
 // const passport = require('passport')
 // const { Strategy: DiscogsStrategy } = require('passport-discogs')
@@ -10,13 +11,17 @@
 // const colors = require('colors')
 // const axios = require('axios')
 
-// const opts = {};
-// opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-// opts.secretOrKey = keys.secretOrKey;
-
+const opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = keys.secretOrKey;
+console.log(opts.jwtFromRequest)
 
 module.exports = passport => {
 //for local user authentication ========================
+
+// Allowing passport to serialize and deserialize users into sessions
+passport.serializeUser((user, cb) => cb(null, user))
+passport.deserializeUser((obj, cb) => cb(null, obj))
 
   // passport.use(
   //   new JwtStrategy(opts, (jwt_payload, done) => {
@@ -33,49 +38,16 @@ module.exports = passport => {
   //   })
   // );
 
-
-// //for OAuth authentication ========================
-//    // Allowing passport to serialize and deserialize users into sessions
-   passport.serializeUser((user, cb) => cb(null, user))
-   passport.deserializeUser((obj, cb) => cb(null, obj))
-
-//  // The callback that is invoked when an OAuth provider sends back user 
-//   // information. Save the user to the database in this callback
-
-//   function callback(params, token, tokenSecret, user, done){
-
-//     let discogsUserData = user._json
-
-//     let discogsAccessData = {
-//       method: 'oauth',
-//       level: 0,
-//       consumerKey: process.env.DISCOGS_KEY,
-//       consumerSecret: process.env.DISCOGS_SECRET,
-//       token: token,
-//       tokenSecret: tokenSecret,
-//       authorizeUrl: `https://www.discogs.com/oauth/authorize?oauth_token=${token}`
-//     }
-    
-//     console.log(discogsAccessData)
-//     //use userInfo here
-//     // User.create(discogsUserData)
-
-//     done(null, user)
-//   }
-
-// const currentUser = async () => {
-//   try {
-//     return await axios.get('/api/users/login')
-    
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
-
-
   
-//   // Adding Discogs OAuth provider datato passport
-//   passport.use(new DiscogsStrategy(DISCOGS_CONFIG, callback))
-
+  passport.use('local',new LocalStrategy(
+    function(email, password, done){
+      User.findOne({ email: email}, function(err, user) {
+        if (err) { return done(err); }
+        if (!user) {return done(null, false); }
+        // if (!user.verifyPassword(password)) {return done(null, false); }
+        return done(null, user);
+      });
+    }
+  ))
 
 };

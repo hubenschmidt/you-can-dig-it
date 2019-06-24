@@ -60,20 +60,6 @@ export default class App extends Component {
     loading: true,
     authData: {}
   }
-  
-  refreshToken = () => {
-    api.refresh()
-      .then(authToken => {
-        setToken(authToken)
-        const authData = jwtDecode(authToken).user
-        this.setState({ authData })
-      })
-      .catch(err => {
-        console.log(err)
-        // pop up to say something is wrong
-        removeToken()
-      })
-    }
 
   componentDidMount() {
     socket.on('connect', () => {
@@ -87,54 +73,6 @@ export default class App extends Component {
           }
         })
     })
-  }
-
-  addAllAuthData = authToken => {
-    localStorage.setItem('authToken', authToken)
-    const authData = jwtDecode(authToken).user
-    this.setState({ authData })
-  }
-
-  addProviderData = (provider, providerData, email) => {
-    this.setState({
-      authData: {
-        ...this.state.authData,
-        [provider]: providerData,
-        email
-      }
-    })
-  }
-
-  closeCard = provider => {
-    api.unlink(provider)
-      .then(() => {
-        this.setState({
-          authData: {
-            ...this.state.authData,
-            [provider]: {}
-          }
-        })
-      })
-  }
-
-  removeAuthData = msg => {
-    removeToken()
-    this.setState({ authData: {} })
-    notify.show(msg)
-  }
-
-  logout = () => {
-    api.logout()
-      .then(() => {
-        this.removeAuthData('You have been logged out')
-      })
-  }
-
-  deleteAccount = () => {
-    api.deleteAccount()
-      .then(() => {
-        this.removeAuthData('Your account has been deleted')
-      })
   }
 
   render = () => {
@@ -153,7 +91,7 @@ export default class App extends Component {
     return (
 
 
-      
+    
       <div className='wrapper'>
 
         <Provider store={store}>

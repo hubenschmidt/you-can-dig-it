@@ -35,7 +35,7 @@ else {
     key: fs.readFileSync(path.resolve('./certs/key.pem')),
     cert: fs.readFileSync(path.resolve('./certs/certificate.pem'))
   }
-
+  
   server = https.createServer(certOptions, app)
 }
 
@@ -45,7 +45,6 @@ app.use(
     extended: false
   })
 );
-// app.use(bodyParser.json());
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -100,9 +99,6 @@ mongoose
 app.use(express.json())
 app.use(passport.initialize())
 app.use(passport.session());
-
-//passport init is a problem!!!!!!!!!
-// passportInit()
 
 // Passport config
 require("./config/passport")(passport);
