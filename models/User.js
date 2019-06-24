@@ -1,9 +1,17 @@
 const mongoose = require("mongoose");
+const MongooseMap = require("mongoose-map")(mongoose);
 const Schema = mongoose.Schema;
 
 
 const UserSchema = new Schema({
-  // oauthFields here,
+  discogsUserData: {
+      type: Map,
+      default: null
+    },
+  discogsAccessData: {
+      type: Map,
+      default: null
+    },
   name: {
     type: String,
     required: true
@@ -21,5 +29,7 @@ const UserSchema = new Schema({
     default: Date.now
   }
 });
+
+
 
 module.exports = User = mongoose.model("users", UserSchema);

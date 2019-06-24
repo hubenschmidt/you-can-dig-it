@@ -5,6 +5,13 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 // const passport = require("passport");
 
+const { DISCOGS_CONFIG } = require('../../config/oauth.providers')
+const passport = require('passport')
+const { Strategy: DiscogsStrategy } = require('passport-discogs')
+const Discogs = require('disconnect').Client;
+const colors = require('colors')
+const axios = require('axios')
+
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -91,10 +98,45 @@ router.post("/login", (req, res) => {
             expiresIn: 31556926 // 1 year in seconds
           },
           (err, token) => {
+            // console.log('this is the user', payload)
             res.json({
               success: true,
-              token: "Bearer " + token
+              token: "Bearer " + token,
+              user: payload
             });
+
+          //discogs OAuth=========================================================================================
+            function callback(params, token, tokenSecret, user, done){
+
+              let discogsUserData = user._json
+
+              let discogsAccessData = {
+                method: 'oauth',
+                level: 0,
+                consumerKey: process.env.DISCOGS_KEY,
+                consumerSecret: process.env.DISCOGS_SECRET,
+                token: token,
+                tokenSecret: tokenSecret,
+                authorizeUrl: `https://www.discogs.com/oauth/authorize?oauth_token=${token}`
+              }
+              
+              // console.log("this is the local user".cyan,payload)
+              // console.log('this is the discogs user data'.green, discogsUserData)
+              // console.log("this is the discogs access data".magenta, discogsAccessData)
+
+                if(discogsUserData){
+                  console.log('begin upsert------>')
+                  User
+                    .findByIdAndUpdate(payload.id, {discogsUserData: discogsUserData, discogsAccessData: discogsAccessData}, {upsert:true}) 
+                    .then(dbModel => console.log(dbModel, '<-----upserted data success'))
+                    .catch(err => console.log(500, err)
+                    )};
+                  done(null, user)
+              }
+
+            // Adding Discogs OAuth provider datato passport
+            passport.use(new DiscogsStrategy(DISCOGS_CONFIG, callback))
+
           }
         );
       } else {

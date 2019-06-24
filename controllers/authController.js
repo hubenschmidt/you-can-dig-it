@@ -3,7 +3,6 @@ const User = require('../models/User')
 const { providers } = require('../config/oauth.providers')
 const colors = require('colors')
 
-console.log(require('../config/oauth.providers'))
 
 exports.discogs = (req, res) => {
 
@@ -15,3 +14,5 @@ exports.discogs = (req, res) => {
     io.in(req.session.socketId).emit('discogs', user)
     res.end()  
 }
+
+

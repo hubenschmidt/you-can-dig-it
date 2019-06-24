@@ -17,6 +17,8 @@ const uuid = require('uuid/v4')
 const FileStore = require('session-file-store')(session)
 const passportInit = require('./config/passport')
 const { CLIENT_ORIGIN } = require('./config/oauth.providers')
+//routes
+const routes = require('./routes')
 let server
 
 const app = express();
@@ -78,7 +80,7 @@ app.set('io', io)
 // Catch a start up request so that a sleepy Discogs instance can  
 // be responsive as soon as possible
 app.get('/wake-up', (req, res) => {
-  console.log('/wake-up', req.session)
+  // console.log('/wake-up', req.session)
   res.send('👍')
 })
 
@@ -97,13 +99,19 @@ mongoose
 // Setup for passport and to accept JSON objects
 app.use(express.json())
 app.use(passport.initialize())
-passportInit()
+app.use(passport.session());
+
+//passport init is a problem!!!!!!!!!
+// passportInit()
 
 // Passport config
 require("./config/passport")(passport);
 
-//routes
-const routes = require('./routes')
+//suppress mongoose DeprecationWarnings 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+
 //Express use API Routing
 app.use(routes);
 
