@@ -1,4 +1,5 @@
 const m = require('../models');
+const colors = require('colors')
 // const axios = require('axios');
 // const mongoose = require('mongoose')
 
@@ -22,7 +23,9 @@ module.exports = {
 function findAll(req, res) {
     m.Release
         .find(req.query)
-        .sort({ year: -1 })
+        .sort({
+            year: -1
+        })
         .then(dbModel => res.json(dbModel))
         .then(dbModel => console.log(dbModel))
         .catch(err => res.status(422).json(err))
@@ -32,7 +35,12 @@ function findAll(req, res) {
 function getLibrary(req, res) {
     m.Release
         .find(req.query)
-        .select({ year: 1, title: 1, genres: 1, images: 1 })
+        .select({
+            year: 1,
+            title: 1,
+            genres: 1,
+            images: 1
+        })
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err))
 }
@@ -51,7 +59,9 @@ function findById(req, res) {
 //create Release by Id
 function create(req, res) {
     // check mongoDB for existing doc
-    m.Release.countDocuments({ id_release: req.params.id_release }, function (err, count) {
+    m.Release.countDocuments({
+        id_release: req.params.id_release
+    }, function (err, count) {
         if (count > 0) {
             console.log('doc exists')
         } else if (!count) {
@@ -81,7 +91,9 @@ function randomRelease(req, res) {
             } else if (err.statusCode === 429) {
                 console.log(err.statusCode)
                 //if status code '429: too many requests', wait 60 seconds
-                setTimeout(function () { randomRelease(req, res) }, 60000)
+                setTimeout(function () {
+                    randomRelease(req, res)
+                }, 60000)
             }
         } else {
             let format = formatResponse(response)
@@ -96,43 +108,67 @@ function randomRelease(req, res) {
 //hard coded accessData for dev use in identity()..store this in mongoDB
 var accessDataObj = {
     method: 'oauth',
-    level: 0,
+    level: 2,
     consumerKey: 'ucyQbMxfuVNEigpgyQrp',
     consumerSecret: 'hJkdzVOPODpOErIWzhkKgUeBJDQlqAEt',
     token: 'HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI',
     tokenSecret: 'ZEnTKLhXQlLIYFeRVnPkdkiFAqpxfqybUzXYsBrI',
     authorizeUrl: 'https://www.discogs.com/oauth/authorize?oauth_token=HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI'
-  }
-
-
-function userCollection(username){
-    var col = new Discogs(accessDataObj).user().collection();
-col.getReleases(username, 0, {page:1, per_page:1}, function(err,data){
-    // console.log(data)
-})
-
 }
-console.log('logging userCollection', userCollection('YouCanDigIt'))
 
+
+// function getAllReleases(username) {
+//     var col = new Discogs(accessDataObj).user().collection();
+
+//     col.getReleases(username, 0, {
+//             page: 15,
+//             per_page: 100
+//         },
+//         function (err, data, rateLimit) {
+//             console.log(data, rateLimit)
+//         })
+
+// // }
+// console.log('logging userCollection', getAllReleases('hubenschmidt'))
+
+    /**
+     * Search the database
+     * @param {string} query - The search query
+     * @param {object} [params] - Search parameters as defined on http://www.discogs.com/developers/#page:database,header:database-search
+     * @param {function} [callback] - Callback function
+     * @return {DiscogsClient|Promise}
+     */
 
 //search query (must authenticate)
-function searchReleases(req, res, param) {
-    db.search(req.query, param, function (err, release) {
-        if (err) {
-            //AuthError: You must authenticate to access search
-            console.log(err + "search error")
-        } else {
-            let format = formatResponse(release)
-            m.Release.create(format)
-                .then(function (newRandom) {
-                    console.log('new random Release created in database!', newRandom)
-                    res.json(newRandom)
-                }).catch(function (err) {
-                    console.log(err)
-                })
-        };
+function searchReleases(req, res, token) {
+    var db = new Discogs(token || accessDataObj).database()
+    db.search(req || 'The Beatles the Rolling Stones', {page:1, per_page:1}, function(err, res, rateLimit){
+        if (err){
+            console.log(err)
+        }
+        // console.log(res.results[0].id)
+
     })
+
+    // db.search(query, function (err, release) {
+    //     if (err) {
+    //         //AuthError: You must authenticate to access search
+    //         console.log(err + "search error")
+    //     } else {
+    //         console.log(query)
+    //         // let format = formatResponse(release)
+    //         // m.Release.create(format)
+    //         //     .then(function (newRandom) {
+    //         //         console.log('new random Release created in database!', newRandom)
+    //         //         res.json(newRandom)
+    //         //     }).catch(function (err) {
+    //         //         console.log(err)
+    //         //     })
+    //     };
+    // })
 };
+
+searchReleases()
 
 
 //util

@@ -3,7 +3,7 @@ const apiUsers = require('../routes/api/users')
 let ok = apiUsers.currentUserId
 console.log('ok',ok)
 
-exports.logout = function(req, res){
+exports.unlink = function(req, res){
   req.session.destroy(function (err){
     res.redirect('/')
   })
