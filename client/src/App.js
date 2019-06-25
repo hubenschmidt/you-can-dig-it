@@ -15,19 +15,31 @@ import api from './utils/API'
 import { API_URL } from './utils/config'
 import { setToken, getToken, removeToken } from './utils/utils'
 
-import OAuth from './components/OAuth'
-import Header from './components/Header'
-import Loading from './components/Loading'
-import Navbar from "./components/layout/Navbar";
-import Landing from "./components/layout/Landing";
+
+import Nav from "./components/Nav"
+import SideDrawer from './components/SideDrawer/SideDrawer';
+// import Backdrop from './components/Backdrop/Backdrop';
+
+// Login & Register
+import Dashboard from "./pages/Dashboard";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
-import PrivateRoute from "./components/private-route/PrivateRoute";
-import Dashboard from "./components/dashboard/Dashboard";
+
+//1st page - Landing page
 import Home from "./pages/Home";
+
+
+import Header from './components/Header'
+import Loading from './components/Loading'
+
+import OAuth from './components/OAuth'
+
+
+import PrivateRoute from "./components/private-route/PrivateRoute";
+
 import Library from "./pages/Library";
 import NoMatch from "./pages/NoMatch";
-import Nav from "./components/Nav"
+
 
 import "./App.css";
 
@@ -54,20 +66,48 @@ if (localStorage.jwtToken) {
   }
 }
 
+
 export default class App extends Component {
-  
+
   state = {
     loading: true,
-    authData: {}
+    authData: {},
+    sideDrawerOpen: false
   }
+
+
+  drawerToggleClickHandler = () => {
+    this.setState((prevState) => {
+      return { sideDrawerOpen: !prevState.sideDrawerOpen };
+    });
+  };
+
+  // backdropClickHandler = () => {
+  //   this.setState({ sideDrawerOpen: false });
+  // };
+
+  refreshToken = () => {
+    api.refresh()
+      .then(authToken => {
+        setToken(authToken)
+        const authData = jwtDecode(authToken).user
+        this.setState({ authData })
+      })
+      .catch(err => {
+        console.log(err)
+        // pop up to say something is wrong
+        removeToken()
+      })
+  }
+
 
   componentDidMount() {
     socket.on('connect', () => {
       api.wakeUp(socket.id)
         .then(() => {
-          this.setState({ loading: false })  
+          this.setState({ loading: false })
           const authToken = getToken()
-          
+
           if (authToken) {
             this.refreshToken(authToken)
           }
@@ -76,9 +116,9 @@ export default class App extends Component {
   }
 
   render = () => {
-    const buttons = (providers, socket) => 
-      providers.map(provider => 
-        <OAuth 
+    const buttons = (providers, socket) =>
+      providers.map(provider =>
+        <OAuth
           provider={provider}
           key={provider}
           socket={socket}
@@ -87,19 +127,20 @@ export default class App extends Component {
           closeCard={this.closeCard}
         />
       )
-      
+
     return (
 
 
-    
       <div className='wrapper'>
 
         <Provider store={store}>
-                <Router>
-                  <div className="App">
-                    <Nav /> 
-                    <Navbar />
-                    <Header 
+          <Router>
+            <div>
+              <Nav drawerClickHandler={this.drawerToggleClickHandler}/>
+              <SideDrawer show={this.state.sideDrawerOpen} />
+
+
+              {/* <Header 
                     email={this.state.authData.email} 
                     logout={this.logout}
                     deleteAccount={this.deleteAccount}
@@ -110,24 +151,28 @@ export default class App extends Component {
                         ? <Loading />
                         : buttons(providers, socket)
                       }
-                    </div>
-                    <Route exact path="/" component={Landing} />
-                    <Route exact path="/register" component={Register} />
-                    <Route exact path="/login" component={Login} />
-                    <Switch>
-                      <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                        <PrivateRoute path="/library" component={Library} />
-                        <Route exact path="/" component={Home}/>
-                        <Route component={NoMatch}/>
-                    </Switch>
+                    </div> */}
+              {/* <Route exact path="/" component={Landing} /> */}
 
-               
-                  </div>
-                </Router>
-              </Provider>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
 
 
- 
+                <PrivateRoute path="/library" component={Library} />
+
+                <Route component={NoMatch} />
+              </Switch>
+
+
+            </div>
+          </Router>
+        </Provider>
+
+
+
       </div>
     )
   }

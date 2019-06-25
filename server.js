@@ -54,6 +54,7 @@ const corsOptions = {
 // Accept requests from our client
 app.use(cors(corsOptions));
 
+app.use(express.static('public'));
 // saveUninitialized: true allows us to attach the socket id to the session
 // before we have authenticated the user
 app.use(session({

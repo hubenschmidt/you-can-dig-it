@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import classnames from "classnames";
+import "./style.css"
 
 class Login extends Component {
   constructor() {
@@ -16,6 +17,8 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    document.body.style.backgroundImage = `url(https://www.reviewgeek.com/thumbcache/0/0/47da2cd69c05931dfe3daef2df660586/p/uploads/2018/09/a927a281.jpg)`;
+
     // If logged in and user navigates to Login page, should redirect them to dashboard
     
     if (this.props.auth.isAuthenticated) {
@@ -23,6 +26,9 @@ class Login extends Component {
     }
   }
 
+  componentWillUnmount() {
+    document.body.style.backgroundImage = null;
+}
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
@@ -54,74 +60,68 @@ class Login extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container">
-        <div style={{ marginTop: "4rem" }} className="row">
-          <div className="col s8 offset-s2">
-            <Link to="/" className="btn-flat waves-effect">
-              <i className="material-icons left">keyboard_backspace</i> Back to
-              home
-            </Link>
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-              <h4>
-                <b>Login</b> below
-              </h4>
-              <p className="grey-text text-darken-1">
-                Don't have an account? <Link to="/register">Register</Link>
-              </p>
+      <main>
+        <div className="d-flex justify-content-center h-100">
+          <div className="login-card mt-5">
+            <div className="card-header">
+              <h3>Sign In</h3>
+             </div>
+            <div className="error-container">
+              <span className="error-message">
+                {errors.password}
+                {errors.passwordincorrect}
+              </span>
+              <span className="error-message">
+                {errors.email}
+                {errors.emailnotfound}
+              </span>
             </div>
-            <form noValidate onSubmit={this.onSubmit}>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
-                  className={classnames("", {
-                    invalid: errors.email || errors.emailnotfound
-                  })}
-                />
-                <label htmlFor="email">Email</label>
-                <span className="red-text">
-                  {errors.email}
-                  {errors.emailnotfound}
-                </span>
+            <div className="card-body">
+              <form onSubmit={this.onSubmit}>
+                <div className="input-group form-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text"><i className="fas fa-user"></i></span>
+                  </div>
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.email}
+                    error={errors.email}
+                    id="email"
+                    type="email"
+                    className="form-control"
+                    placeholder="username"
+                  />
+                </div>
+                <div className="input-group form-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text"><i className="fas fa-key"></i></span>
+                  </div>
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.password}
+                    error={errors.password}
+                    id="password"
+                    type="password"
+                    minlength="8"
+                    className="form-control"
+                    placeholder="password"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <input type="submit" value="Login" className="btn login_btn float-right" />
+                </div>
+              </form>
+            </div>
+            <div className="card-footer">
+              <div className="d-flex justify-content-center links">
+                Don't have an account?<Link to="/register">Register</Link>
               </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password}
-                  error={errors.password}
-                  id="password"
-                  type="password"
-                  className={classnames("", {
-                    invalid: errors.password || errors.passwordincorrect
-                  })}
-                />
-                <label htmlFor="password">Password</label>
-                <span className="red-text">
-                  {errors.password}
-                  {errors.passwordincorrect}
-                </span>
-              </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-                <button
-                  style={{
-                    width: "150px",
-                    borderRadius: "3px",
-                    letterSpacing: "1.5px",
-                    marginTop: "1rem"
-                  }}
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                >
-                  Login
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
+
+      </main>
     );
   }
 }
