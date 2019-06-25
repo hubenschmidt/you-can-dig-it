@@ -16,5 +16,12 @@ router
     .route('/:_id')
     .get(discogsDatabase.findById)
 
+router
+    .route('/syncUserReleases/:_id')
+    .get(discogsDatabase.syncUserReleases)
+
+router
+    .route('/getUserReleases/:_id')
+    .get(discogsDatabase.serveUserReleases)
 
 module.exports = router;

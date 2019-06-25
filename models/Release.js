@@ -70,7 +70,14 @@ const releaseSchema = new Schema({
     hide: {
         type: Boolean,
         required: false,
+    },
+    userIds: [
+        {
+        type: mongoose.Schema.Types.ObjectId
+        
     }
+]
+
 });
 
 const Release = mongoose.model("releases", releaseSchema)

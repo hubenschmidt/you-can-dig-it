@@ -31,6 +31,10 @@ export default {
 
   findById: function(id){
     return axios.get(`/api/database/${id}`)
+  },
+
+  fetchUserReleases: function(id) {
+    return axios.get(`/api/database/getUserReleases/${id}`)
   }
 } 
 

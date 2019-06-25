@@ -13,7 +13,9 @@ module.exports = {
     create: create,
     randomRelease: randomRelease,
     searchReleases: searchReleases,
-    getLibrary: getLibrary
+    getLibrary: getLibrary,
+    syncUserReleases: syncUserReleases,
+    serveUserReleases: serveUserReleases
 }
 
 //Define methods for API calls to Discogs Database===================================================
@@ -102,18 +104,75 @@ var accessDataObj = {
     token: 'HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI',
     tokenSecret: 'ZEnTKLhXQlLIYFeRVnPkdkiFAqpxfqybUzXYsBrI',
     authorizeUrl: 'https://www.discogs.com/oauth/authorize?oauth_token=HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI'
-  }
-
-
-function userCollection(username){
-    var col = new Discogs(accessDataObj).user().collection();
-col.getReleases(username, 0, {page:1, per_page:1}, function(err,data){
-    // console.log(data)
-})
-
 }
-console.log('logging userCollection', userCollection('YouCanDigIt'))
+var getUserData = async (id) => {
+    return new Promise((resolve, reject) => {
+        m.User.findById(id, function (err, doc) {
+            if (err) reject(err);
+            resolve(doc ? doc.toJSON() : undefined);
+        });
+    });
+}
 
+var getUserCollection = async (userId) => {
+    var userData = await getUserData(userId);
+    var accessData = userData.discogsAccessData;
+    var col = new Discogs(accessData).user().collection();
+    return new Promise((resolve, reject) => {
+        try {
+
+
+            col.getReleases(userData.discogsUserData.username, 0, { page: 1, per_page: 256 }, function (err, data) {
+                if (err) reject(err);
+                resolve(data ? data.releases : null);
+            })
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+
+var dbFindOneByReleaseId = async(releaseId) => {
+    return new Promise((resolve, reject) => {
+        m.Release.findOne({id: releaseId}, (err, data) => {
+            if (err) reject(err);
+            resolve(data);
+        });
+    });
+    
+}
+
+async function serveUserReleases(req, res) {
+    var userId = req.params._id;
+    var retVal = await getUserCollection(userId);
+    res.json(retVal);
+}
+
+async function syncUserReleases(req, res)  {
+    var userId = req.params._id;
+    var releases = await getUserCollection(userId);
+    releases.releases.forEach(async (release) => {
+        var releaseId = release.id;
+        var existing = await dbFindOneByReleaseId(releaseId);
+        if (existing) {
+            existing = existing.toJSON();
+            if (existing.userIds) {
+                if (existing.userIds.indexOf(userId) >= 0)
+                {
+                    existing.userIds.push(userId);
+                }
+            }
+            else existing.userIds = [userId];
+            m.Release.findOneAndUpdate({_id: existing._id}, {})
+        } else {
+            const dbRel = formatResponse(release);
+            dbRel[0].userIds = [userId];  // TODO: need to reformat the response so it's appropriate to our db schema
+            m.Release.create(dbRel).then((data) => {
+                console.log(data);
+            });
+        }
+    });
+}
 
 //search query (must authenticate)
 function searchReleases(req, res, param) {
