@@ -105,31 +105,7 @@ function randomRelease(req, res) {
     })
 }
 
-//hard coded accessData for dev use in identity()..store this in mongoDB
-var accessDataObj = {
-    method: 'oauth',
-    level: 2,
-    consumerKey: 'ucyQbMxfuVNEigpgyQrp',
-    consumerSecret: 'hJkdzVOPODpOErIWzhkKgUeBJDQlqAEt',
-    token: 'HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI',
-    tokenSecret: 'ZEnTKLhXQlLIYFeRVnPkdkiFAqpxfqybUzXYsBrI',
-    authorizeUrl: 'https://www.discogs.com/oauth/authorize?oauth_token=HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI'
-}
 
-
-// function getAllReleases(username) {
-//     var col = new Discogs(accessDataObj).user().collection();
-
-//     col.getReleases(username, 0, {
-//             page: 15,
-//             per_page: 100
-//         },
-//         function (err, data, rateLimit) {
-//             console.log(data, rateLimit)
-//         })
-
-// // }
-// console.log('logging userCollection', getAllReleases('hubenschmidt'))
 
     /**
      * Search the database
@@ -138,6 +114,8 @@ var accessDataObj = {
      * @param {function} [callback] - Callback function
      * @return {DiscogsClient|Promise}
      */
+
+    // /database/search?q={query}&{?type,title,release_title,credit,artist,anv,label,genre,style,country,year,format,catno,barcode,track,submitter,contributor}
 
 //search query (must authenticate)
 function searchReleases(req, res, token) {
