@@ -55,8 +55,8 @@ const releaseSchema = new Schema({
         type: Array,
         required: false,
     },
-    images: {
-        type: Array,
+    image: {
+        type: String,
         required: false,
     },
     lowest_price: {
@@ -70,7 +70,14 @@ const releaseSchema = new Schema({
     hide: {
         type: Boolean,
         required: false,
+    },
+    userIds: [
+        {
+        type: mongoose.Schema.Types.ObjectId
+        
     }
+]
+
 });
 
 const Release = mongoose.model("releases", releaseSchema)

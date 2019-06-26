@@ -41,6 +41,7 @@ import NoMatch from "./pages/NoMatch";
 
 
 import "./App.css";
+import API from "./utils/API";
 
 const socket = io(API_URL)
 const providers = ['discogs']
@@ -114,6 +115,15 @@ export default class App extends Component {
     })
   }
 
+  syncUserReleases(){
+    var state = store.getState();
+    var userId = state.auth.user.id;
+    api.syncUserReleases(userId).then(data => {
+      console.log(data);
+    });
+     
+  }
+
   render = () => {
     const buttons = (providers, socket) =>
       providers.map(provider =>
@@ -133,13 +143,15 @@ export default class App extends Component {
       <div className='wrapper'>
 
         <Provider store={store}>
+          
           <Router>
             <div>
               <Nav drawerClickHandler={this.drawerToggleClickHandler}/>
               <SideDrawer show={this.state.sideDrawerOpen} />
+              <div>{JSON.stringify(store.getState())}</div>
+              <button onClick={ () => this.syncUserReleases()} >Sync Library with Discogs</button>
 
-
-              {/* <Header 
+              <Header 
                     email={this.state.authData.email} 
                     logout={this.logout}
                     deleteAccount={this.deleteAccount}
@@ -150,8 +162,9 @@ export default class App extends Component {
                         ? <Loading />
                         : buttons(providers, socket)
                       }
-                    </div> */}
-              {/* <Route exact path="/" component={Landing} /> */}
+                    </div> 
+              
+                {/* <Route exact path="/" component={Landing} /> */}
 
               <Switch>
                 <Route exact path="/" component={Home} />

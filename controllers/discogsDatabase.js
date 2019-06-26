@@ -14,7 +14,9 @@ module.exports = {
     create: create,
     randomRelease: randomRelease,
     searchReleases: searchReleases,
-    getLibrary: getLibrary
+    getLibrary: getLibrary,
+    syncUserReleases: syncUserReleases,
+    serveUserReleases: serveUserReleases
 }
 
 //Define methods for API calls to Discogs Database===================================================
@@ -34,6 +36,7 @@ function findAll(req, res) {
 //search for subset of documents in to load library
 function getLibrary(req, res) {
     m.Release
+
         .find(req.query)
         .select({
             year: 1,
@@ -41,6 +44,12 @@ function getLibrary(req, res) {
             genres: 1,
             images: 1
         })
+
+        .find(
+            {userIds: {$elemMatch: {$eq: req.params._id}}}
+            )
+        .select({ year: 1, title: 1, genres: 1, image: 1 })
+
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err))
 }
@@ -106,16 +115,121 @@ function randomRelease(req, res) {
 }
 
 
+var getUserData = async (id) => {
+    return new Promise((resolve, reject) => {
+        m.User.findById(id, function (err, doc) {
+            if (err) reject(err);
+            resolve(doc ? doc.toJSON() : undefined);
+        });
+    });
+}
 
-    /**
-     * Search the database
-     * @param {string} query - The search query
-     * @param {object} [params] - Search parameters as defined on http://www.discogs.com/developers/#page:database,header:database-search
-     * @param {function} [callback] - Callback function
-     * @return {DiscogsClient|Promise}
-     */
+var getUserCollection = async (userId) => {
+    var userData = await getUserData(userId);
+    var accessData = userData.discogsAccessData;
+    var col = new Discogs(accessData).user().collection();
+    return new Promise((resolve, reject) => {
+        try {
 
-    // /database/search?q={query}&{?type,title,release_title,credit,artist,anv,label,genre,style,country,year,format,catno,barcode,track,submitter,contributor}
+
+            col.getReleases(userData.discogsUserData.username, 0, { page: 1, per_page: 256 }, function (err, data) {
+                if (err) reject(err);
+                resolve(data ? data.releases : null);
+            })
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+
+var getTracklist = async (releaseId) => {
+    return new Promise((resolve, reject) => {
+        db.getRelease(releaseId, (err, data) => {
+            if (err) reject(err);
+            resolve(data ? data.tracklist : null);
+        })
+    });
+}
+
+var dbFindOneByReleaseId = async(releaseId) => {
+    return new Promise((resolve, reject) => {
+        m.Release.findOne({id_release: releaseId}, (err, data) => {
+            if (err) reject(err);
+            resolve(data);
+        });
+    });
+    
+}
+
+async function serveUserReleases(req, res) {
+    var userId = req.params._id;
+    var retVal = await getUserCollection(userId);
+    res.json(retVal);
+}
+
+
+async function asyncForEach(array, callback) {
+    if (!array) return;
+    for (let index = 0; index < array.length; index++) {
+      await callback(array[index], index, array);
+    }
+  }
+
+async function createReleasePromise(release)
+{
+    return new Promise(async (resolve, reject) => {
+        var tracklist = await getTracklist(release[0].id_release);
+        release[0].tracklist = tracklist;
+        m.Release.create(release).then((data) => {
+            resolve(data);
+        }).catch((err) => {
+            reject(err);
+        });
+    });
+}
+
+async function findOneAndUpdatePromise(conditions, update)
+{
+    return new Promise((resolve, reject) => {
+        m.Release.findOneAndUpdate(conditions, update).then((data) => {
+            resolve(data);
+        }).catch((err) => {
+            reject(err);
+        });
+    });
+}
+
+async function syncUserReleases(req, res)  {
+    var userId = req.params._id;
+    var releases = await getUserCollection(userId);
+    await asyncForEach(releases, async (release) => {
+        var releaseId = release.id;
+        var existing = await dbFindOneByReleaseId(releaseId);
+        if (existing) {
+            existing = existing.toJSON();
+            var update = false;
+            if (existing.userIds) {
+                existing.userIds = existing.userIds.map(uid => uid.toString());
+                if (existing.userIds.indexOf(userId) == -1)
+                {
+                    existing.userIds.push(userId);
+                    update = true;
+                }
+            }
+            else {
+                existing.userIds = [userId];
+                update = true;
+            }
+            if (update) await findOneAndUpdatePromise({_id: existing._id},{userIds: existing.userIds});
+        } else {
+            const dbRel = formatResponse(release);
+            dbRel[0].userIds = [userId]; 
+            await createReleasePromise(dbRel);
+        }
+    });
+    res.json(releases);
+}
+
 
 //search query (must authenticate)
 function searchReleases(req, res, token) {
@@ -150,26 +264,39 @@ searchReleases()
 
 
 //util
-function formatResponse(data) {
-    console.log(data.id)
-    releases = []
-    var releasesToAdd = {
-        id_release: parseInt(data.id),
-        artist: data.artists_sort,
-        title: data.title,
-        labels: data.labels,
-        year: data.year,
-        country: data.country,
-        genres: data.genres,
-        styles: data.styles,
-        tracklist: data.tracklist,
-        uri: data.uri,
-        videos: data.videos,
-        images: data.images,
-        lowest_price: data.lowest_price,
-        wantlist: false,
-        hide: false,
+// function formatResponse(data) {
+//     console.log(data.id)
+//     releases = []
+//     var releasesToAdd = {
+//         id_release: parseInt(data.id),
+//         artist: data.artists_sort,
+//         title: data.title,
+//         labels: data.labels,
+//         year: data.year,
+//         country: data.country,
+//         genres: data.genres,
+//         styles: data.styles,
+//         tracklist: data.tracklist,
+//         uri: data.uri,
+//         videos: data.videos,
+//         images: data.images,
+//         lowest_price: data.lowest_price,
+//         wantlist: false,
+//         hide: false,
+//     };
+//     releases.push(releasesToAdd)
+//     return releases
+// }
+
+function formatResponse(data){
+    var releaseToAdd ={
+        id_release: data.id,
+        title: data.basic_information.title,
+        uri: data.basic_information.master_url,
+        image: data.basic_information.cover_image,
+        year: data.basic_information.year,
+        artist: data.basic_information.artists.map(a => a.name).join(','),
+        tracklist: data.tracklist
     };
-    releases.push(releasesToAdd)
-    return releases
+    return [releaseToAdd];
 }
