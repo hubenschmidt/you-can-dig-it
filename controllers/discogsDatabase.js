@@ -1,4 +1,5 @@
 const m = require('../models');
+const colors = require('colors')
 // const axios = require('axios');
 // const mongoose = require('mongoose')
 
@@ -24,7 +25,9 @@ module.exports = {
 function findAll(req, res) {
     m.Release
         .find(req.query)
-        .sort({ year: -1 })
+        .sort({
+            year: -1
+        })
         .then(dbModel => res.json(dbModel))
         .then(dbModel => console.log(dbModel))
         .catch(err => res.status(422).json(err))
@@ -33,10 +36,20 @@ function findAll(req, res) {
 //search for subset of documents in to load library
 function getLibrary(req, res) {
     m.Release
+
+        .find(req.query)
+        .select({
+            year: 1,
+            title: 1,
+            genres: 1,
+            images: 1
+        })
+
         .find(
             {userIds: {$elemMatch: {$eq: req.params._id}}}
             )
         .select({ year: 1, title: 1, genres: 1, image: 1 })
+
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err))
 }
@@ -55,7 +68,9 @@ function findById(req, res) {
 //create Release by Id
 function create(req, res) {
     // check mongoDB for existing doc
-    m.Release.countDocuments({ id_release: req.params.id_release }, function (err, count) {
+    m.Release.countDocuments({
+        id_release: req.params.id_release
+    }, function (err, count) {
         if (count > 0) {
             console.log('doc exists')
         } else if (!count) {
@@ -85,7 +100,9 @@ function randomRelease(req, res) {
             } else if (err.statusCode === 429) {
                 console.log(err.statusCode)
                 //if status code '429: too many requests', wait 60 seconds
-                setTimeout(function () { randomRelease(req, res) }, 60000)
+                setTimeout(function () {
+                    randomRelease(req, res)
+                }, 60000)
             }
         } else {
             let format = formatResponse(response)
@@ -96,6 +113,7 @@ function randomRelease(req, res) {
         }
     })
 }
+
 
 var getUserData = async (id) => {
     return new Promise((resolve, reject) => {
@@ -148,6 +166,7 @@ async function serveUserReleases(req, res) {
     var retVal = await getUserCollection(userId);
     res.json(retVal);
 }
+
 
 async function asyncForEach(array, callback) {
     if (!array) return;
