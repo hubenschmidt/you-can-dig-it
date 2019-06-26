@@ -55,8 +55,8 @@ const releaseSchema = new Schema({
         type: Array,
         required: false,
     },
-    images: {
-        type: Array,
+    image: {
+        type: String,
         required: false,
     },
     lowest_price: {

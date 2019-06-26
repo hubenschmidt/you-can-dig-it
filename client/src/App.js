@@ -116,10 +116,10 @@ export default class App extends Component {
     })
   }
 
-  getLibrary(){
+  syncUserReleases(){
     var state = store.getState();
     var userId = state.auth.user.id;
-    API.fetchUserReleases(userId).then(data => {
+    api.syncUserReleases(userId).then(data => {
       console.log(data);
     });
      
@@ -150,7 +150,7 @@ export default class App extends Component {
               <Nav drawerClickHandler={this.drawerToggleClickHandler}/>
               <SideDrawer show={this.state.sideDrawerOpen} />
               <div>{JSON.stringify(store.getState())}</div>
-              <button onClick={this.getLibrary()} >Sync Library with Discogs</button>
+              <button onClick={ () => this.syncUserReleases()} >Sync Library with Discogs</button>
 
               <Header 
                     email={this.state.authData.email} 

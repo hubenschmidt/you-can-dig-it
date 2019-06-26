@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import store from "../store";
 
 //Needed for Carousel 
 import Coverflow from "react-coverflow";
@@ -33,7 +34,9 @@ class Library extends Component {
   }
 
   loadLibrary = () => {
-    API.getLibrary()
+    var state = store.getState();
+    var userId = state.auth.user.id;
+    API.getLibrary(userId)
       .then(res => this.setState({ records: res.data }))
       .catch(err => console.log(err))
   }

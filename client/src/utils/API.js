@@ -25,16 +25,16 @@ export default {
   },
 
   
-  getLibrary: function() {
-    return axios.get("/api/database/library");
+  getLibrary: function(id) {
+    return axios.get(`/api/database/library/${id}`);
   },
 
   findById: function(id){
     return axios.get(`/api/database/${id}`)
   },
 
-  fetchUserReleases: function(id) {
-    return axios.get(`/api/database/getUserReleases/${id}`)
+  syncUserReleases: function(id) {
+    return axios.get(`/api/database/syncUserReleases/${id}`)
   }
 } 
 
