@@ -8,13 +8,18 @@ router
 
     //Matches with "/api/database/library"
 router
-    .route('/library')
+    .route('/library/:_id')
     .get(discogsDatabase.getLibrary)
 
 //Matches with "/api/database/:_id"
 router
     .route('/:_id')
     .get(discogsDatabase.findById)
+
+router
+    .route('/syncUserReleases/:_id')
+    .get(discogsDatabase.syncUserReleases)
+
 
 
 module.exports = router;
