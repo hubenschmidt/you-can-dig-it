@@ -6,7 +6,7 @@ function Track(props) {
 
     return (
         <div>
-            <h3 className="pt-4">Tracks</h3>
+            <h3 className="tracks-heading pt-4">Tracks</h3>
 
 
             <table class="table tb-format table-hover">

@@ -83,9 +83,9 @@ export default class App extends Component {
     });
   };
 
-  // backdropClickHandler = () => {
-  //   this.setState({ sideDrawerOpen: false });
-  // };
+  backdropClickHandler = () => {
+    this.setState({ sideDrawerOpen: false });
+  };
 
   refreshToken = () => {
     api.refresh()
@@ -169,7 +169,7 @@ export default class App extends Component {
 
               <Switch>
                 <Route exact path="/" component={Home} />
-                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
 

@@ -29,9 +29,17 @@ class Library extends Component {
     }
   }
 
-  componentDidMount() {
-    this.loadLibrary();
-  }
+  componentWillMount() {
+    document.body.style = 'background-color: #363636';
+}
+componentDidMount() {
+  this.loadLibrary();
+}
+componentWillUnmount() {
+    document.body.style = null;
+}
+
+
 
   loadLibrary = () => {
     var state = store.getState();

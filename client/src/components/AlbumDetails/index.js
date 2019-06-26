@@ -12,9 +12,8 @@ function AlbumDetails(props) {
         <div className="album-sub-details">
         <div className="artist">By {props.activeRecord.artist}</div>
         <div className="year">Release Year: {props.activeRecord.year}</div>
-        <div className="country">Country: {props.activeRecord.country}</div>
-        <div className="genres">Genre(s):{props.activeRecord.genres}
-        </div>
+        {/* <div className="country">Country: {props.activeRecord.country}</div> */}
+        {/* <div className="genres">Genre(s):{props.activeRecord.genres}</div> */}
         </div>
       </div>
     </div>
