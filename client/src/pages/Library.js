@@ -10,7 +10,7 @@ import { Container, Row, Col } from "../components/Grid";
 import API from "../utils/API";
 import { Img } from "../components/Image";
 import AlbumDetails from "../components/AlbumDetails"
-import Search from "../components/Search"
+import Search from "../containers/Search"
 import Track from "../components/Track"
 
 import YouTube from 'react-youtube';

@@ -28,7 +28,6 @@ import Login from "./components/auth/Login";
 //1st page - Landing page
 import Home from "./pages/Home";
 
-
 import Header from './components/Header'
 import Loading from './components/Loading'
 
