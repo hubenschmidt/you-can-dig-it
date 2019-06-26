@@ -121,7 +121,7 @@ router.post('/login', function(req, res, next){
 
               let discogsAccessData = {
                 method: 'oauth',
-                level: 0,
+                level: 2,
                 consumerKey: process.env.DISCOGS_KEY,
                 consumerSecret: process.env.DISCOGS_SECRET,
                 token: token,
