@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const create = require('./create');
-const discogsuser = require('./discogsuser')
+const currentuser = require('./currentuser')
 const database = require('./database');
 const unlink = require('./unlink');
 const random = require('./random');
@@ -9,7 +9,7 @@ const users = require('./users')
 
 
 router.use('/create', create)
-router.use('/discogsuser', discogsuser)
+router.use('/currentuser', currentuser)
 router.use('/database', database)
 router.use('/unlink', unlink)
 router.use('/random', random)

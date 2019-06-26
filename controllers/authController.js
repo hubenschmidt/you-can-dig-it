@@ -1,14 +1,7 @@
-const apiUsers = require('../routes/api/users')
-
-let ok = apiUsers.currentUserId
-console.log('ok',ok)
-
-exports.unlink = function(req, res){
-  req.session.destroy(function (err){
+req.session.destroy(function (err){
     res.redirect('/')
   })
 }
-
 
 exports.discogs = (req, res) => {
 
@@ -20,5 +13,3 @@ exports.discogs = (req, res) => {
     io.in(req.session.socketId).emit('discogs', user)
     res.end()  
 }
-
-

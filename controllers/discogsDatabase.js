@@ -13,7 +13,7 @@ module.exports = {
     findById: findById,
     create: create,
     randomRelease: randomRelease,
-    searchReleases: searchReleases,
+    // searchReleases: searchReleases,
     getLibrary: getLibrary,
     syncUserReleases: syncUserReleases,
     serveUserReleases: serveUserReleases
@@ -229,38 +229,6 @@ async function syncUserReleases(req, res)  {
     });
     res.json(releases);
 }
-
-
-//search query (must authenticate)
-function searchReleases(req, res, token) {
-    var db = new Discogs(token || accessDataObj).database()
-    db.search(req || 'The Beatles the Rolling Stones', {page:1, per_page:1}, function(err, res, rateLimit){
-        if (err){
-            console.log(err)
-        }
-        // console.log(res.results[0].id)
-
-    })
-
-    // db.search(query, function (err, release) {
-    //     if (err) {
-    //         //AuthError: You must authenticate to access search
-    //         console.log(err + "search error")
-    //     } else {
-    //         console.log(query)
-    //         // let format = formatResponse(release)
-    //         // m.Release.create(format)
-    //         //     .then(function (newRandom) {
-    //         //         console.log('new random Release created in database!', newRandom)
-    //         //         res.json(newRandom)
-    //         //     }).catch(function (err) {
-    //         //         console.log(err)
-    //         //     })
-    //     };
-    // })
-};
-
-searchReleases()
 
 
 //util
