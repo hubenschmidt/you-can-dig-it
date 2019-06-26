@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const discogsUser = require('../../controllers/discogsUser');
+const currentUser = require('../../controllers/currentUser');
 
 //matches with 'api/discogsuser'
 
 router
     .route('/')
-    .get(discogsUser.currentDiscogsUser)
+    .get(currentUser.currentUser)
 
 module.exports = router;
 

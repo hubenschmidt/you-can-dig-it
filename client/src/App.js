@@ -119,6 +119,7 @@ export default class App extends Component {
   syncUserReleases(){
     var state = store.getState();
     var userId = state.auth.user.id;
+    console.log('userId', userId)
     api.syncUserReleases(userId).then(data => {
       console.log(data);
     });

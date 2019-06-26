@@ -12,7 +12,7 @@ module.exports = {
     findById: findById,
     create: create,
     randomRelease: randomRelease,
-    searchReleases: searchReleases,
+    // searchReleases: searchReleases,
     getLibrary: getLibrary,
     syncUserReleases: syncUserReleases,
     serveUserReleases: serveUserReleases
@@ -97,16 +97,6 @@ function randomRelease(req, res) {
     })
 }
 
-//hard coded accessData for dev use in identity()..store this in mongoDB
-// var accessDataObj = {
-//     method: 'oauth',
-//     level: 0,
-//     consumerKey: 'ucyQbMxfuVNEigpgyQrp',
-//     consumerSecret: 'hJkdzVOPODpOErIWzhkKgUeBJDQlqAEt',
-//     token: 'HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI',
-//     tokenSecret: 'ZEnTKLhXQlLIYFeRVnPkdkiFAqpxfqybUzXYsBrI',
-//     authorizeUrl: 'https://www.discogs.com/oauth/authorize?oauth_token=HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI'
-// }
 var getUserData = async (id) => {
     return new Promise((resolve, reject) => {
         m.User.findById(id, function (err, doc) {
@@ -220,25 +210,6 @@ async function syncUserReleases(req, res)  {
     });
     res.json(releases);
 }
-
-//search query (must authenticate)
-function searchReleases(req, res, param) {
-    db.search(req.query, param, function (err, release) {
-        if (err) {
-            //AuthError: You must authenticate to access search
-            console.log(err + "search error")
-        } else {
-            let format = formatResponse(release)
-            m.Release.create(format)
-                .then(function (newRandom) {
-                    console.log('new random Release created in database!', newRandom)
-                    res.json(newRandom)
-                }).catch(function (err) {
-                    console.log(err)
-                })
-        };
-    })
-};
 
 
 //util
