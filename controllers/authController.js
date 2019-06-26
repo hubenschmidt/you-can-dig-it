@@ -1,7 +1,10 @@
-req.session.destroy(function (err){
-    res.redirect('/')
-  })
-}
+exports.unlink =  (req, res) =>{
+
+  req.session.destroy(function (err){
+      res.redirect('/')
+    })
+  }
+
 
 exports.discogs = (req, res) => {
 
