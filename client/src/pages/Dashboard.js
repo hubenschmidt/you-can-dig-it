@@ -6,6 +6,8 @@ import Modal from "../components/Modal";
 import Search from "../containers/Search"
 
 
+
+
 // "../../actions/authActions";
 
 class Dashboard extends Component {
@@ -13,6 +15,7 @@ class Dashboard extends Component {
     e.preventDefault();
     this.props.logoutUser();
   };
+
 
   render() {
     const { user } = this.props.auth;

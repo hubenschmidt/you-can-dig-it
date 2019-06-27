@@ -82,9 +82,9 @@ export default class App extends Component {
     });
   };
 
-  // backdropClickHandler = () => {
-  //   this.setState({ sideDrawerOpen: false });
-  // };
+  backdropClickHandler = () => {
+    this.setState({ sideDrawerOpen: false });
+  };
 
   refreshToken = () => {
     api.refresh()
@@ -150,7 +150,9 @@ export default class App extends Component {
               <Nav drawerClickHandler={this.drawerToggleClickHandler}/>
               <SideDrawer show={this.state.sideDrawerOpen} />
               {/* <div>{JSON.stringify(store.getState())}</div> */}
-              
+
+              <button onClick={ () => this.syncUserReleases()} >Sync Library with Discogs</button>
+
 
               <Header 
                     email={this.state.authData.email} 
@@ -169,7 +171,7 @@ export default class App extends Component {
 
               <Switch>
                 <Route exact path="/" component={Home} />
-                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
 
