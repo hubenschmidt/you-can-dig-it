@@ -92,11 +92,7 @@ class Library extends Component {
               onReady={this._onReady}
             />
           </Col>
-
-
-
         </Row>
-        {/* </Container> */}
       </div>
     );
   }

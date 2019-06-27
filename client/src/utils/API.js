@@ -38,7 +38,7 @@ export default {
   },
 
   getSearchResults: function(params){
-    return axios.get('/api/search', { params: filterParams(params) });
+    return axios.get('/api/search', { params: params });
   },
 
   saveRelease: function(searchData) {
