@@ -22,8 +22,8 @@ function searchAll(req, res) {
                 //https://localhost:5000/api/search?q=nirvana&type=release
                 //https://localhost:5000/api/search?q=butthole%20surfers&type=release
                 console.log(req.query.q);
-                accessDb.search(req.query.q,{type: "release" , page:1, per_page:10}))
+                accessDb.search(req.query.q,{type: "release" , page:1, per_page:10})
                 // accessDb.search("Kruder",{type:"release", page:1, per_page:20}))
                     .then(results => res.json(results))
-                    .catch(err=>res.status(422).json(err))}
+                    .catch(err=>res.status(422).json(err))});
 };

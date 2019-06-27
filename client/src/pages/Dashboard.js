@@ -47,19 +47,24 @@ class Dashboard extends Component {
     this.props.logoutUser();
   };
 
-  handleOnClick= e =>{
+  handleOnClick= () =>{
     let term= this.state.search_term.trim();
     console.log(term);
-    API.getSearchResults({query: term})
+    API.getSearchResults({q: term})
       .then(res =>{
         console.log(res);
         let array= res.data.results;
         let temp= [];
         for(let i=0;i<array.length;++i){
+          let string= array[i].title.split('-');
           let object= {
             image: array[i].cover_image,
-            title: array[i].title,
-            _id: array[i].id,
+            title: string[1],
+            artist: string[0], 
+            year: array[i].year, 
+            country: array[i].country, 
+            genres: array[i].genre, 
+            _id: i,
           }
           temp.push(object);
         }
@@ -71,11 +76,13 @@ class Dashboard extends Component {
 
   getAlbumDetails = (id) => {
     this.setState({ activeRecord: this.state.results[id] });
+    console.log(this.state.activeRecord);
   }
 
   render() {
     return (
       <>
+      <Search />
       <div className="input-group mb-3 search">
                 <input onChange={this.handleOnChange} type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2"/>
                 <div className="input-group-append">
