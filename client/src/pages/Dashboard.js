@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions"
+import Modal from "../components/Modal";
+import Search from "../containers/Search"
+
 
 // "../../actions/authActions";
 
@@ -25,6 +28,11 @@ class Dashboard extends Component {
                 <span style={{ fontFamily: "monospace" }}>you-can-dig-it</span> app 👏
               </p>
             </h4>
+            <Modal />
+            <Search />
+            <button 
+              onClick={ () => this.syncUserReleases()} >Sync Library with Discogs
+            </button>
             <button
               style={{
                 width: "150px",

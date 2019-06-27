@@ -149,8 +149,8 @@ export default class App extends Component {
             <div>
               <Nav drawerClickHandler={this.drawerToggleClickHandler}/>
               <SideDrawer show={this.state.sideDrawerOpen} />
-              <div>{JSON.stringify(store.getState())}</div>
-              <button onClick={ () => this.syncUserReleases()} >Sync Library with Discogs</button>
+              {/* <div>{JSON.stringify(store.getState())}</div> */}
+              
 
               <Header 
                     email={this.state.authData.email} 
