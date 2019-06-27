@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const discogsDatabase = require('../../controllers/discogsDatabase');
+const searchController = require('../../controllers/searchController')
 
 //Matches with "/api/database"
 router
@@ -8,8 +9,14 @@ router
 
     //Matches with "/api/database/library"
 router
+    .route('/library')
+    .post(searchController.create)
+
+    //Matches with "/api/database/library/:_id"
+router
     .route('/library/:_id')
     .get(discogsDatabase.getLibrary)
+  
 
 //Matches with "/api/database/:_id"
 router

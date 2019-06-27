@@ -16,6 +16,7 @@ class Search extends Component {
         message: "discover new music.."
     }
 
+
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
@@ -35,7 +36,7 @@ class Search extends Component {
                 message: !res.data.length
                 ? "No results"
                 : ""
-            }),
+            })
             )
         .catch(err => console.log(err));
     }
@@ -46,8 +47,15 @@ class Search extends Component {
     };
 
     handleReleaseSave = id => {
-        const release = this.state.releases.find(article => release._id === id);
-        API.saveRelease(release).then(res => this.getReleases());
+        // console.log(id, 'handle release save id')
+        const checkState = this.state.releases;
+        // console.log('state is here',checkState)
+        const release = this.state.releases.find(release => release.id === id);
+        // console.log(release)
+        API.saveRelease(release).then(res => 
+            console.log('save release',res),
+            this.getSearchResults()
+            );
     };
 
     render() {
@@ -64,20 +72,20 @@ class Search extends Component {
             {this.state.releases.length ? (
                 <List>
                   {this.state.releases.map(release => (
-                    //   console.log('release info on Search component', release)
+                      console.log('release info on Search component', release),
                     <Release
                       key={release.id}
-                      _id={release.id}
+                      id_release={release.id}
                       title={release.title}
                       labels={release.label}
                       year={release.year}
                       country={release.country}
                       genres={release.genres}
                       styles={release.style}
+                      thumb={release.thumb}
                       url={release.resource_url}
                       user_data={release.user_data}
                       handleClick={this.handleReleaseSave}
-                      year={release.year}
                       buttonText="Save to Library"
                     />
                   ))}

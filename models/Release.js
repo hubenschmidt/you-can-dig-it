@@ -63,6 +63,10 @@ const releaseSchema = new Schema({
         type: String,
         required: false,
     },
+    thumb: {
+        type: String,
+        required: false
+    },
     lowest_price: {
         type: Number,
         required: false,
@@ -82,7 +86,8 @@ const releaseSchema = new Schema({
     },
     userIds: [
         {
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        required: false
         
     }
 ]

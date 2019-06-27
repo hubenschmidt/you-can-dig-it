@@ -4,7 +4,8 @@ let discogs_uid;
 
 
 module.exports = {
-    searchAll: searchAll
+    searchAll: searchAll,
+    create: create
 }
 
 function searchAll(req, res) {
@@ -27,3 +28,27 @@ function searchAll(req, res) {
                     .then(results => res.json(results))
                     .catch(err=>res.status(422).json(err))
 };
+
+function create(req, res){
+    // console.log(req.body, 'create on search controller')
+    const release = {
+        // id_release: parseInt(req.body.id_release),
+        id_release: req.body.id,
+        title: req.body.title,
+        labels: req.body.labels,
+        year: req.body.year,
+        country: req.body.country,
+        genres: req.body.genres,
+        styles: req.body.styles,
+        thumb: req.body.thumb,
+        url: req.body.url,
+        user_data: req.body.user_data
+    };
+    console.log(release, 'formatted object to persist to database')
+    m.Release
+        .create(release)
+        .then(dbRelease => console.log(dbRelease))
+        .then(dbRelease => res.json(dbRelease))
+        .catch(err => res.status(422).json(err))
+}
+
