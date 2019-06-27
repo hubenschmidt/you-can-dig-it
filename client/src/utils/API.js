@@ -1,6 +1,7 @@
 
 import axios from 'axios'
 import { API_URL } from './config'
+import filterParams from './filterParams';
 
 export default {
   
@@ -10,7 +11,6 @@ export default {
     })
       .then(res => res.ok)
   },
-
 
   logout: () => {
     const authToken = localStorage.getItem('authToken')
@@ -35,6 +35,14 @@ export default {
 
   syncUserReleases: function(id) {
     return axios.get(`/api/database/syncUserReleases/${id}`)
-  }
+  },
+
+  getSearchResults: function(params){
+    return axios.get('/api/search', { params: filterParams(params) });
+  },
+
+  saveRelease: function(searchData) {
+    return axios.post('/api/articles', searchData);
+  }  
 } 
 

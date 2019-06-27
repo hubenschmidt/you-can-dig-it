@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Suggestions = (props) => {
-  const options = props.results.map(res => (
+  const options = props.releases.map(res => (
     // console.log(res)
     <li 
       key={res.id}>

@@ -13,7 +13,6 @@ module.exports = {
     findById: findById,
     create: create,
     randomRelease: randomRelease,
-    // searchReleases: searchReleases,
     getLibrary: getLibrary,
     syncUserReleases: syncUserReleases,
     serveUserReleases: serveUserReleases
