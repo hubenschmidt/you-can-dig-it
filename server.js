@@ -115,6 +115,11 @@ app.use(routes);
 //Log HTTP requests
 app.use(logger('dev'));
 
+// Define any API routes before this runs
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
+
 const port = process.env.PORT || 5000;
 
 server.listen(port, () => console.log(`Server is running on Port: ${port} !`));
