@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-
-
+import logo from './dc3logosmall.jpg'
 
 import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
 import './style.css';
@@ -13,7 +11,8 @@ const Nav = props => (
       <div>
         <DrawerToggleButton click={props.drawerClickHandler} />
       </div>
-      <div className="toolbar_logo"><a href="/">THE LOGO</a></div>
+      {/* <div className="toolbar_logo"><a href="/">THE LOGO</a></div> */}
+      <div className="toolbar_logo"><img src={logo}/></div>
       <div className="spacer" />
       <div className="toolbar_navigation-items ">
         <ul className="">
