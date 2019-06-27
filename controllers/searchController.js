@@ -35,14 +35,17 @@ function create(req, res){
         // id_release: parseInt(req.body.id_release),
         id_release: req.body.id,
         title: req.body.title,
-        labels: req.body.labels,
+        labels: req.body.label,
         year: req.body.year,
         country: req.body.country,
-        genres: req.body.genres,
-        styles: req.body.styles,
+        genres: req.body.genre,
+        styles: req.body.style,
         thumb: req.body.thumb,
-        url: req.body.url,
-        user_data: req.body.user_data
+        cover_image: req.body.cover_image,
+        resource_url: req.body.resource_url,
+        master_url: req.body.master_url,
+        uri: req.body.uri,
+        user_data: req.body.user_data,
     };
     console.log(release, 'formatted object to persist to database')
     m.Release

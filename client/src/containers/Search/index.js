@@ -83,7 +83,10 @@ class Search extends Component {
                       genres={release.genres}
                       styles={release.style}
                       thumb={release.thumb}
-                      url={release.resource_url}
+                      cover_image={release.cover_image}
+                      resource_url={release.resource_url}
+                      master_url={release.master_url}
+                      uri={release.uri}
                       user_data={release.user_data}
                       handleClick={this.handleReleaseSave}
                       buttonText="Save to Library"

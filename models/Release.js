@@ -55,6 +55,18 @@ const releaseSchema = new Schema({
         type: String,
         required: false,
     },
+    Search_master_url: {
+        type: String,
+        required: false
+    },
+    Search_resource_url: {
+        type: String,
+        required: false,
+    },
+    Search_uri: {
+        type: String,
+        required: false,
+    },
     videos: {
         type: Array,
         required: false,
