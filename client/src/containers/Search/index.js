@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import './style.css'
+import './style.css';
 import API from '../../utils/API';
 import SearchForm from '../SearchForm';
 import Panel from '../Panel';
-import { List } from '../List'
+import { List } from '../List';
+import Release from '../Release';
 
 
 class Search extends Component {
@@ -28,15 +29,13 @@ class Search extends Component {
             // type: this.state.type
         })
         .then(res =>
-            console.log(res.data.pagination)
- 
-            // this.setState({
-            //     results: res.data,
-            //     message: !res.data.length
-            //     ? "No results"
-            //     : ""
-            // }),
-            
+            // console.log(res.data.results)
+            this.setState({
+                releases: res.data.results,
+                message: !res.data.length
+                ? "No results"
+                : ""
+            }),
             )
         .catch(err => console.log(err));
     }
@@ -65,17 +64,22 @@ class Search extends Component {
             {this.state.releases.length ? (
                 <List>
                   {this.state.releases.map(release => (
-                      console.log('release info on Search component', release)
-                      
-                    // <Release
-                    //   key={release._id}
-                    //   _id={release._id}
-                    // //   title={release.headline.main}
-                    //   url={article.web_url}
-                    //   date={article.pub_date}
-                    //   handleClick={this.handleReleaseSave}
-                    //   buttonText="Save Release"
-                    // />
+                    //   console.log('release info on Search component', release)
+                    <Release
+                      key={release.id}
+                      _id={release.id}
+                      title={release.title}
+                      labels={release.label}
+                      year={release.year}
+                      country={release.country}
+                      genres={release.genres}
+                      styles={release.style}
+                      url={release.resource_url}
+                      user_data={release.user_data}
+                      handleClick={this.handleReleaseSave}
+                      year={release.year}
+                      buttonText="Save to Library"
+                    />
                   ))}
                 </List>
               ) : (

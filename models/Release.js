@@ -17,11 +17,11 @@ const releaseSchema = new Schema({
     },
     artist: {
         type: String,
-        required: true,
+        required: false,
     },
     title: {
         type: String,
-        required: true,
+        required: false,
     },
     labels: {
         type: Array,
@@ -29,7 +29,7 @@ const releaseSchema = new Schema({
     },
     year: {
         type: Number,
-        required: true,
+        required: false,
     },
     country: {
         type: String,
@@ -37,19 +37,23 @@ const releaseSchema = new Schema({
     },
     genres: {
         type: Array,
-        required: true,
+        required: false,
     },
     styles: {
         type: Array,
-        required: true,
+        required: false,
     },
     tracklist: {
         type: Array,
-        required: true,
+        required: false,
+    },
+    url: {
+        type: String,
+        required: false,
     },
     uri: {
         type: String,
-        required: true,
+        required: false,
     },
     videos: {
         type: Array,
@@ -69,6 +73,11 @@ const releaseSchema = new Schema({
     },
     hide: {
         type: Boolean,
+        required: false,
+    },
+    user_data: {
+        type: Map,
+        default: null,
         required: false,
     },
     userIds: [
