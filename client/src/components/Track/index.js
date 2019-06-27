@@ -5,7 +5,7 @@ import "./style.css"
 function Track(props) {
 
     return (
-        <div>
+        <div className="p-3">
             <h3 className="tracks-heading pt-4">Tracks</h3>
 
 
@@ -22,7 +22,7 @@ function Track(props) {
                     <tr>
                         {track.title.length>0 ? (<td className="track">{track.title} </td>):(<td className="track">Not Available</td>)}
                         {track.duration.length>0 ? (<td className="">{track.duration} </td>):(<td className="track">Not Available</td>)}
-                        <td><i className="fa fa-youtube-play play-icon"></i></td>
+                        <td><i className="fa fa-youtube-play play-icon" onClick={()=> props.getYouTubeVideos(`${props.artist} ${track.title}`)}></i></td>
                     </tr>
                 ))}
 

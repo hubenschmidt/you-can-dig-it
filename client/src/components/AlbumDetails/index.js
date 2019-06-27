@@ -6,8 +6,8 @@ import "./style.css";
 function AlbumDetails(props) {
   
   return (
-    <div>
-      <div className="album-details pt-3">
+    <div className="p-3">
+      <div className="album-details">
         <h1 className="album-title">{props.activeRecord.title}</h1>
         <div className="album-sub-details">
         <div className="artist">By {props.activeRecord.artist}</div>
