@@ -4,6 +4,7 @@ import store from "../store";
 //Needed for Carousel 
 import Coverflow from "react-coverflow";
 // import StyleRoot from "radium"
+import "./style.css"
 
 //Page components
 import { Container, Row, Col } from "../components/Grid";
@@ -23,8 +24,8 @@ class Library extends Component {
     records: [],
     activeRecord: "",
     opts: {
-      height: '390',
-      width: '640',
+      width: 'auto',
+      height: '100%',
       playerVars: {
         autoplay: 0
       }
@@ -74,35 +75,38 @@ class Library extends Component {
         return data
       }]
     })
-      .then(res => this.setState({videos: res.data.items}))
+      .then(res => this.setState({ videos: res.data.items }))
       // .then(res => console.log(res))
       .catch(err => console.log(err))
 
   }
 
 
-
-
   render() {
     return (
       <div>
-        {/* <Search /> */}
-        <Coverflow
-          // width={100%}
-          height={300}
-          displayQuantityOfSide={2}
-          navigation={false}
-          clickable={true}
-          enableHeading={true}
-          currentFigureScale={0.8}
-          otherFigureScale={0.6}
+        <div className="coverflow-div">
+          <Coverflow
+            height={300}
+            displayQuantityOfSide={3}
+            navigation={false}
+            clickable={true}
+            enableHeading={true}
+            currentFigureScale={0.8}
+            otherFigureScale={0.6}
 
-        >
-          {Img({ albums: this.state.records, func: this.getAlbumDetails })}
-        </Coverflow>
-        {/* <Container> */}
+          >
+            {Img({ albums: this.state.records, func: this.getAlbumDetails })}
+          </Coverflow>
+
+        </div>
+
+        <Container>
         <Row>
-          <Col size="md-3 sm-12">
+          <Col size="lg-6 md-6 sm-12 xs-12">
+
+{/* Album Detail */}
+
             {this.state.activeRecord ?
               (<AlbumDetails
                 activeRecord={this.state.activeRecord}
@@ -111,8 +115,7 @@ class Library extends Component {
 
                 <h1 className="text-center p-3">Choose an album from your library to view details.</h1>)}
 
-          </Col>
-          <Col size="md-4 sm-12">
+{/* Track */}
             {this.state.activeRecord && this.state.activeRecord.tracklist && this.state.activeRecord.tracklist.length > 0 ?
               (
                 <Track
@@ -123,17 +126,18 @@ class Library extends Component {
                 <h1>...</h1>
               )}
           </Col>
-          <Col size="md-4 sm-12 youtube">
+
+          <Col size="lg-6 md-6 sm-12 xs-12 youtube d-flex justify-content-center">
             {this.state.videos.length > 0 ? (
               <YouTubeVid
                 videos={this.state.videos}
                 opts={this.state.opts}
               />
             ) : (
-              <div className="p-5">
-                <img src="http://golfleaderboard.co.uk/wp-content/uploads/2018/11/youtube-placeholder.jpg" />
+                <div className="d-flex justify-content-center p-3">
+                  <img src="http://golfleaderboard.co.uk/wp-content/uploads/2018/11/youtube-placeholder.jpg" height="150" width="300" />
 
-              </div>
+                </div>
               )}
 
 
@@ -142,7 +146,7 @@ class Library extends Component {
 
 
         </Row>
-        {/* </Container> */}
+        </Container>
       </div>
     );
   }

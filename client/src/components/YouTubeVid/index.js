@@ -8,6 +8,8 @@ function YouTubeVid(props) {
  
                 {props.videos.map(vid => (
                                   <YouTube
+                                  containerClassName={"d-flex justify-content-center p-3"}
+                                  className={""}
                                   videoId={vid.id.videoId}
                                   opts={props.opts}
                                 //   onReady={this._onReady}
