@@ -9,13 +9,16 @@ const Form = props => (
 
                     <input
                         class="search_input"
+                        type="text"
+                        value={props.q}
+                        name="q"
                         placeholder="Search for..."
-                        ref={input => this.search = input}
-                        onChange={this.handleInputChange}
+                        onChange={props.handleInputChange}
+                        required
                     />
                      <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
-                    <p>{this.state.query}</p>
-                    <Suggestions results={this.state.results} />
+                    {/* <p>{props.state.q}</p> */}
+                    {/* <Suggestions results={this.state.results} /> */}
 
                     </div>
                 </div>

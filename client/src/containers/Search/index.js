@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import axios from 'axios'
 
 import './style.css'
 import API from '../../utils/API';
@@ -14,28 +13,6 @@ class Search extends Component {
         releases: [],
         message: "discover new music.."
     }
-    //suggestive search
-    // handleInputChange = () => {
-    //     this.setState({
-    //         query: this.search.value
-    //     }, () => {
-    //         if (this.state.query && this.state.query.length > 1) {
-    //         if (this.state.query.length % 2 === 0) {
-    //             this.getInfo()
-    //         }
-    //         } 
-    //     })
-    // }
-
-    //suggestive search
-        // getInfo = () => {
-        //     db.search(`${this.state.query}`)
-        //         .then(({ results }) => {
-        //             this.setState({
-        //                 results: results
-        //             })
-        //         })
-        //     }
 
     handleInputChange = event => {
         const { name, value } = event.target;
@@ -71,7 +48,10 @@ class Search extends Component {
 
     render() {
         return (
-            <Form />
+            <Panel>
+                <Form />
+            </Panel>
+            
         )
       }
 }
