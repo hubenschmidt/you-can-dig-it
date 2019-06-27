@@ -20,7 +20,7 @@
     width: 0;
     caret-color:transparent;
     line-height: 40px;
-    transition: width 0.4s linear;
+    /* transition: width 0.4s linear; */
     }
     .search_input::-webkit-input-placeholder {
         color: #282828 !important;
@@ -30,7 +30,7 @@
     padding: 0 10px;
     width: 450px;
     caret-color:#282828;
-    transition: width 0.4s linear;
+    /* transition: width 0.4s linear; */
  
     }
 

@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import './style.css'
+import './style.css';
 import API from '../../utils/API';
-import Form from '../Form';
-import Panel from '../../components/Panel';
+import SearchForm from '../SearchForm';
+import Panel from '../Panel';
+import { List } from '../List';
+import Release from '../Release';
 
 
 class Search extends Component {
@@ -14,6 +16,7 @@ class Search extends Component {
         message: "discover new music.."
     }
 
+
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
@@ -23,37 +26,83 @@ class Search extends Component {
 
     getSearchResults = () => {
         API.getSearchResults({
-            query: this.state.query,
+            q: this.state.q,
             // type: this.state.type
         })
         .then(res =>
+            // console.log(res.data.results)
             this.setState({
-                results: res.data,
+                releases: res.data.results,
                 message: !res.data.length
                 ? "No results"
                 : ""
-            }))
+            })
+            )
         .catch(err => console.log(err));
     }
 
     handleFormSubmit = event => {
         event.preventDefault();
-        this.getReleases();
+        this.getSearchResults();
     };
 
     handleReleaseSave = id => {
-        const release = this.state.releases.find(article => release._id === id);
-        API.saveRelease(release).then(res => this.getReleases());
+        // console.log(id, 'handle release save id')
+        const checkState = this.state.releases;
+        // console.log('state is here',checkState)
+        const release = this.state.releases.find(release => release.id === id);
+        // console.log(release)
+        API.saveRelease(release).then(res => 
+            console.log('save release',res),
+            this.getSearchResults()
+            );
     };
 
     render() {
         return (
+            <div>
             <Panel>
-                <Form />
+                <SearchForm 
+                 handleInputChange={this.handleInputChange}
+                 handleFormSubmit={this.handleFormSubmit}
+                 q={this.state.q}
+                />
             </Panel>
-            
+            <Panel title="Results">
+            {this.state.releases.length ? (
+                <List>
+                  {this.state.releases.map(release => (
+                      console.log('release info on Search component', release),
+                    <Release
+                      key={release.id}
+                      id_release={release.id}
+                      title={release.title}
+                      labels={release.label}
+                      year={release.year}
+                      country={release.country}
+                      genres={release.genres}
+                      styles={release.style}
+                      thumb={release.thumb}
+                      cover_image={release.cover_image}
+                      resource_url={release.resource_url}
+                      master_url={release.master_url}
+                      uri={release.uri}
+                      user_data={release.user_data}
+                      handleClick={this.handleReleaseSave}
+                      buttonText="Save to Library"
+                    />
+                  ))}
+                </List>
+              ) : (
+                <h2 className="text-center">{this.state.message}</h2>
+              )}
+            </Panel>
+            </div>
         )
       }
+      
 }
+
+
 
 export default Search
