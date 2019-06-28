@@ -72,7 +72,8 @@ export default class App extends Component {
   state = {
     loading: true,
     authData: {},
-    sideDrawerOpen: false
+    sideDrawerOpen: false,
+    loggedin: false
   }
 
 
@@ -115,17 +116,20 @@ export default class App extends Component {
   //   })
   // }
 
-  syncUserReleases(){
+  syncUserReleases() {
     var state = store.getState();
     var userId = state.auth.user.id;
     console.log('userId', userId)
     api.syncUserReleases(userId).then(data => {
       console.log(data);
     });
-     
+
   }
 
   render = () => {
+
+    
+
     const buttons = (providers, socket) =>
       providers.map(provider =>
         <OAuth
@@ -144,30 +148,30 @@ export default class App extends Component {
       <div className='wrapper'>
 
         <Provider store={store}>
-          
+
           <Router>
             <div>
-              <Nav drawerClickHandler={this.drawerToggleClickHandler}/>
-              <SideDrawer show={this.state.sideDrawerOpen} />
-              {/* <div>{JSON.stringify(store.getState())}</div> */}
 
-              <button onClick={ () => this.syncUserReleases()} >Sync Library with Discogs</button>
+              <Nav drawerClickHandler={this.drawerToggleClickHandler} test={true}/>
+              <SideDrawer show={this.state.sideDrawerOpen} login={true} />
+              <div>{JSON.stringify(store.getState())}</div>
+              <button onClick={() => this.syncUserReleases()} >Sync Library with Discogs</button>
 
+              <Header
+                email={this.state.authData.email}
+                logout={this.logout}
+                deleteAccount={this.deleteAccount}
+                showLogout={Object.keys(this.state.authData).length}
+              />
+              <div className='container'>
+                {this.state.loading
+                  ? <Loading />
+                  : buttons(providers, socket)
+                }
+              </div>
 
-              <Header 
-                    email={this.state.authData.email} 
-                    logout={this.logout}
-                    deleteAccount={this.deleteAccount}
-                    showLogout={Object.keys(this.state.authData).length} 
-                  />
-                    <div className='container'>
-                      {/* {this.state.loading
-                        ? <Loading />
-                        : buttons(providers, socket)
-                      } */}
-                    </div> 
-              
-                {/* <Route exact path="/" component={Landing} /> */}
+              {/* <Route exact path="/" component={Landing} /> */}
+
 
               <Switch>
                 <Route exact path="/" component={Home} />
