@@ -31,10 +31,21 @@ class Dashboard extends Component {
       })
   }
 
+
+  syncUserReleases() {
+    var state = store.getState();
+    var userId = state.auth.user.id;
+    console.log('userId', userId)
+    api.syncUserReleases(userId).then(data => {
+      console.log(data);
+    });
+  }
+
   onLogoutClick = e => {
     e.preventDefault();
     this.props.logoutUser();
   };
+
 
   syncUserReleases() {
     var state = store.getState();
@@ -45,7 +56,6 @@ class Dashboard extends Component {
     });
 
   }
-
   render() {
     const buttons = (providers, socket) =>
     providers.map(provider =>

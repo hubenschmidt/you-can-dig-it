@@ -82,39 +82,16 @@ export default class App extends Component {
     this.setState({ sideDrawerOpen: false });
   };
 
-  syncUserReleases() {
-    var state = store.getState();
-    var userId = state.auth.user.id;
-    console.log('userId', userId)
-    api.syncUserReleases(userId).then(data => {
-      console.log(data);
-    });
-
-  }
 
   render = () => {
-    // const buttons = (providers, socket) =>
-    //   providers.map(provider =>
-    //     <OAuth
-    //       provider={provider}
-    //       key={provider}
-    //       socket={socket}
-    //       authData={this.state.authData[provider]}
-    //       addProviderData={this.addProviderData}
-    //       closeCard={this.closeCard}
-    //     />
-    //   )
 
     return (
       <div className='wrapper'>
-
         <Provider store={store}>
           <Router>
             <div>
               <Nav drawerClickHandler={this.drawerToggleClickHandler} test={true}/>
               <SideDrawer show={this.state.sideDrawerOpen} login={true} />
-              {/* <div>{JSON.stringify(store.getState())}</div> */}
-              {/* <button onClick={() => this.syncUserReleases()} >Sync Library with Discogs</button> */}
 
               <Header
                 email={this.state.authData.email}
@@ -122,35 +99,17 @@ export default class App extends Component {
                 deleteAccount={this.deleteAccount}
                 showLogout={Object.keys(this.state.authData).length}
               />
-              {/* <div className='container'>
-                {this.state.loading
-                  ? <Loading />
-                  : buttons(providers, socket)
-                }
-              </div> */}
-
-              {/* <Route exact path="/" component={Landing} /> */}
-
-
               <Switch>
                 <Route exact path="/" component={Home} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
-
-
                 <PrivateRoute path="/library" component={Library} />
-
                 <Route component={NoMatch} />
               </Switch>
-
-
             </div>
           </Router>
         </Provider>
-
-
-
       </div>
     )
   }
