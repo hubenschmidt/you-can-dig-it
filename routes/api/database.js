@@ -27,6 +27,4 @@ router
     .route('/syncUserReleases/:_id')
     .get(discogsDatabase.syncUserReleases)
 
-
-
 module.exports = router;
