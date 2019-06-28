@@ -21,6 +21,13 @@ import axios from "axios";
 var Discogs = require('disconnect').Client;
 var db = new Discogs().database();
 
+const button={
+    borderRadius: '50%',
+    backgroundColor: '#01897b',
+    borderColor: '#01897b',
+    color: '#ffff'
+}
+
 class Library extends Component {
 
   state= {
@@ -128,9 +135,9 @@ class Library extends Component {
     return (
       <>
       <div className="input-group mb-3 search">
-          <input onChange={this.handleOnChange} type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2"/>
+          <input onChange={this.handleOnChange} style={{width: "100px"}} type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2"/>
           <div className="input-group-append">
-              <button onClick={this.handleOnClick} className="btn" type="button" id="button-addon2">Search</button>
+              <button onClick={this.handleOnClick} className="btn" style={button} type="button" id="button-addon2"><i class="fa fa-search"></i></button>
           </div>
       </div>
       <div>
