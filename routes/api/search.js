@@ -5,6 +5,8 @@ const searchController = require('../../controllers/searchController');
 //https://www.discogs.com/developers/#page:database,header:database-search
 router
     .route('/')
-    .get(searchController.searchAll)   
+    .get(searchController.searchAll)
+    
+    
 
 module.exports = router;

@@ -25,27 +25,6 @@ class OAuth extends Component {
     })
   }
 
-  // syncUserReleases(){
-  //   var state = store.getState();
-  //   var userId = state.auth.user.id;
-  //   console.log('userId', userId)
-  //   api.syncUserReleases(userId).then(data => {
-  //     console.log(data);
-  //   });
-     
-  // }
-
-
-  //   socket.on(provider, ({ providerData, email }) => {  
-  //     this.popup.close()
-  //     this.props.addProviderData(provider, providerData, email)
-  //   })
-
-  //   socket.on(`${provider}-error`, msg => {
-  //     this.popup.close()
-  //     notify.show(msg)
-  //   })
-  // }
 
   checkPopup = () => {
     const check = setInterval(() => {
