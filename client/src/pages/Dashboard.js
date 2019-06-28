@@ -82,7 +82,6 @@ class Dashboard extends Component {
   render() {
     return (
       <>
-      <Search />
       <div className="input-group mb-3 search">
                 <input onChange={this.handleOnChange} type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2"/>
                 <div className="input-group-append">
