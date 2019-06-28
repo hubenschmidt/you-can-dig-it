@@ -16,6 +16,7 @@ import { setToken, getToken, removeToken } from './utils/utils'
 
 import Nav from "./components/Nav"
 import SideDrawer from './components/SideDrawer/SideDrawer';
+import Footer from './components/Footer';
 // import Backdrop from './components/Backdrop/Backdrop';
 
 // Login & Register
@@ -37,6 +38,7 @@ import Library from "./pages/Library";
 import NoMatch from "./pages/NoMatch";
 
 import "./App.css";
+import { Wrapper } from "./components/Grid";
 
 // const socket = io(API_URL)
 // const providers = ['discogs']
@@ -110,7 +112,7 @@ export default class App extends Component {
 
   render = () => {
 
-    
+
 
     const buttons = (providers, socket) =>
       providers.map(provider =>
@@ -134,40 +136,37 @@ export default class App extends Component {
           <Router>
             <div>
 
-              <Nav drawerClickHandler={this.drawerToggleClickHandler} test={true}/>
+              <Nav drawerClickHandler={this.drawerToggleClickHandler} test={true} />
               <SideDrawer show={this.state.sideDrawerOpen} login={true} />
-              <div>{JSON.stringify(store.getState())}</div>
+              {/* <div>{JSON.stringify(store.getState())}</div> */}
               <button onClick={() => this.syncUserReleases()} >Sync Library with Discogs</button>
-
-              <Header
-                email={this.state.authData.email}
-                logout={this.logout}
-                deleteAccount={this.deleteAccount}
-                showLogout={Object.keys(this.state.authData).length}
-              />
-              {/* <div className='container'>
+                <Header
+                  email={this.state.authData.email}
+                  logout={this.logout}
+                  deleteAccount={this.deleteAccount}
+                  showLogout={Object.keys(this.state.authData).length}
+                />
+                {/* <div className='container'>
                 {this.state.loading
                   ? <Loading />
                   : buttons(providers, socket)
                 }
               </div> */}
 
-              {/* <Route exact path="/" component={Landing} /> */}
+                {/* <Route exact path="/" component={Landing} /> */}
 
 
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <PrivateRoute exact path="/dashboard" component={Dashboard}/>
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login" component={Login} />
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                  <Route exact path="/register" component={Register} />
+                  <Route exact path="/login" component={Login} />
 
 
-                <PrivateRoute path="/library" component={Library} />
+                  <PrivateRoute path="/library" component={Library} />
 
-                <Route component={NoMatch} />
-              </Switch>
-
-
+                  <Route component={NoMatch} />
+                </Switch>
             </div>
           </Router>
         </Provider>

@@ -27,3 +27,7 @@ export function Col({ size , children }) {
     </div>
   );
 }
+
+export function Wrapper({children }) {
+  return <div className={"wrapper"}>{children}</div>;
+}
