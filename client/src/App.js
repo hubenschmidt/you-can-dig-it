@@ -87,19 +87,6 @@ export default class App extends Component {
     this.setState({ sideDrawerOpen: false });
   };
 
-  // refreshToken = () => {
-  //   api.refresh()
-  //     .then(authToken => {
-  //       setToken(authToken)
-  //       const authData = jwtDecode(authToken).user
-  //       this.setState({ authData })
-  //     })
-  //     .catch(err => {
-  //       console.log(err)
-  //       // pop up to say something is wrong
-  //       removeToken()
-  //     })
-  // }
 
 
   // componentDidMount() {
