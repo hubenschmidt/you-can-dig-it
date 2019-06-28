@@ -42,7 +42,6 @@ export default {
   },
 
   saveRelease: function(releaseData) {
-    console.log(releaseData, 'logging search release')
     return axios.post("/api/database/library", releaseData);
   }  
 } 

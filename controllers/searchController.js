@@ -47,7 +47,7 @@ function create(req, res){
         uri: req.body.uri,
         user_data: req.body.user_data,
     };
-    console.log(release, 'formatted object to persist to database')
+    // console.log(release, 'formatted object to persist to database')
     m.Release
         .create(release)
         .then(dbRelease => console.log(dbRelease))
@@ -55,3 +55,38 @@ function create(req, res){
         .catch(err => res.status(422).json(err))
 }
 
+
+
+// async function saveSearchToLibrary(req, res)  {
+    
+//     var userId = req.params._id;
+//     console.log(userId, 'userID is here on discogsDatabase.js')
+//     var userId = req.params._id;
+//     var releases = await getUserCollection(userId);
+//     await asyncForEach(releases, async (release) => {
+//         var releaseId = release.id;
+//         var existing = await dbFindOneByReleaseId(releaseId);
+//         if (existing) {
+//             existing = existing.toJSON();
+//             var update = false;
+//             if (existing.userIds) {
+//                 existing.userIds = existing.userIds.map(uid => uid.toString());
+//                 if (existing.userIds.indexOf(userId) == -1)
+//                 {
+//                     existing.userIds.push(userId);
+//                     update = true;
+//                 }
+//             }
+//             else {
+//                 existing.userIds = [userId];
+//                 update = true;
+//             }
+//             if (update) await findOneAndUpdatePromise({_id: existing._id},{userIds: existing.userIds});
+//         } else {
+//             const dbRel = formatResponse(release);
+//             dbRel[0].userIds = [userId]; 
+//             await createReleasePromise(dbRel);
+//         }
+//     });
+//     res.json(releases);
+// }

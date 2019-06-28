@@ -93,7 +93,7 @@ function create(req, res) {
 
 //get random Release from Discogs API
 function randomRelease(req, res) {
-    id_random = Math.floor((Math.random() * 9999999) + 1);
+    id_random = Math.floor((Math.random() * 9999) + 1);
     db.getRelease(id_random, function (err, response) {
         if (err) {
             if (err.statusCode === 404) {

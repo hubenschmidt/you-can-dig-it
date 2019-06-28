@@ -6,6 +6,7 @@ import SearchForm from '../SearchForm';
 import Panel from '../Panel';
 import { List } from '../List';
 import Release from '../Release';
+import store from '../../store'
 
 
 class Search extends Component {
@@ -47,8 +48,10 @@ class Search extends Component {
     };
 
     handleReleaseSave = id => {
+        var state = store.getState();
+        console.log(state, 'getstatehere')
         // console.log(id, 'handle release save id')
-        const checkState = this.state.releases;
+        // const checkState = this.state.releases;
         // console.log('state is here',checkState)
         const release = this.state.releases.find(release => release.id === id);
         // console.log(release)
@@ -72,7 +75,6 @@ class Search extends Component {
             {this.state.releases.length ? (
                 <List>
                   {this.state.releases.map(release => (
-                      console.log('release info on Search component', release),
                     <Release
                       key={release.id}
                       id_release={release.id}

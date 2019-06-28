@@ -12,11 +12,14 @@ import api from '../utils/API'
 import { setToken, getToken, removeToken } from '../utils/utils'
 import store from "../store";
 
-
 const socket = io(API_URL)
 const providers = ['discogs']
 
 class Dashboard extends Component {
+
+  componentWillMount() {
+    document.body.style.backgroundImage = `url(assets/img/background.png)`;
+}
 
   state = {
     loading: true
@@ -30,7 +33,6 @@ class Dashboard extends Component {
         }
       })
   }
-
 
   syncUserReleases() {
     var state = store.getState();
@@ -46,16 +48,6 @@ class Dashboard extends Component {
     this.props.logoutUser();
   };
 
-
-  syncUserReleases() {
-    var state = store.getState();
-    var userId = state.auth.user.id;
-    console.log('userId', userId)
-    api.syncUserReleases(userId).then(data => {
-      console.log(data);
-    });
-
-  }
   render() {
     const buttons = (providers, socket) =>
     providers.map(provider =>
@@ -67,16 +59,21 @@ class Dashboard extends Component {
     )
     const { user } = this.props.auth;
 
-
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
         <div className="row">
           <div className="landing-copy col s12 center-align">
             <h4>
+              
+              <span style={{ fontFamily: "monospace" }}> “In those days it was either live with music, or die with noise, 
+              and we chose rather desperately to live.” ― Ralph Ellison, Living with Music: Jazz Writings </span><hr></hr><hr></hr>
               <b>Hey there,</b> {user.name.split(" ")[0]}
               <p className="flow-text grey-text text-darken-1">
-                You are now logged into the final project!{" "}
-                <span style={{ fontFamily: "monospace" }}>you-can-dig-it</span> app 👏
+              
+             {" "}
+               
+
+
               </p>
             </h4>
             <Search />

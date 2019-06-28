@@ -4,7 +4,7 @@ import BrandDesc from "../components/BrandDesc"
 class Home extends Component {
 
     componentWillMount() {
-        document.body.style.backgroundImage = `url(assets/img/landingPageImg.jpg)`;
+        document.body.style.backgroundImage = `url(assets/img/background.png)`;
     }
 
     componentWillUnmount() {
