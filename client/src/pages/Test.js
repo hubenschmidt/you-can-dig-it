@@ -37,6 +37,14 @@ class Library extends Component {
     videos: []
   }
 
+  componentWillMount() {
+    document.body.style = 'background-color: #363636';
+  }
+  componentWillUnmount() {
+    document.body.style = "null";
+  }
+
+
   handleOnChange= e => {
     this.setState({
       search_term: e.target.value
