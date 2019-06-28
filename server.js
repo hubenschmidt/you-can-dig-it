@@ -81,7 +81,7 @@ app.use((req, res, next) => {
 
 // Connecting sockets to the server and adding them to the request 
 // so that we can access them later in the controller
-const io = socketio("https://young-mesa-54357.herokuapp.com" || server)
+const io = socketio(server)
 app.set('io', io)
 
 // Catch a start up request so that a sleepy Discogs instance can  
