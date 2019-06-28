@@ -145,12 +145,12 @@ export default class App extends Component {
                 deleteAccount={this.deleteAccount}
                 showLogout={Object.keys(this.state.authData).length}
               />
-              <div className='container'>
+              {/* <div className='container'>
                 {this.state.loading
                   ? <Loading />
                   : buttons(providers, socket)
                 }
-              </div>
+              </div> */}
 
               {/* <Route exact path="/" component={Landing} /> */}
 
