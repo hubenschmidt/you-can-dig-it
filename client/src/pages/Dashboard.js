@@ -10,6 +10,7 @@ import io from 'socket.io-client'
 import { API_URL } from '../utils/config'
 import api from '../utils/API'
 import { setToken, getToken, removeToken } from '../utils/utils'
+import store from "../store";
 
 
 const socket = io(API_URL)
@@ -35,19 +36,15 @@ class Dashboard extends Component {
     this.props.logoutUser();
   };
 
-  // componentDidMount() {
-  //   socket.on('connect', () => {
-  //     api.wakeUp(socket.id)
-  //       .then(() => {
-  //         this.setState({ loading: false })
-  //         const authToken = getToken()
+  syncUserReleases() {
+    var state = store.getState();
+    var userId = state.auth.user.id;
+    console.log('userId', userId)
+    api.syncUserReleases(userId).then(data => {
+      console.log(data);
+    });
 
-  //         if (authToken) {
-  //           this.refreshToken(authToken)
-  //         }
-  //       })
-  //   })
-  // }
+  }
 
   render() {
     const buttons = (providers, socket) =>
@@ -59,17 +56,7 @@ class Dashboard extends Component {
       />
     )
     const { user } = this.props.auth;
-    // const buttons = (providers, socket) =>
-    //   providers.map(provider =>
-    //     <OAuth
-    //       provider={provider}
-    //       key={provider}
-    //       socket={socket}
-    //       authData={this.state.authData[provider]}
-    //       addProviderData={this.addProviderData}
-    //       closeCard={this.closeCard}
-    //     />
-    //   )
+
 
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
@@ -89,9 +76,9 @@ class Dashboard extends Component {
                 : buttons(providers, socket)
               }
             </div>
-            {/* <button 
+            <button 
               onClick={ () => this.syncUserReleases()} >Sync Library with Discogs
-            </button> */}
+            </button>
             <button
               style={{
                 width: "150px",
