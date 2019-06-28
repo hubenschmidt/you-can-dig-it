@@ -41,10 +41,10 @@ import NoMatch from "./pages/NoMatch";
 
 
 import "./App.css";
-import API from "./utils/API";
+// import API from "./utils/API";
 
-const socket = io(API_URL)
-const providers = ['discogs']
+// const socket = io(API_URL)
+// const providers = ['discogs']
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -86,34 +86,34 @@ export default class App extends Component {
     this.setState({ sideDrawerOpen: false });
   };
 
-  refreshToken = () => {
-    api.refresh()
-      .then(authToken => {
-        setToken(authToken)
-        const authData = jwtDecode(authToken).user
-        this.setState({ authData })
-      })
-      .catch(err => {
-        console.log(err)
-        // pop up to say something is wrong
-        removeToken()
-      })
-  }
+  // refreshToken = () => {
+  //   api.refresh()
+  //     .then(authToken => {
+  //       setToken(authToken)
+  //       const authData = jwtDecode(authToken).user
+  //       this.setState({ authData })
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //       // pop up to say something is wrong
+  //       removeToken()
+  //     })
+  // }
 
 
-  componentDidMount() {
-    socket.on('connect', () => {
-      api.wakeUp(socket.id)
-        .then(() => {
-          this.setState({ loading: false })
-          const authToken = getToken()
+  // componentDidMount() {
+  //   socket.on('connect', () => {
+  //     api.wakeUp(socket.id)
+  //       .then(() => {
+  //         this.setState({ loading: false })
+  //         const authToken = getToken()
 
-          if (authToken) {
-            this.refreshToken(authToken)
-          }
-        })
-    })
-  }
+  //         if (authToken) {
+  //           this.refreshToken(authToken)
+  //         }
+  //       })
+  //   })
+  // }
 
   syncUserReleases(){
     var state = store.getState();
@@ -161,10 +161,10 @@ export default class App extends Component {
                     showLogout={Object.keys(this.state.authData).length} 
                   />
                     <div className='container'>
-                      {this.state.loading
+                      {/* {this.state.loading
                         ? <Loading />
                         : buttons(providers, socket)
-                      }
+                      } */}
                     </div> 
               
                 {/* <Route exact path="/" component={Landing} /> */}
