@@ -82,7 +82,9 @@ export default class App extends Component {
     this.setState({ sideDrawerOpen: false });
   };
 
+
   render = () => {
+
     return (
       <div className='wrapper'>
         <Provider store={store}>
@@ -90,8 +92,7 @@ export default class App extends Component {
             <div>
               <Nav drawerClickHandler={this.drawerToggleClickHandler} test={true}/>
               <SideDrawer show={this.state.sideDrawerOpen} login={true} />
-              {/* <div>{JSON.stringify(store.getState())}</div>
-              <button onClick={() => this.syncUserReleases()} >Sync Library with Discogs</button> */}
+
               <Header
                 email={this.state.authData.email}
                 logout={this.logout}

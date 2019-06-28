@@ -46,6 +46,16 @@ class Dashboard extends Component {
     this.props.logoutUser();
   };
 
+
+  syncUserReleases() {
+    var state = store.getState();
+    var userId = state.auth.user.id;
+    console.log('userId', userId)
+    api.syncUserReleases(userId).then(data => {
+      console.log(data);
+    });
+
+  }
   render() {
     const buttons = (providers, socket) =>
     providers.map(provider =>
@@ -56,6 +66,7 @@ class Dashboard extends Component {
       />
     )
     const { user } = this.props.auth;
+
 
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
