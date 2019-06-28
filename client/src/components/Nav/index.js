@@ -1,17 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
 import { loginUser } from "../../actions/authActions";
 import store from "../../../src/store.js"
-
-///Users/oldnewyorker/Desktop/you-can-dig-it/client/src/components/Nav/index.js
-///Users/oldnewyorker/Desktop/you-can-dig-it/client/src/store.js
-
-
-import logo from './dc3logosmall.jpg'
-
-
+import logo from './logo.jpg'
 import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
 import './style.css';
 
@@ -30,7 +22,7 @@ class Nav extends Component {
           <div>
             <DrawerToggleButton click={this.props.drawerClickHandler} />
           </div>
-          <div className="toolbar_logo"><a href="/">THE LOGO</a></div>
+          <div className="toolbar_logo"><img src={logo}/></div>
           <div className="spacer" />
           <div className="toolbar_navigation-items ">
             {

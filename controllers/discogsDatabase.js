@@ -202,6 +202,7 @@ async function findOneAndUpdatePromise(conditions, update)
 }
 
 async function syncUserReleases(req, res)  {
+    console.log(userId, 'userID is here on discogsDatabase.js')
     var userId = req.params._id;
     var releases = await getUserCollection(userId);
     await asyncForEach(releases, async (release) => {
