@@ -54,7 +54,14 @@ const corsOptions = {
 // Accept requests from our client
 app.use(cors(corsOptions));
 
-app.use(express.static('public'));
+// Serve up static assets (usually on heroku)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, './client/build')));
+}
+
+// app.use(express.static('public'));
+
+
 // saveUninitialized: true allows us to attach the socket id to the session
 // before we have authenticated the user
 app.use(session({
