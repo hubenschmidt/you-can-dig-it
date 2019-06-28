@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import BrandDesc from "../components/BrandDesc"
+import "./style.css";
 
 class Home extends Component {
 
-    componentWillMount() {
+
+    componentDidMount() {
         document.body.style.backgroundImage = `url(assets/img/landingPageImg.jpg)`;
     }
 
@@ -13,10 +15,19 @@ class Home extends Component {
 
     
     render() {
-
+        const style={
+            backgroundImage: `url(assets/img/landingPageImg.jpg)`,
+            backgroungSize: "cover",
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            width: "100%",
+            height: "100%"
+        }
         return (
+            <div >
             <BrandDesc />
- 
+            </div>
         );
     }
     

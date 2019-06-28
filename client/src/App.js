@@ -92,7 +92,7 @@ export default class App extends Component {
           <Router>
             <div>
               <Nav drawerClickHandler={this.drawerToggleClickHandler} test={true}/>
-              <SideDrawer show={this.state.sideDrawerOpen} login={true} />
+              <SideDrawer show={this.state.sideDrawerOpen} login={this.state.authData? true:false} />
 
               <Header
                 email={this.state.authData.email}

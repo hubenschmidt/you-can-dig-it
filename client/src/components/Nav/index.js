@@ -19,32 +19,38 @@ class Nav extends Component {
     return (
       <header className="toolbar navbar">
         <nav className="toolbar_navigation">
-          <div>
-            <DrawerToggleButton click={this.props.drawerClickHandler} />
-          </div>
-          <div className="toolbar_logo"><img src={logo}/></div>
-          <div className="spacer" />
-          <div className="toolbar_navigation-items ">
             {
               !state.auth.isAuthenticated ?
-
-                <ul className="">
-                  <li><Link
-                    to="/login"
-                    className="btn btn-large"
-                  >
-                    Log In
-                  </Link></li>
-                  <li><Link
-                    to="/register"
-                    className="btn btn-large"
-                  >
-                    Register
-                  </Link></li>
-                  
-                </ul>
-                : null}
-          </div>
+              <>
+                  <div className="toolbar_logo"><img src={logo}/></div>
+                  <div className="spacer" />
+                  <div className="toolbar_navigation-items ">
+                    <ul className="">
+                      <li><Link
+                        to="/login"
+                        className="btn btn-large"
+                      >
+                        Log In
+                      </Link></li>
+                      <li><Link
+                        to="/register"
+                        className="btn btn-large"
+                      >
+                        Register
+                      </Link></li>
+                      
+                    </ul>
+                  </div>
+                </>
+                : 
+                <>
+                <div>
+                    <DrawerToggleButton click={this.props.drawerClickHandler} />
+                </div>
+                <div className="toolbar_logo"><img src={logo}/></div>
+                <div className="spacer" />
+                <div className="toolbar_navigation-items ">
+                </div></>}
         </nav>
       </header>
     );

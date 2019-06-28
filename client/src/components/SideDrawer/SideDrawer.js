@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import store from "../../../src/store";
+import { connect } from "react-redux";
 
 
 import './SideDrawer.css';
@@ -9,9 +11,10 @@ const sideDrawer = props => {
     if (props.show) {
         drawerClasses =  'side-drawer open';
     } 
+    const state = store.getState();
    return (
 
-       <>{props.login? <nav className={drawerClasses}>
+       <>{state.auth.isAuthenticated? <nav className={drawerClasses}>
        <ul>
            <li><Link to="/">Home</Link></li>
            <li><Link to="/dashboard">Dashboard</Link></li>
@@ -35,4 +38,11 @@ const sideDrawer = props => {
    );
 };
 
-export default sideDrawer;
+const mapStateToProps = state => ({
+    auth: state.auth,
+    errors: state.errors
+  });
+  
+  export default connect(
+    mapStateToProps
+  )(sideDrawer);
