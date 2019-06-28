@@ -41,10 +41,10 @@ import NoMatch from "./pages/NoMatch";
 
 
 import "./App.css";
-import API from "./utils/API";
+// import API from "./utils/API";
 
-const socket = io(API_URL)
-const providers = ['discogs']
+// const socket = io(API_URL)
+// const providers = ['discogs']
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -83,38 +83,38 @@ export default class App extends Component {
     });
   };
 
-  // backdropClickHandler = () => {
-  //   this.setState({ sideDrawerOpen: false });
-  // };
+  backdropClickHandler = () => {
+    this.setState({ sideDrawerOpen: false });
+  };
 
-  refreshToken = () => {
-    api.refresh()
-      .then(authToken => {
-        setToken(authToken)
-        const authData = jwtDecode(authToken).user
-        this.setState({ authData })
-      })
-      .catch(err => {
-        console.log(err)
-        // pop up to say something is wrong
-        removeToken()
-      })
-  }
+  // refreshToken = () => {
+  //   api.refresh()
+  //     .then(authToken => {
+  //       setToken(authToken)
+  //       const authData = jwtDecode(authToken).user
+  //       this.setState({ authData })
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //       // pop up to say something is wrong
+  //       removeToken()
+  //     })
+  // }
 
 
-  componentDidMount() {
-    socket.on('connect', () => {
-      api.wakeUp(socket.id)
-        .then(() => {
-          this.setState({ loading: false })
-          const authToken = getToken()
+  // componentDidMount() {
+  //   socket.on('connect', () => {
+  //     api.wakeUp(socket.id)
+  //       .then(() => {
+  //         this.setState({ loading: false })
+  //         const authToken = getToken()
 
-          if (authToken) {
-            this.refreshToken(authToken)
-          }
-        })
-    })
-  }
+  //         if (authToken) {
+  //           this.refreshToken(authToken)
+  //         }
+  //       })
+  //   })
+  // }
 
   syncUserReleases() {
     var state = store.getState();
@@ -151,6 +151,7 @@ export default class App extends Component {
 
           <Router>
             <div>
+
               <Nav drawerClickHandler={this.drawerToggleClickHandler} test={true}/>
               <SideDrawer show={this.state.sideDrawerOpen} login={true} />
               <div>{JSON.stringify(store.getState())}</div>
@@ -171,9 +172,10 @@ export default class App extends Component {
 
               {/* <Route exact path="/" component={Landing} /> */}
 
+
               <Switch>
                 <Route exact path="/" component={Home} />
-                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
 

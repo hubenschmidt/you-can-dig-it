@@ -2,17 +2,74 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions"
+import Modal from "../components/Modal";
+import Loading from "../components/Loading"
+import Search from "../containers/Search"
+import OAuth from '../components/OAuth'
+import io from 'socket.io-client'
+import { API_URL } from '../utils/config'
+import api from '../utils/API'
+import { setToken, getToken, removeToken } from '../utils/utils'
 
-// "../../actions/authActions";
+
+const socket = io(API_URL)
+const providers = ['discogs']
 
 class Dashboard extends Component {
+
+  state = {
+    loading: true
+  }
+
+  componentDidMount(){
+    fetch(`${API_URL}/wake-up`)
+      .then(res => {
+        if (res.ok){
+          this.setState({ loading: false })
+        }
+      })
+  }
+
   onLogoutClick = e => {
     e.preventDefault();
     this.props.logoutUser();
   };
 
+  // componentDidMount() {
+  //   socket.on('connect', () => {
+  //     api.wakeUp(socket.id)
+  //       .then(() => {
+  //         this.setState({ loading: false })
+  //         const authToken = getToken()
+
+  //         if (authToken) {
+  //           this.refreshToken(authToken)
+  //         }
+  //       })
+  //   })
+  // }
+
   render() {
+    const buttons = (providers, socket) =>
+    providers.map(provider =>
+      <OAuth
+        provider={provider}
+        key={provider}
+        socket={socket}
+      />
+    )
     const { user } = this.props.auth;
+    // const buttons = (providers, socket) =>
+    //   providers.map(provider =>
+    //     <OAuth
+    //       provider={provider}
+    //       key={provider}
+    //       socket={socket}
+    //       authData={this.state.authData[provider]}
+    //       addProviderData={this.addProviderData}
+    //       closeCard={this.closeCard}
+    //     />
+    //   )
 
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
@@ -25,6 +82,16 @@ class Dashboard extends Component {
                 <span style={{ fontFamily: "monospace" }}>you-can-dig-it</span> app 👏
               </p>
             </h4>
+            <Search />
+            <div>
+              {this.state.loading
+                ? <Loading />
+                : buttons(providers, socket)
+              }
+            </div>
+            {/* <button 
+              onClick={ () => this.syncUserReleases()} >Sync Library with Discogs
+            </button> */}
             <button
               style={{
                 width: "150px",

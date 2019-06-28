@@ -54,7 +54,14 @@ const corsOptions = {
 // Accept requests from our client
 app.use(cors(corsOptions));
 
-app.use(express.static('public'));
+// Serve up static assets (usually on heroku)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, './client/build')));
+}
+
+// app.use(express.static('public'));
+
+
 // saveUninitialized: true allows us to attach the socket id to the session
 // before we have authenticated the user
 app.use(session({
@@ -87,14 +94,21 @@ app.get('/wake-up', (req, res) => {
 // DB Config
 const db = require("./config/keys").mongoURI;
 
-// Connect to MongoDB
-mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true }
-  )
+// Connect to the Mongo DB
+if (process.env.NODE_ENV === "production") {
+  mongoose.connect(process.env.PRODUCTION_DB_URL);
+} else {
+  mongoose.connect(process.env.PRODUCTION_DB_URL || db, { useNewUrlParser: true })
   .then(() => console.log("MongoDB successfully connected"))
-  .catch(err => console.log(err));
+  .catch(err => console.log(err))
+};
+
+
+// // Connect to MongoDB
+// mongoose.connect(db,{ useNewUrlParser: true }
+//   )
+//   .then(() => console.log("MongoDB successfully connected"))
+//   .catch(err => console.log(err));
 
 // Setup for passport and to accept JSON objects
 app.use(express.json())
@@ -114,6 +128,11 @@ app.use(routes);
 
 //Log HTTP requests
 app.use(logger('dev'));
+
+// Define any API routes before this runs
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
 
 const port = process.env.PORT || 5000;
 

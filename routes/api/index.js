@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const create = require('./create');
+// const create = require('./create');
 const currentuser = require('./currentuser')
 const database = require('./database');
 const unlink = require('./unlink');
@@ -8,7 +8,7 @@ const search = require('./search')
 const users = require('./users')
 
 
-router.use('/create', create)
+// router.use('/create', create)
 router.use('/currentuser', currentuser)
 router.use('/database', database)
 router.use('/unlink', unlink)

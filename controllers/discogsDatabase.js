@@ -11,9 +11,8 @@ const db = new Discogs().database();
 module.exports = {
     findAll: findAll,
     findById: findById,
-    create: create,
+    // create: create,
     randomRelease: randomRelease,
-    // searchReleases: searchReleases,
     getLibrary: getLibrary,
     syncUserReleases: syncUserReleases,
     serveUserReleases: serveUserReleases
@@ -67,14 +66,17 @@ function findById(req, res) {
 
 //create Release by Id
 function create(req, res) {
+    console.log(req.params.id_release)
     // check mongoDB for existing doc
     m.Release.countDocuments({
-        id_release: req.params.id_release
+        id_release: req.params.id_release,
+        
     }, function (err, count) {
         if (count > 0) {
             console.log('doc exists')
         } else if (!count) {
             console.log('doc does not exist')
+            
             // hit discogs Database API
             db.getRelease(req.params.id_release)
                 .then(function (release) {

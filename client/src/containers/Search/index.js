@@ -1,85 +1,108 @@
-import React, { Component } from 'react'
-// import axios from 'axios'
-import Suggestions from '../../components/Suggestions'
-import './style.css'
+import React, { Component } from 'react';
 
-const Discogs = require('disconnect').Client
+import './style.css';
+import API from '../../utils/API';
+import SearchForm from '../SearchForm';
+import Panel from '../Panel';
+import { List } from '../List';
+import Release from '../Release';
 
-//hard coded for dev use. get current user logged in from mongodb
-const accessDataObj = {
-    method: 'oauth',
-    level: 2,
-    consumerKey: 'ucyQbMxfuVNEigpgyQrp',
-    consumerSecret: 'hJkdzVOPODpOErIWzhkKgUeBJDQlqAEt',
-    token: 'HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI',
-    tokenSecret: 'ZEnTKLhXQlLIYFeRVnPkdkiFAqpxfqybUzXYsBrI',
-    authorizeUrl: 'https://www.discogs.com/oauth/authorize?oauth_token=HbfWYiIndiXviDFOCAQdaGZJfCCXTMMUobCjkKVI'
-}
-const db = new Discogs(accessDataObj).database()
 
 class Search extends Component {
     state = {
-        query: '',
-        results: []
+        q: '',
+        // type: '',
+        releases: [],
+        message: "discover new music.."
     }
 
-    // db.search(req || 'The Beatles the Rolling Stones', {page:1, per_page:1}, function(err, result, rateLimit){
-    //     if (err){
-    //         console.log(err)
-    //     }
-    //     console.log(result)
 
-    // })
-
-
-    getInfo = () => {
-        // console.log(`${this.state.query}`)
-        db.search(`${this.state.query}&page=1&per_page=1`)
-            .then(({ results }) => {
-                this.setState({
-                    results: results
-                })
-            })
-        }
-
-    handleInputChange = () => {
+    handleInputChange = event => {
+        const { name, value } = event.target;
         this.setState({
-            query: this.search.value
-        }, () => {
-            if (this.state.query && this.state.query.length > 1) {
-            if (this.state.query.length % 2 === 0) {
-                this.getInfo()
-            }
-            } 
+            [name]: value
+        });
+    };
+
+    getSearchResults = () => {
+        API.getSearchResults({
+            q: this.state.q,
+            // type: this.state.type
         })
+        .then(res =>
+            // console.log(res.data.results)
+            this.setState({
+                releases: res.data.results,
+                message: !res.data.length
+                ? "No results"
+                : ""
+            })
+            )
+        .catch(err => console.log(err));
     }
 
+    handleFormSubmit = event => {
+        event.preventDefault();
+        this.getSearchResults();
+    };
 
+    handleReleaseSave = id => {
+        // console.log(id, 'handle release save id')
+        const checkState = this.state.releases;
+        // console.log('state is here',checkState)
+        const release = this.state.releases.find(release => release.id === id);
+        // console.log(release)
+        API.saveRelease(release).then(res => 
+            console.log('save release',res),
+            this.getSearchResults()
+            );
+    };
 
     render() {
         return (
-            <form>
-            <div class="search-container h-100">
-                <div class="d-flex justify-content-center h-100">
-                    <div class="searchbar">
-                 
-                    <input
-                        class="search_input"
-                        placeholder="Search for..."
-                        ref={input => this.search = input}
-                        onChange={this.handleInputChange}
+            <div>
+            <Panel>
+                <SearchForm 
+                 handleInputChange={this.handleInputChange}
+                 handleFormSubmit={this.handleFormSubmit}
+                 q={this.state.q}
+                />
+            </Panel>
+            <Panel title="Results">
+            {this.state.releases.length ? (
+                <List>
+                  {this.state.releases.map(release => (
+                      console.log('release info on Search component', release),
+                    <Release
+                      key={release.id}
+                      id_release={release.id}
+                      title={release.title}
+                      labels={release.label}
+                      year={release.year}
+                      country={release.country}
+                      genres={release.genres}
+                      styles={release.style}
+                      thumb={release.thumb}
+                      cover_image={release.cover_image}
+                      resource_url={release.resource_url}
+                      master_url={release.master_url}
+                      uri={release.uri}
+                      user_data={release.user_data}
+                      handleClick={this.handleReleaseSave}
+                      buttonText="Save to Library"
                     />
-                     <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
-                    <p>{this.state.query}</p>
-                    <Suggestions results={this.state.results} />
-                 
-                    </div>
-                </div>
-              </div>
-              </form>
-              
+                  ))}
+                </List>
+              ) : (
+                <h2 className="text-center">{this.state.message}</h2>
+              )}
+            </Panel>
+            </div>
         )
       }
+      
 }
+
+
 
 export default Search

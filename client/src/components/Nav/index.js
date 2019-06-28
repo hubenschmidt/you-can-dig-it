@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+
 import { loginUser } from "../../actions/authActions";
 import store from "../../../src/store.js"
 
 ///Users/oldnewyorker/Desktop/you-can-dig-it/client/src/components/Nav/index.js
 ///Users/oldnewyorker/Desktop/you-can-dig-it/client/src/store.js
+
+
+import logo from './dc3logosmall.jpg'
 
 
 import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
@@ -58,52 +62,6 @@ class Nav extends Component {
   }
 }
 
-
-// function Nav() {
-//   return (
-//     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-//       <a className="navbar-brand" href="/">
-//         App Brand
-//       </a>
-//       <ul className="nav nav-tabs">
-//         <li className="nav-item">
-//           <Link to="/" className={window.location.pathname === "/" ? "nav-link active" : "nav-link"}>
-//             Home
-//         </Link>
-//         </li>
-//         <li className="nav-item">
-//           <Link
-//             to="/library"
-//             className={window.location.pathname === "/library" ? "nav-link active" : "nav-link"}
-//           >
-//             Library
-//         </Link>
-//         </li>
-//       </ul>
-//       <Link
-//         to="/register"
-//         style={{
-//           width: "140px",
-
-//         }}
-//         className="btn btn-large"
-//       >
-//         Register
-//               </Link>
-
-//       <Link
-//         to="/login"
-//         style={{
-//           width: "140px",
-//         }}
-//         className="btn btn-large"
-//       >
-//         Log In
-//               </Link>
-
-//     </nav>
-//   );
-// }
 
 const mapStateToProps = state => ({
   auth: state.auth,

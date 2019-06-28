@@ -10,6 +10,7 @@ const sideDrawer = props => {
         drawerClasses =  'side-drawer open';
     } 
    return (
+
        <>{props.login? <nav className={drawerClasses}>
        <ul>
            <li><Link to="/">Home</Link></li>
@@ -20,6 +21,16 @@ const sideDrawer = props => {
    </nav>:
    <></>}</>
         
+
+//         <nav className={drawerClasses}>
+//         <ul>
+//             <li><Link to="/">Home</Link></li>
+//             <li><Link to="/dashboard">Dashboard</Link></li>
+//             <li><Link to="/library">Library</Link></li>
+           
+//         </ul>
+//     </nav>
+// >>>>>>> master
    );
 };
 
