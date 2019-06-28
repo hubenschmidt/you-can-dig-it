@@ -18,11 +18,22 @@ import YouTubeVid from "../components/YouTubeVid"
 import YouTube from 'react-youtube';
 import axios from "axios";
 
+var Discogs = require('disconnect').Client;
+var db = new Discogs().database();
+
+const button={
+    borderRadius: '50%',
+    backgroundColor: '#01897b',
+    borderColor: '#01897b',
+    color: '#ffff'
+}
+
 class Library extends Component {
 
-  state = {
-    records: [],
-    activeRecord: "",
+  state= {
+    search_term: "",
+    results: [],
+    activeRecord: [],
     opts: {
       width: 'auto',
       height: '100%',
@@ -36,29 +47,67 @@ class Library extends Component {
   componentWillMount() {
     document.body.style = 'background-color: #363636';
   }
-  componentDidMount() {
-    this.loadLibrary();
-  }
   componentWillUnmount() {
     document.body.style = "null";
   }
 
 
+  handleOnChange= e => {
+    this.setState({
+      search_term: e.target.value
+    })
+    console.log(this.state.search_term);
+  };
 
+  onLogoutClick = e => {
+    e.preventDefault();
+    this.props.logoutUser();
+  };
 
-  loadLibrary = () => {
-    var state = store.getState();
-    var userId = state.auth.user.id;
-    API.getLibrary(userId)
-      .then(res => this.setState({ records: res.data }))
-      .catch(err => console.log(err))
-  }
+  handleOnClick= () =>{
+    let term= this.state.search_term.trim();
+    console.log(term);
+    API.getSearchResults({q: term})
+      .then(res =>{
+        console.log(res);
+        let array= res.data.results;
+        let temp= [];
+        for(let i=0;i<array.length;++i){
+          let string= array[i].title.split('-');
+          let object= {
+            full_title: array[i].title,
+            image: array[i].cover_image,
+            title: string[1],
+            artist: string[0], 
+            year: array[i].year, 
+            country: array[i].country, 
+            genres: array[i].genre,
+            _id: array[i].id,
+          }
+          temp.push(object);
+        }
+        this.setState({
+          results: temp,
+        })
+      })
+  };
 
   getAlbumDetails = (id) => {
-    API.findById(id)
-      .then(res => this.setState({ activeRecord: res.data }))
-      .catch(err => console.log(err))
-  }
+
+    for(let i=0;i<this.state.results.length;++i){
+      if(id===this.state.results[i]._id){
+       this.setState({ activeRecord: this.state.results[i] });
+        db.getRelease(this.state.results[i]._id)
+        .then(res =>{
+          let temp= this.state.activeRecord;
+          temp.tracklist= res.tracklist;
+          this.setState({ activeRecord: temp }); 
+          console.log(this.state.activeRecord);
+        });
+      }
+    }
+    
+  };
 
   getYouTubeVideos = (searchTerm) => {
     let url = `https://www.googleapis.com/youtube/v3/search`;
@@ -84,14 +133,15 @@ class Library extends Component {
 
   render() {
     return (
+      <>
+      <div className="input-group mb-3 search">
+          <input onChange={this.handleOnChange} style={{width: "100px"}} type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2"/>
+          <div className="input-group-append">
+              <button onClick={this.handleOnClick} className="btn" style={button} type="button" id="button-addon2"><i class="fa fa-search"></i></button>
+          </div>
+      </div>
       <div>
         <div className="coverflow-div">
-        <div className="input-group mb-3 search">
-          <input type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2"/>
-          <div className="input-group-append">
-              <button  className="btn" type="button" id="button-addon2">Search</button>
-          </div>
-        </div>
           <Coverflow
             height={300}
             displayQuantityOfSide={3}
@@ -102,7 +152,7 @@ class Library extends Component {
             otherFigureScale={0.6}
 
           >
-            {Img({ albums: this.state.records, func: this.getAlbumDetails })}
+            {Img({ albums: this.state.results, func: this.getAlbumDetails })}
           </Coverflow>
 
         </div>
@@ -154,6 +204,7 @@ class Library extends Component {
         </Row>
         </Container>
       </div>
+      </>
     );
   }
 }

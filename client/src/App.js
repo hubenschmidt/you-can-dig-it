@@ -22,6 +22,7 @@ import SideDrawer from './components/SideDrawer/SideDrawer';
 import Dashboard from "./pages/Dashboard";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import Search from "./pages/Search";
 
 //1st page - Landing page
 import Home from "./pages/Home";
@@ -104,6 +105,7 @@ export default class App extends Component {
                 <PrivateRoute exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
+                <Route exact path="/search" component={Search} />
                 <PrivateRoute path="/library" component={Library} />
                 <Route component={NoMatch} />
               </Switch>
