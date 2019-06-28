@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import io from 'socket.io-client'
-import jwtDecode from 'jwt-decode'
 import { notify } from 'react-notify-toast'
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -14,7 +13,6 @@ import store from "./store";
 import api from './utils/API'
 import { API_URL } from './utils/config'
 import { setToken, getToken, removeToken } from './utils/utils'
-
 
 import Nav from "./components/Nav"
 import SideDrawer from './components/SideDrawer/SideDrawer';
@@ -33,15 +31,12 @@ import Loading from './components/Loading'
 
 import OAuth from './components/OAuth'
 
-
 import PrivateRoute from "./components/private-route/PrivateRoute";
 
 import Library from "./pages/Library";
 import NoMatch from "./pages/NoMatch";
 
-
 import "./App.css";
-// import API from "./utils/API";
 
 // const socket = io(API_URL)
 // const providers = ['discogs']
