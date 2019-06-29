@@ -32,13 +32,9 @@ class Library extends Component {
     },
     videos: []
   }
-//   componentWillMount() {
-//     document.body.style.backgroundImage = `url(assets/img/background.png)`;
-// }
-
 
   componentWillMount() {
-    document.body.style = 'background-color: #454545';
+    document.body.style = 'background-color: #363636';
   }
   componentDidMount() {
     this.loadLibrary();
@@ -90,12 +86,6 @@ class Library extends Component {
     return (
       <div>
         <div className="coverflow-div">
-        <div className="input-group mb-3 search">
-          <input type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2"/>
-          <div className="input-group-append">
-              <button  className="btn" type="button" id="button-addon2">Search</button>
-          </div>
-        </div>
           <Coverflow
             height={300}
             displayQuantityOfSide={3}

@@ -41,8 +41,8 @@ export default {
     return axios.get('/api/search', { params: filterParams(params) });
   },
 
-  saveRelease: function(releaseData) {
-    return axios.post("/api/database/library", releaseData);
+  saveRelease: function(releaseData, id) {
+    return axios.post(`/api/database/library/${id}`, releaseData);
   }  
 } 
 
