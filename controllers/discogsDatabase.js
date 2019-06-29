@@ -12,6 +12,7 @@ module.exports = {
     findAll: findAll,
     findById: findById,
     // create: create,
+    randomList: randomList,
     randomRelease: randomRelease,
     getLibrary: getLibrary,
     syncUserReleases: syncUserReleases,
@@ -116,6 +117,16 @@ function randomRelease(req, res) {
     })
 }
 
+//get random Release from Discogs API
+function randomList(req, res) {
+            m.Release.aggregate([
+                // { $match: { a: 10 } },
+                { $sample: { size: 10 } }
+            ])
+            .then(dbModel => res.json(dbModel))
+            .then(dbModel => console.log(dbModel))
+            .catch(err => res.status(422).json(err));
+    }
 
 var getUserData = async (id) => {
     return new Promise((resolve, reject) => {

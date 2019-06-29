@@ -34,8 +34,14 @@ class Library extends Component {
   }
 //   componentWillMount() {
 //     document.body.style.backgroundImage = `url(assets/img/background.png)`;
+// // }
+// componentWillMount() {
+//   document.body.style.backgroundImage = `url(assets/img/background.png)`;
 // }
 
+componentWillUnmount(){
+  document.body.style= "null";
+}
 
   componentWillMount() {
     document.body.style = 'background-color: #454545';

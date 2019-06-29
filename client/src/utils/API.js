@@ -43,6 +43,10 @@ export default {
 
   saveRelease: function(releaseData) {
     return axios.post("/api/database/library", releaseData);
-  }  
-} 
+  },
+
+  getRandomResults: function(){
+    return axios.get('/api/randomlist')
+  }
+}
 

@@ -36,6 +36,7 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 
 import Library from "./pages/Library";
 import NoMatch from "./pages/NoMatch";
+import background from "./pages/background.png"
 
 import "./App.css";
 
@@ -69,7 +70,7 @@ export default class App extends Component {
     loading: true,
     authData: {},
     sideDrawerOpen: false,
-    loggedin: false
+    loggedin: false,
   }
 
 
@@ -100,13 +101,13 @@ export default class App extends Component {
                 deleteAccount={this.deleteAccount}
                 showLogout={Object.keys(this.state.authData).length}
               />
-              <Switch>
+              <Switch >
                 <Route exact path="/" component={Home} />
-                <PrivateRoute exact path="/dashboard" component={Dashboard}/>
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/search" component={Search} />
+                <Route path="/register" component={Register} />
+                <Route path="/login" component={Login} />
+                <PrivateRoute path="/dashboard" component={Dashboard}/>
                 <PrivateRoute path="/library" component={Library} />
+                <PrivateRoute path="/search" component={Search} />
                 <Route component={NoMatch} />
               </Switch>
             </div>

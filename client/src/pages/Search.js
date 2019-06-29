@@ -44,12 +44,21 @@ class Library extends Component {
     videos: []
   }
 
+  // componentWillMount() {
+  //   document.body.style = 'background-color: #363636';
+  // }
+  // componentWillUnmount() {
+  //   document.body.style = "null";
+  // }
+
   componentWillMount() {
-    document.body.style = 'background-color: #363636';
-  }
-  componentWillUnmount() {
-    document.body.style = "null";
-  }
+    document.body.style.backgroundImage = `url(http://99centdreamsrecords.com/assets/img/dc3background.png)`;
+}
+
+componentWillUnmount() {
+    document.body.style.backgroundImage = null;
+}
+
 
 
   handleOnChange= e => {
