@@ -67,7 +67,7 @@ export default class App extends Component {
     loading: true,
     authData: {},
     sideDrawerOpen: false,
-    loggedin: false
+    loggedin: false,
   }
 
 
@@ -98,13 +98,20 @@ export default class App extends Component {
                 deleteAccount={this.deleteAccount}
                 showLogout={Object.keys(this.state.authData).length}
               />
-              <Switch>
+              <Switch >
                 <Route exact path="/" component={Home} />
+<<<<<<< HEAD
+                <Route path="/register" component={Register} />
+                <Route path="/login" component={Login} />
+                <PrivateRoute path="/dashboard" component={Dashboard}/>
+=======
                 <PrivateRoute exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/search" component={SearchMusic} />
+>>>>>>> master
                 <PrivateRoute path="/library" component={Library} />
+                <PrivateRoute path="/search" component={Search} />
                 <Route component={NoMatch} />
               </Switch>
             </div>

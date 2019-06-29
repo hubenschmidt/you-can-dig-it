@@ -1,25 +1,23 @@
 import React, { Component } from "react";
 import BrandDesc from "../components/BrandDesc"
+import { Container, Row, Col } from "../components/Grid";
 
 class Home extends Component {
 
-    componentWillMount() {
-        document.body.style.backgroundImage = `url(assets/img/background.png)`;
-    }
+    componentDidMount() {
+        document.body.style.backgroundImage = `url(assets/background.png)`;
+      }
 
-    componentWillUnmount() {
-        document.body.style.backgroundImage = null;
-    }
 
-    
     render() {
 
         return (
+            <Container>
             <BrandDesc />
- 
+            </Container>
         );
     }
-    
+
 }
 
 
