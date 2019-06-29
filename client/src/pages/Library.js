@@ -45,7 +45,6 @@ class Library extends Component {
 
 
 
-
   loadLibrary = () => {
     var state = store.getState();
     var userId = state.auth.user.id;
@@ -92,8 +91,8 @@ class Library extends Component {
             navigation={false}
             clickable={true}
             enableHeading={true}
-            currentFigureScale={0.8}
-            otherFigureScale={0.6}
+            currentFigureScale={1.3}
+            otherFigureScale={0.8}
 
           >
             {Img({ albums: this.state.records, func: this.getAlbumDetails })}

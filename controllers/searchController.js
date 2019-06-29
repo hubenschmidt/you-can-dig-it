@@ -22,7 +22,6 @@ async function searchAll(req, res) {
     var dcDb = new Discogs(accessData).database();
     var pr1 = await new Promise((resolve, reject) => {
         dcDb.search(req.query.q,{type:"release", page:1, per_page:5})
-        // accessDb.search("Kruder",{type:"release", page:1, per_page:20}))
             .then(results => resolve(results))
             .catch(err=>reject(err))
     });
@@ -69,7 +68,6 @@ async function findOneAndUpdatePromise(conditions, update)
 }
 
 async function create(req, res){
-    // console.log(req.body, 'create on search controller')
     var userId = req.params._id;
     var existing = await dbFindOneByReleaseId(req.body.id);
     if (existing) {
@@ -92,18 +90,12 @@ async function create(req, res){
     } else {
 
         const release = {
-            // id_release: parseInt(req.body.id_release),
             id_release: req.body.id,
             title: req.body.title,
             year: req.body.year,
-            // uri: req.body.uri,
             country: req.body.country,
             genres: req.body.genres,
-            // styles: req.body.style,
-            // thumb: req.body.thumb,
-            cover_image: req.body.image,
-            // resource_url: req.body.resource_url,
-            // master_url: req.body.master_url,
+            image: req.body.image,
             artist: req.body.artist,
             tracklist: req.body.tracklist,
             userIds: [req.params._id]
@@ -138,36 +130,3 @@ var getTracklist = async (releaseId) => {
         })
     });
 }
-// async function saveSearchToLibrary(req, res)  {
-    
-//     var userId = req.params._id;
-//     console.log(userId, 'userID is here on discogsDatabase.js')
-//     var userId = req.params._id;
-//     var releases = await getUserCollection(userId);
-//     await asyncForEach(releases, async (release) => {
-//         var releaseId = release.id;
-//         var existing = await dbFindOneByReleaseId(releaseId);
-//         if (existing) {
-//             existing = existing.toJSON();
-//             var update = false;
-//             if (existing.userIds) {
-//                 existing.userIds = existing.userIds.map(uid => uid.toString());
-//                 if (existing.userIds.indexOf(userId) == -1)
-//                 {
-//                     existing.userIds.push(userId);
-//                     update = true;
-//                 }
-//             }
-//             else {
-//                 existing.userIds = [userId];
-//                 update = true;
-//             }
-//             if (update) await findOneAndUpdatePromise({_id: existing._id},{userIds: existing.userIds});
-//         } else {
-//             const dbRel = formatResponse(release);
-//             dbRel[0].userIds = [userId]; 
-//             await createReleasePromise(dbRel);
-//         }
-//     });
-//     res.json(releases);
-// }

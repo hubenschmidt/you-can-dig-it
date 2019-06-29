@@ -1,27 +1,36 @@
 import React from "react";
 import SearchTracks from "../SearchTracks"
+import "./style.css"
 
 function SearchResults(props) {
     return (
 
         <div>
+
             {props.results.map(res => (
-                <div>
-                    <div>
-                        <img src={res.image}></img>
-                        <i class="fas fa-bookmark" onClick={() => props.saveToLibrary(res)}></i>
+                <div className="row m-4">
+                    <div className="col-md-5">
+                        <div className="release-image">
+                            <img src={res.image} className="img-thumbnail "></img>
+                            <i class="fas fa-bookmark fa-3x pl-1" onClick={() => props.saveToLibrary(res)}></i>
+                        </div>
+                        <div className="release-details">
+                            <div>Title: {res.title}</div>
+                            <div>Artist(s): {res.artist}</div>
+                            <div>Year: {res.year}</div>
+                            <div>Country: {res.country}</div>
+                            <div>Genres: {res.genres}</div>
+                        </div>
+
                     </div>
 
-                    <div>{res.title}</div>
-                    <div>{res.artist}</div>
-                    <div>{res.year}</div>
-                    <div>{res.country}</div>
-                    <div>{res.genres}</div>
-                    <SearchTracks 
-                    tracks = {res.tracklist}
-                    artist = {res.artist}
-                    getYouTubeVideos={props.getYouTubeVideos}
-                    />
+                    <div className="col-md-7">
+                        <SearchTracks
+                            tracks={res.tracklist}
+                            artist={res.artist}
+                            getYouTubeVideos={props.getYouTubeVideos}
+                        />
+                    </div>
                 </div>
             ))}
 
