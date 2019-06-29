@@ -11,6 +11,7 @@ function YouTubeVid(props) {
                                   containerClassName={"d-flex justify-content-center p-3"}
                                   className={""}
                                   videoId={vid.id.videoId}
+                                  onClick={()=> console.log(vid.id.videoId)}
                                   opts={props.opts}
                                 //   onReady={this._onReady}
                                 />

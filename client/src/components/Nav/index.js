@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { loginUser } from "../../actions/authActions";
+import { logoutUser } from "../../actions/authActions"
 import store from "../../../src/store.js"
 import logo from './logo.jpg'
 import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
@@ -13,12 +13,23 @@ class Nav extends Component {
     this.state = {}
   }
 
+
+  onLogoutClick = e => {
+    e.preventDefault();
+    this.props.logoutUser();
+  };
+
+
   render() {
+    const style={
+      float: "right",
+      color: "white"
+    }
 
     const state = store.getState();
     return (
       <header className="toolbar navbar">
-        <nav className="toolbar_navigation">
+        <nav className="toolbar_navigation" style={{width: "100%"}}>
             {
               !state.auth.isAuthenticated ?
               <>
@@ -50,7 +61,22 @@ class Nav extends Component {
                 <div className="toolbar_logo"><img src={logo}/></div>
                 <div className="spacer" />
                 <div className="toolbar_navigation-items ">
-                </div></>}
+                </div>
+                <button
+                  style={{
+                    width: "150px",
+                    borderRadius: "3px",
+                    letterSpacing: "1.5px",
+                    marginTop: "1rem",
+                    float: "right",
+                    color: "white"
+                  }}
+                  onClick={this.onLogoutClick}
+                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                >
+                  Logout
+                </button>
+                </>}
         </nav>
       </header>
     );
@@ -67,5 +93,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { logoutUser }
 )(Nav);

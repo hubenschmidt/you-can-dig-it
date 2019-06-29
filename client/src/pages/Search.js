@@ -20,6 +20,7 @@ import axios from "axios";
 
 var Discogs = require('disconnect').Client;
 var db = new Discogs().database();
+var yap = require('../index');
 
 const button={
     borderRadius: '50%',
@@ -124,11 +125,18 @@ class Library extends Component {
         return data
       }]
     })
-      .then(res => this.setState({ videos: res.data.items }))
+      .then(res => this.setState({ videos: res.data }))
       // .then(res => console.log(res))
       .catch(err => console.log(err))
 
   }
+
+  YTClick= url => {
+    yap.play({ url: url });
+    setTimeout(function () {
+      yap.stop();
+    }, 3000);
+  };
 
 
   render() {
@@ -188,6 +196,7 @@ class Library extends Component {
               <YouTubeVid
                 videos={this.state.videos}
                 opts={this.state.opts}
+                onclick= {this.YTClick}
               />
             ) : (
                 <div className="d-flex justify-content-center p-3">
