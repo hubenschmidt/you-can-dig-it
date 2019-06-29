@@ -9,7 +9,7 @@ router
 
     //Matches with "/api/database/library"
 router
-    .route('/library')
+    .route('/library/:_id')
     .post(searchController.create)
 
     //Matches with "/api/database/library/:_id"

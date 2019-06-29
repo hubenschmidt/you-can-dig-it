@@ -22,20 +22,18 @@ import SideDrawer from './components/SideDrawer/SideDrawer';
 import Dashboard from "./pages/Dashboard";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
-import Search from "./pages/Search";
+
 
 //1st page - Landing page
 import Home from "./pages/Home";
-
 import Header from './components/Header'
 import Loading from './components/Loading'
-
 import OAuth from './components/OAuth'
-
 import PrivateRoute from "./components/private-route/PrivateRoute";
-
 import Library from "./pages/Library";
 import NoMatch from "./pages/NoMatch";
+// import Search from "./pages/Search";
+import SearchMusic from "./pages/SearchMusic"
 
 import "./App.css";
 
@@ -105,7 +103,7 @@ export default class App extends Component {
                 <PrivateRoute exact path="/dashboard" component={Dashboard}/>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/search" component={Search} />
+                <Route exact path="/search" component={SearchMusic} />
                 <PrivateRoute path="/library" component={Library} />
                 <Route component={NoMatch} />
               </Switch>

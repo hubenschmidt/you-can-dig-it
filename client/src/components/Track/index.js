@@ -11,17 +11,17 @@ function Track(props) {
 
             <table class="table tb-format table-hover">
                 <thead>
-                    <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Time</th>
-                        <th scope="col"></th>
+                    <tr className="lib-table-tr">
+                        <th scope="col lib-table-th">Title</th>
+                        <th scope="col lib-table-th">Time</th>
+                        <th scope="col lib-table-th"></th>
                     </tr>
                 </thead>
                 <tbody>
                 {props.tracks.map(track => (
                     <tr>
-                        {track.title.length>0 ? (<td className="track">{track.title} </td>):(<td className="track">Not Available</td>)}
-                        {track.duration.length>0 ? (<td className="">{track.duration} </td>):(<td className="track">Not Available</td>)}
+                        {track.title.length>0 ? (<td className="lib-table-td">{track.title} </td>):(<td className="lib-table-td">Not Available</td>)}
+                        {track.duration.length>0 ? (<td className="lib-table-td">{track.duration} </td>):(<td className="lib-table-td">Not Available</td>)}
                         <td><i className="fa fa-youtube-play play-icon" onClick={()=> props.getYouTubeVideos(`${props.artist} ${track.title}`)}></i></td>
                     </tr>
                 ))}
@@ -29,14 +29,6 @@ function Track(props) {
 
                 </tbody>
             </table>
-            {/* <ol>
-                {props.tracks.map(track => (
-                    <li>
-                        <div className="track">{track.title} </div>
-                    </li>
-                ))}
-
-            </ol> */}
         </div>
 
     );

@@ -1,9 +1,17 @@
 .tb-format{
     color: #79dfd5;
 }
-th, tr{
+.lib-table-th{
+    color: #79dfd5;
+}
+
+.lib-table-tr{
     color: #79dfd5;
 
+}
+
+.lib-table-td{
+    color: #79dfd5;
 }
 
 .play-icon{
