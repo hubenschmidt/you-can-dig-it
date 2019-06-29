@@ -51,14 +51,17 @@ class Library extends Component {
   //   document.body.style = "null";
   // }
 
-  componentWillMount() {
-    document.body.style.backgroundImage = `url(http://99centdreamsrecords.com/assets/img/dc3background.png)`;
-}
+//   componentWillMount() {
+//     document.body.style.backgroundImage = `url(http://99centdreamsrecords.com/assets/img/dc3background.png)`;
+// }
 
-componentWillUnmount() {
-    document.body.style.backgroundImage = null;
-}
+// componentWillUnmount() {
+//     document.body.style.backgroundImage = null;
+// }
 
+componentDidMount() {
+  document.body.style.backgroundImage = `url(assets/background.png)`;
+}
 
 
   handleOnChange= e => {

@@ -32,28 +32,26 @@ class Library extends Component {
     },
     videos: []
   }
-//   componentWillMount() {
-//     document.body.style.backgroundImage = `url(assets/img/background.png)`;
-// // }
-// componentWillMount() {
-//   document.body.style.backgroundImage = `url(assets/img/background.png)`;
+
+// componentWillUnmount(){
+//   document.body.style= "null";
 // }
 
-componentWillUnmount(){
-  document.body.style= "null";
-}
-
-  componentWillMount() {
-    document.body.style = 'background-color: #454545';
-  }
+  // componentWillMount() {
+  //   document.body.style = 'background-color: #454545';
+  // }
   componentDidMount() {
     this.loadLibrary();
-  }
-  componentWillUnmount() {
-    document.body.style = "null";
+    document.body.style.backgroundImage = `url(assets/background.png)`;
   }
 
+//   componentWillMount() {
+//     document.body.style.backgroundImage = `url(http://99centdreamsrecords.com/assets/img/dc3background.png)`;
+// }
 
+// componentWillUnmount() {
+//     document.body.style.backgroundImage = null;
+// }
 
 
   loadLibrary = () => {

@@ -14,10 +14,10 @@ const sideDrawer = props => {
        <>{props.login? <nav className={drawerClasses}>
        <ul>
       
-           <li><Link onClick={this.forceUpdate} to="/">Home</Link></li>
-           <li><Link onClick={this.forceUpdate} to="/dashboard">Dashboard</Link></li>
-           <li><Link onClick={this.forceUpdate} to="/library">Library</Link></li>
-           <li><Link onClick={this.forceUpdate} to="/search">Search</Link></li>
+           <li><Link to="/">Home</Link></li>
+           <li><Link to="/dashboard">Dashboard</Link></li>
+           <li><Link to="/library">Library</Link></li>
+           <li><Link to="/search">Search</Link></li>
        </ul>
    </nav>:
    <></>}</>

@@ -36,7 +36,6 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 
 import Library from "./pages/Library";
 import NoMatch from "./pages/NoMatch";
-import background from "./pages/background.png"
 
 import "./App.css";
 

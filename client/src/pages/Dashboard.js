@@ -34,12 +34,12 @@ var db = new Discogs().database();
 
 class Dashboard extends Component {
 
-  componentWillMount() {
-    document.body.style.backgroundImage = `url(http://99centdreamsrecords.com/assets/img/dc3background.png)`;
-}
+//   componentWillMount() {
+//     document.body.style.backgroundImage = `url(http://99centdreamsrecords.com/assets/img/dc3background.png)`;
+// }
 
-componentWillUnmount() {
-    document.body.style.backgroundImage = null;
+componentDidMount() {
+  document.body.style.backgroundImage = `url(assets/background.png)`;
 }
 
   state = {
