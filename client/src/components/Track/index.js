@@ -5,7 +5,10 @@ import "./style.css"
 function Track(props) {
 
     return (
+        
         <div className="p-3">
+        <div className="transbox">
+
             <h3 className="tracks-heading pt-4">Tracks</h3>
 
 
@@ -18,6 +21,9 @@ function Track(props) {
                     </tr>
                 </thead>
                 <tbody>
+                 
+
+                    
                 {props.tracks.map(track => (
                     <tr>
                         {track.title.length>0 ? (<td className="lib-table-td">{track.title} </td>):(<td className="lib-table-td">Not Available</td>)}
@@ -25,10 +31,11 @@ function Track(props) {
                         <td><i className="fa fa-youtube-play play-icon" onClick={()=> props.getYouTubeVideos(`${props.artist} ${track.title}`)}></i></td>
                     </tr>
                 ))}
-
+                  
 
                 </tbody>
             </table>
+        </div>
         </div>
 
     );

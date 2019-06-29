@@ -32,21 +32,11 @@ class Library extends Component {
     },
     videos: []
   }
-<<<<<<< HEAD
 
-// componentWillUnmount(){
-//   document.body.style= "null";
-// }
-
-  // componentWillMount() {
-  //   document.body.style = 'background-color: #454545';
-  // }
-=======
 
   componentWillMount() {
     document.body.style = 'background-color: #363636';
   }
->>>>>>> master
   componentDidMount() {
     this.loadLibrary();
     document.body.style.backgroundImage = `url(assets/background.png)`;

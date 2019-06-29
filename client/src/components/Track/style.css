@@ -26,3 +26,18 @@
   .tracks-heading{
       color: #01897b;
   }
+
+  .p-3{  
+    
+
+  } 
+  
+  div.transbox {
+    display: -webkit-flex; /* Safari */
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+    display: flex;   
+    flex-wrap: wrap;
+    background-color:black;
+    opacity: 0.81;
+  
+  }

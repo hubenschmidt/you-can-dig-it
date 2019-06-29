@@ -22,6 +22,7 @@ import SideDrawer from './components/SideDrawer/SideDrawer';
 import Dashboard from "./pages/Dashboard";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import Search from "./containers/Search"
 
 
 //1st page - Landing page
@@ -100,18 +101,11 @@ export default class App extends Component {
               />
               <Switch >
                 <Route exact path="/" component={Home} />
-<<<<<<< HEAD
                 <Route path="/register" component={Register} />
                 <Route path="/login" component={Login} />
                 <PrivateRoute path="/dashboard" component={Dashboard}/>
-=======
-                <PrivateRoute exact path="/dashboard" component={Dashboard}/>
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/search" component={SearchMusic} />
->>>>>>> master
                 <PrivateRoute path="/library" component={Library} />
-                <PrivateRoute path="/search" component={Search} />
+                <PrivateRoute path="/search" component={SearchMusic} />
                 <Route component={NoMatch} />
               </Switch>
             </div>
