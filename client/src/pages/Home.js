@@ -8,6 +8,8 @@ class Home extends Component {
         document.body.style.backgroundImage = `url(assets/background.png)`;
       }
 
+    
+
 
     render() {
 
