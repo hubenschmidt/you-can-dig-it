@@ -3,3 +3,29 @@ background-color: #ffffff;
 
 box-shadow: inset 0px 0px 33px 19px rgba(1,85,77,0.43), 0px 17px 14px 6px rgba(1,85,77,0.43);
 } */
+/* #discogs button{
+    background-color:none
+    
+} */
+
+
+  div.transbox {
+    display: -webkit-flex; /* Safari */
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+    display: flex;   
+    flex-wrap: wrap;
+    background-color: #393939;
+    border: 1px solid white;
+    opacity: 0.8;
+  }
+
+    p.quotebox {
+        display: -webkit-flex; /* Safari */
+        -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+        display: flex;   
+        flex-wrap: wrap;
+    margin: 5%;
+    /* font-weight: bold; */
+    color: rgb(255, 0, 200);
+  
+  }

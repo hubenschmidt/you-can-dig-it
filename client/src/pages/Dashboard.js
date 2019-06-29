@@ -31,12 +31,11 @@ var Discogs = require('disconnect').Client;
 var db = new Discogs().database();
 
 
-
 class Dashboard extends Component {
 
-//   componentWillMount() {
-//     document.body.style.backgroundImage = `url(http://99centdreamsrecords.com/assets/img/dc3background.png)`;
-// }
+  componentWillMount() {
+    document.body.style.backgroundImage = `url(http://99centdreamsrecords.com/assets/img/dc3background.png)`;
+}
 
 componentDidMount() {
   document.body.style.backgroundImage = `url(assets/background.png)`;
@@ -135,7 +134,21 @@ componentDidMount() {
  
 
   <Container>
-  >
+            <Row>
+            <Col size="md-6">
+            <button type="button" class="btn btn-light">
+              {this.state.loading
+                ? <Loading />
+                : buttons(providers, socket)
+              }
+            </button>
+            </Col>
+            <Col size="md-6">
+            <button type="button" class="btn btn-dark"
+              onClick={ () => this.syncUserReleases()} >Sync Discogs Collection
+            </button>
+            </Col>
+            </Row>
         <Row>
           <Col size="lg-6 md-6 sm-12 xs-12">
 
@@ -157,10 +170,9 @@ componentDidMount() {
                   tracks={this.state.activeRecord.tracklist}
                   getYouTubeVideos={this.getYouTubeVideos} />
               ) : (
-                <h1>...</h1>
+                <h4>..</h4>
               )}
           </Col>
-
           <Col size="lg-6 md-6 sm-12 xs-12 youtube d-flex justify-content-center">
             {this.state.videos.length > 0 ? (
               <YouTubeVid
@@ -174,51 +186,44 @@ componentDidMount() {
                 </div>
               )}
           </Col>
+          </Row>
 
           <Col size="lg-6 md-6 sm-12 xs-12 youtube d-flex justify-content-center">
-
-            <div style={{ height: "75vh" }} className="container valign-wrapper">
-            <div className="row">
+            <Row>
+            </Row>
+            <Row>
+            </Row>
+            <div className="transbox">
             <div className="landing-copy col s12 center-align">
             <h4>
-
-              <span style={{ fontFamily: "monospace" }}> “In those days it was either live with music, or die with noise, 
-              and we chose rather desperately to live.” ― Ralph Ellison, Living with Music: Jazz Writings </span><hr></hr><hr></hr>
-              <b>Hey there,</b> {user.name.split(" ")[0]}
+            <hr></hr>
+              <p className="quotebox" style={{ fontFamily: "monospace", fontSize: 10 }}> “In those days it was either live with music, or die with noise, 
+              and we chose rather desperately to live.” ― Ralph Ellison, Living with Music: Jazz Writings </p><hr></hr>
+              <b style={{color: 'D9D8D8'}}>Hey there,</b> <b>{user.name.split(" ")[0]}</b>
               <p className="flow-text grey-text text-darken-1">
 
              {" "}
              </p>
             </h4>
-            <Search />
-            <div>
-              {this.state.loading
-                ? <Loading />
-                : buttons(providers, socket)
-              }
-            </div>
-            <button 
-              onClick={ () => this.syncUserReleases()} >Sync Library with Discogs
-            </button>
             <button
+              type="button"
               style={{
-                width: "150px",
+                width: "80px",
                 borderRadius: "3px",
                 letterSpacing: "1.5px",
-                marginTop: "1rem"
+                marginTop: "1rem",
+                color: "white",
               }}
               onClick={this.onLogoutClick}
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+              className="btn-dark"
             >
               Logout
             </button>
           </div>
-        </div>
-      </div>
+          </div>
+
           </Col>
-        </Row>
         </Container>
-     
     );
   }
 }
