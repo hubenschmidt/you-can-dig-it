@@ -32,10 +32,7 @@ var db = new Discogs().database();
 
 
 class Dashboard extends Component {
-
-  componentWillMount() {
-    document.body.style.backgroundImage = `url(http://99centdreamsrecords.com/assets/img/dc3background.png)`;
-}
+npm
 
 componentDidMount() {
   document.body.style.backgroundImage = `url(assets/background.png)`;
@@ -136,6 +133,7 @@ componentDidMount() {
   <Container>
             <Row>
             <Col size="lg-6">
+              <br></br>
               <span>
               <button type="button" class="btn btn-light">
               {this.state.loading
@@ -147,7 +145,6 @@ componentDidMount() {
               onClick={ () => this.syncUserReleases()} >Sync Discogs Collection
             </button>
               </span>
-           
             </Col>
             <Col size="lg-6">
        
