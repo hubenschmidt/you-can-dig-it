@@ -1,0 +1,15 @@
+.release-image{
+    max-width: 300px;
+    min-width: 100px;
+    position: relative
+}
+
+.fa-bookmark {
+    position: absolute;
+    color: #01897b;
+
+}
+.release-details {
+    margin-left: 10px;
+    
+}

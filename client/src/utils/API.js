@@ -41,6 +41,7 @@ export default {
     return axios.get('/api/search', { params: filterParams(params) });
   },
 
+<<<<<<< HEAD
   saveRelease: function(releaseData) {
     return axios.post("/api/database/library", releaseData);
   },
@@ -49,4 +50,10 @@ export default {
     return axios.get('/api/randomlist')
   }
 }
+=======
+  saveRelease: function(releaseData, id) {
+    return axios.post(`/api/database/library/${id}`, releaseData);
+  }  
+} 
+>>>>>>> master
 

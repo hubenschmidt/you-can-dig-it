@@ -32,6 +32,7 @@ class Library extends Component {
     },
     videos: []
   }
+<<<<<<< HEAD
 
 // componentWillUnmount(){
 //   document.body.style= "null";
@@ -40,6 +41,12 @@ class Library extends Component {
   // componentWillMount() {
   //   document.body.style = 'background-color: #454545';
   // }
+=======
+
+  componentWillMount() {
+    document.body.style = 'background-color: #363636';
+  }
+>>>>>>> master
   componentDidMount() {
     this.loadLibrary();
     document.body.style.backgroundImage = `url(assets/background.png)`;
@@ -52,7 +59,6 @@ class Library extends Component {
 // componentWillUnmount() {
 //     document.body.style.backgroundImage = null;
 // }
-
 
   loadLibrary = () => {
     var state = store.getState();
@@ -94,20 +100,14 @@ class Library extends Component {
     return (
       <div>
         <div className="coverflow-div">
-        <div className="input-group mb-3 search">
-          <input type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2"/>
-          <div className="input-group-append">
-              <button  className="btn" type="button" id="button-addon2">Search</button>
-          </div>
-        </div>
           <Coverflow
             height={300}
             displayQuantityOfSide={3}
             navigation={false}
             clickable={true}
             enableHeading={true}
-            currentFigureScale={0.8}
-            otherFigureScale={0.6}
+            currentFigureScale={1.3}
+            otherFigureScale={0.8}
 
           >
             {Img({ albums: this.state.records, func: this.getAlbumDetails })}
