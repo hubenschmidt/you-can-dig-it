@@ -135,18 +135,22 @@ componentDidMount() {
 
   <Container>
             <Row>
-            <Col size="md-6">
-            <button type="button" class="btn btn-light">
+            <Col size="lg-6">
+              <span>
+              <button type="button" class="btn btn-light">
               {this.state.loading
                 ? <Loading />
                 : buttons(providers, socket)
               }
             </button>
-            </Col>
-            <Col size="md-6">
-            <button type="button" class="btn btn-dark"
+            <button type="button" class="btn" style={{backgroundColor:'#2ECC71',  border: "yellow"}}
               onClick={ () => this.syncUserReleases()} >Sync Discogs Collection
             </button>
+              </span>
+           
+            </Col>
+            <Col size="lg-6">
+       
             </Col>
             </Row>
         <Row>
@@ -154,13 +158,13 @@ componentDidMount() {
 
 {/* Album Detail */}
 
-            {this.state.activeRecord ?
+            {/* {this.state.activeRecord ?
               (<AlbumDetails
                 activeRecord={this.state.activeRecord}
               />
               ) : (
 
-                <h1 className="text-center p-3">Choose an album from your library to view details.</h1>)}
+                <h1 className="text-center p-3">Choose an album from your library to view details.</h1>)} */}
 
 {/* Track */}
             {this.state.activeRecord && this.state.activeRecord.tracklist && this.state.activeRecord.tracklist.length > 0 ?
@@ -197,9 +201,9 @@ componentDidMount() {
             <div className="landing-copy col s12 center-align">
             <h4>
             <hr></hr>
-              <p className="quotebox" style={{ fontFamily: "monospace", fontSize: 10 }}> “In those days it was either live with music, or die with noise, 
+              <p className="quotebox" style={{ fontFamily: "monospace", fontSize: 16 }}> “In those days it was either live with music, or die with noise, 
               and we chose rather desperately to live.” ― Ralph Ellison, Living with Music: Jazz Writings </p><hr></hr>
-              <b style={{color: 'D9D8D8'}}>Hey there,</b> <b>{user.name.split(" ")[0]}</b>
+              <b style={{color: 'black'}}>Hey there,</b> <b style={{color:'black'}}>{user.name.split(" ")[0]}</b>
               <p className="flow-text grey-text text-darken-1">
 
              {" "}

@@ -1,8 +1,11 @@
 .album-title{
     padding-left: 30px;
-    color: #01897b;
+    /* color: #01897b; */
+    /* color: #E5E108 */
+    color: yellow
 }
 .album-sub-details{
     padding-left: 50px;
-    color: #01897b;
+    /* color: #01897b; */
+     color: #00897B;
 }

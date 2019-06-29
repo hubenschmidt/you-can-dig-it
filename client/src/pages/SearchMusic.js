@@ -7,7 +7,7 @@ import SearchResults from "../components/SearchResults"
 import YouTube from 'react-youtube';
 import axios from "axios";
 import SearchYouTubeVid from "../components/SearchYouTubeVid"
-import VideoFooter from "../components/VideoFooter"
+// import VideoFooter from "../components/VideoFooter"
 //Page Components
 // import SearchBox from "../components/SearchBox"
 // import Search from "../containers/Search";
@@ -28,13 +28,16 @@ class SearchMusic extends Component {
 
   }
 
-  componentWillMount() {
-    document.body.style.backgroundImage = `url(assets/img/background.png)`;
+  componentDidMount() {
+    document.body.style.backgroundImage = `url(assets/background.png)`;
   }
+  // componentWillMount() {
+  //   document.body.style.backgroundImage = `url(assets/img/background.png)`;
+  // }
 
-  componentWillUnmount() {
-    document.body.style.backgroundImage = null;
-  }
+  // componentWillUnmount() {
+  //   document.body.style.backgroundImage = null;
+  // }
 
   handleOnChange = e => {
     this.setState({
