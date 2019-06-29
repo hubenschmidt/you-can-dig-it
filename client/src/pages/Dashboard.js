@@ -201,7 +201,7 @@ componentDidMount() {
             <div className="landing-copy col s12 center-align">
             <h4>
             <hr></hr>
-              <p className="quotebox" style={{ fontFamily: "monospace", fontSize: 16 }}> “In those days it was either live with music, or die with noise, 
+              <p className="quotebox" style={{ fontFamily: "monospace", fontSize: 14 }}> “In those days it was either live with music, or die with noise, 
               and we chose rather desperately to live.” ― Ralph Ellison, Living with Music: Jazz Writings </p><hr></hr>
               <b style={{color: 'black'}}>Hey there,</b> <b style={{color:'black'}}>{user.name.split(" ")[0]}</b>
               <p className="flow-text grey-text text-darken-1">
