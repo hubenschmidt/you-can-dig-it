@@ -104,6 +104,10 @@ class SearchMusic extends Component {
 
   render() {
     return (
+      <>
+      {/* Quick fix re: heroku deployment bug. displayed content is shifted upon render */}
+      <br></br>
+      <br></br>
       <div>
         <div className="vid-container">
         {this.state.videos.length > 0 ? (
@@ -127,13 +131,13 @@ class SearchMusic extends Component {
             </div>
           </div>
 
-
+          <div className="transbox">
           <SearchResults
             results={this.state.results}
             getYouTubeVideos={this.getYouTubeVideos}
             saveToLibrary={this.saveToLibrary}
           />
-
+          </div>
 
 
           {/* <Col size="lg-6 md-6 sm-12 xs-12 youtube d-flex justify-content-center">
@@ -155,7 +159,7 @@ class SearchMusic extends Component {
         </Container>
 
       </div>
-
+      </>
     )
   }
 }

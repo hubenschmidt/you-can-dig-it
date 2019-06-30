@@ -11,8 +11,9 @@ box-shadow: inset 0px 0px 33px 19px rgba(1,85,77,0.43), 0px 17px 14px 6px rgba(1
     display: flex;   
     flex-wrap: wrap;
     background-color: #393939;
-    border: 1px solid white;
+    /* border: 1px solid white; */
     opacity: 0.8;
+    color: rgb(255, 0, 200);
   }
 
     p.quotebox {

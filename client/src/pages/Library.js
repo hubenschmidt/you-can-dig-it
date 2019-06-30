@@ -88,6 +88,10 @@ class Library extends Component {
 
   render() {
     return (
+      <>
+       {/* to fix heroku deployment error. displayed content is shifted upon render */}
+       <br></br>
+       <br></br>
       <div>
         <div className="coverflow-div">
           <Coverflow
@@ -152,6 +156,7 @@ class Library extends Component {
         </Row>
         </Container>
       </div>
+      </>
     );
   }
 }

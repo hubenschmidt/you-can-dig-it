@@ -15,6 +15,9 @@ class Home extends Component {
 
         return (
             <Container>
+            {/* to fix heroku deployment error. displayed content is shifted upon render */}
+            <br></br>
+            <br></br>
             <BrandDesc />
             </Container>
         );

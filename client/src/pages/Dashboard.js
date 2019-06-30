@@ -133,8 +133,9 @@ componentDidMount() {
   <Container>
             <Row>
             <Col size="lg-6">
-              <br></br>
-              <hr></hr>
+              {/* to fix heroku deployment error. displayed content is shifted upon render */}
+            <br></br>
+            <br></br>
               <span>
               <button type="button" class="btn btn-light">
               {this.state.loading

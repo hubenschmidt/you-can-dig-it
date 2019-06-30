@@ -7,8 +7,8 @@ function SearchTracks(props) {
             <table class="table tb-format table-hover">
                 <thead>
                     <tr>
-                        <th scope="col track-title">Title</th>
-                        <th scope="col track-title">Time</th>
+                        <th scope="col track-title" style={{ color: "#79dfd5"}}>Title</th>
+                        <th scope="col track-title" style={{ color: "#79dfd5"}}>Time</th>
                         <th scope="col track-title"></th>
                     </tr>
                 </thead>
