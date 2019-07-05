@@ -7,5 +7,14 @@
 .album-sub-details{
     padding-left: 50px;
     /* color: #01897b; */
-     color: #00897B;
+     color: rgb(255, 255, 104);
+}
+
+.album-details{
+    display: -webkit-flex;
+    -webkit-flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: black;
+    opacity: 0.81;
 }
