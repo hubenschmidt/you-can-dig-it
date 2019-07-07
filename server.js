@@ -46,13 +46,14 @@ app.use(
   })
 );
 
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  credentials: true
-}
+// const corsOptions = {
+//   origin: 'http://localhost:3000',
+//   credentials: true
+// }
 
 // Accept requests from our client
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
