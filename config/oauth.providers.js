@@ -2,7 +2,7 @@ exports.providers = ['discogs']
 
 const callbacks = this.providers.map(provider => {
   return process.env.NODE_ENV === 'production'
-    ? `/${provider}/callback`
+    ? `/auth/${provider}/callback`
     : `https://localhost:5000/auth/${provider}/callback`
 })
 
