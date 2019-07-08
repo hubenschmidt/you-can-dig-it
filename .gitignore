@@ -1,2 +1,5 @@
 /node_modules
 package-lock.json
+
+.DS_Store
+.env #this contains secrets, dont store in source control
