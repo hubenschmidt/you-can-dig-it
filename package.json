@@ -30,7 +30,7 @@
     "https": "^1.0.0",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.3.11",
+    "mongoose": "^5.7.5",
     "mongoose-map": "^1.1.0",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
